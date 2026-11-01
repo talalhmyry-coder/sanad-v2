@@ -85,14 +85,30 @@
     .lesson-prose li { margin-bottom: 0.5rem; }
     .lesson-prose strong { color: #065F46; font-weight: 800; background: rgba(16, 185, 129, 0.10); padding: 0 0.25rem; border-radius: 0.25rem; }
     .perspective-1000 { perspective: 1200px; }
-    .flip-card-inner { position: relative; width: 100%; min-height: 270px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); transform-style: preserve-3d; }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      min-height: 270px;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+    }
     .flip-card-inner.flipped { transform: rotateY(180deg); }
-    .flip-card-front, .flip-card-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 1.35rem; padding: 1.75rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 1.35rem;
+      padding: 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
     .flip-card-back { transform: rotateY(180deg); }
     .screen-fade { animation: royalFade 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
     @keyframes royalFade { from { opacity: 0; transform: translateY(10px) scale(0.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-5px); } }
-    .logo-float { animation: floatSlow 3.2s ease-in-out infinite; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between pb-20">
@@ -132,7 +148,7 @@
 
       <div class="flex items-center gap-2">
         <div id="xp-badge" class="hidden items-center gap-1.5 gold-pill px-3 py-1 rounded-full text-xs font-extrabold">
-          <span>👑</span><span id="header-xp">0</span><span>XP</span>
+          <span>👑</span><span id="header-xp">150</span><span>XP</span>
         </div>
         <button type="button" id="btn-top-back" onclick="navigateBack()" class="hidden items-center gap-1 bg-white/15 hover:bg-white/25 active:scale-95 text-white border border-white/20 px-3 py-1.5 rounded-xl text-xs font-bold transition backdrop-blur">
           <span>رجوع</span><span>←</span>
@@ -143,39 +159,26 @@
 
   <main class="flex-1 max-w-lg w-full mx-auto px-4 pt-4">
 
+    <!-- SCREEN 1: SPLASH -->
     <section id="scr-splash" class="screen-fade py-8 flex flex-col items-center justify-center text-center">
       <div class="lux-card rounded-3xl p-7 w-full relative overflow-hidden">
         <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emerald-600 via-amber-500 to-teal-600"></div>
-        <div class="w-24 h-24 mx-auto mb-5 rounded-3xl royal-header-bg p-0.5 shadow-xl logo-float flex items-center justify-center border-2 border-amber-400/40">
-          <svg class="w-14 h-14" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-3xl royal-header-bg p-0.5 shadow-xl flex items-center justify-center border-2 border-amber-400/40">
+          <svg class="w-12 h-12" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M32 6L4 19L32 32L60 19L32 6Z" fill="#F59E0B" stroke="#FEF3C7" stroke-width="1.8"/>
             <path d="M14 25V39C14 43 22 47 32 47C42 47 50 43 50 39V25" stroke="#34D399" stroke-width="3" stroke-linecap="round"/>
             <path d="M10 49C17 46.5 25 48 32 52C39 48 47 46.5 54 49V57C47 54.5 39 56 32 60C25 56 17 54.5 10 57V49Z" fill="#059669" stroke="#FDE68A" stroke-width="2"/>
-            <circle cx="56" cy="34" r="3" fill="#FDE68A"/>
-            <path d="M56 20V34" stroke="#FDE68A" stroke-width="2.2" stroke-linecap="round"/>
           </svg>
         </div>
-        <span class="inline-flex items-center gap-1.5 gold-pill text-[11px] font-extrabold px-3 py-1 rounded-full mb-3">
-          <span>✨</span><span>بوابة التعليم الجامعي الذكي</span>
-        </span>
-        <h2 id="splash-title" class="text-xl font-bold text-slate-900 mb-2 font-display">جاري توثيق هويتك الأكاديمية...</h2>
-        <p id="splash-desc" class="text-xs text-slate-500 max-w-xs mx-auto mb-6 leading-relaxed">
-          يتم الآن الاتصال المشفر ببوابة سَنَد السحابية وتحميل خطتك الدراسية ومقرراتك.
+        <h2 id="splash-title" class="text-lg font-bold text-slate-900 mb-1 font-display">مرحباً بك في منصة سَنَد</h2>
+        <p class="text-xs text-slate-500 max-w-xs mx-auto mb-4 leading-relaxed">
+          جاري فتح لوحة قيادة الطالب وتجهيز مقرراتك...
         </p>
-        <div id="splash-spinner" class="w-10 h-10 border-4 border-emerald-100 border-t-emerald-700 rounded-full animate-spin mx-auto mb-2"></div>
-        <div id="splash-error-box" class="hidden mt-4 w-full bg-rose-50/90 border border-rose-200 rounded-2xl p-4 text-right space-y-3">
-          <div class="flex items-start gap-2">
-            <span class="text-base">⚠️</span>
-            <p id="splash-error-text" class="text-xs text-rose-900 font-bold leading-relaxed"></p>
-          </div>
-          <div class="flex flex-col sm:flex-row gap-2 pt-1">
-            <button type="button" onclick="initAppSession()" class="flex-1 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white rounded-xl font-bold text-xs shadow transition">إعادة الاتصال بالخادم 🔄</button>
-            <button type="button" onclick="enterInteractiveDemoMode()" class="flex-1 py-2.5 gold-pill rounded-xl font-extrabold text-xs transition">معاينة حية للتصميم والرحلة 👁️</button>
-          </div>
-        </div>
+        <div id="splash-spinner" class="w-8 h-8 border-3 border-emerald-100 border-t-emerald-700 rounded-full animate-spin mx-auto mb-3"></div>
       </div>
     </section>
 
+    <!-- SCREEN 2: ONBOARDING -->
     <section id="scr-onboarding" class="hidden screen-fade">
       <div class="lux-card rounded-3xl p-6 relative overflow-hidden">
         <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emerald-700 via-amber-500 to-teal-600"></div>
@@ -183,14 +186,13 @@
           <span class="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-extrabold px-3 py-1 rounded-full">
             <span>🎓</span><span>بطاقة القيد الأكاديمي</span>
           </span>
-          <span class="text-[11px] text-slate-400 font-bold">خطوة 1 من 1</span>
         </div>
-        <h2 class="text-lg font-bold text-slate-900 mb-1 font-display">أهلاً بك في رحاب منصة سَنَد</h2>
-        <p class="text-xs text-slate-500 mb-5 leading-relaxed">أكمل بيانات قيدك الجامعي لمرة واحدة ليقوم النظام بفرز مقرراتك، وحداتك، واختباراتك التفاعلية تلقائياً.</p>
-        <form id="form-onboarding" onsubmit="submitRegistration(event)" class="space-y-4">
+        <h2 class="text-lg font-bold text-slate-900 mb-1 font-display">بيانات القيد الجامعي</h2>
+        <p class="text-xs text-slate-500 mb-5 leading-relaxed">أكمل بيانات قيدك لتخصيص خطتك الدراسية:</p>
+        <form onsubmit="submitRegistration(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-extrabold text-slate-700 mb-1.5">الاسم الرباعي للطالب *</label>
-            <input id="inp-fullname" type="text" required minlength="5" maxlength="60" placeholder="مثال: طلال غالب محمد" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-900 focus:border-emerald-700 focus:outline-none transition" />
+            <input id="inp-fullname" type="text" required minlength="5" maxlength="60" value="طلال غالب محمد" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-900 focus:border-emerald-700 focus:outline-none transition" />
           </div>
           <div>
             <label class="block text-xs font-extrabold text-slate-700 mb-1.5">الكلية الجامعية *</label>
@@ -201,7 +203,7 @@
           <div>
             <label class="block text-xs font-extrabold text-slate-700 mb-1.5">التخصص الأكاديمي *</label>
             <select id="inp-program" required class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-900 focus:border-emerald-700 focus:outline-none">
-              <option value="ACC">قسم المحاسبة (Accounting)</option>
+              <option value="ACC" selected>قسم المحاسبة (Accounting)</option>
               <option value="MGT">قسم إدارة الأعمال (Business Administration)</option>
               <option value="INT">قسم إدارة الأعمال الدولية (International Business)</option>
             </select>
@@ -216,18 +218,14 @@
             </div>
             <input type="hidden" id="inp-level" value="L1" />
           </div>
-          <div>
-            <label class="block text-xs font-extrabold text-slate-700 mb-1.5">رقم الواتساب (اختياري للمتابعة الأكاديمية)</label>
-            <input id="inp-phone" type="tel" dir="ltr" placeholder="770000000" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-right text-slate-900 focus:border-emerald-700 focus:outline-none" />
-          </div>
-          <div id="reg-error" class="hidden rounded-xl bg-rose-50 border border-rose-200 p-3 text-xs font-bold text-rose-800"></div>
-          <button id="btn-submit-reg" type="submit" class="w-full py-3.5 rounded-2xl royal-header-bg text-white font-extrabold text-sm shadow-lg active:scale-98 transition flex items-center justify-center gap-2 border border-amber-400/30">
+          <button type="submit" class="w-full py-3.5 rounded-2xl royal-header-bg text-white font-extrabold text-sm shadow-lg active:scale-98 transition flex items-center justify-center gap-2 border border-amber-400/30">
             <span>اعتماد البطاقة وفتح المقررات</span><span>🚀</span>
           </button>
         </form>
       </div>
     </section>
 
+    <!-- SCREEN 3: DASHBOARD -->
     <section id="scr-dashboard" class="hidden screen-fade space-y-4">
       <div class="royal-header-bg rounded-3xl p-5 text-white shadow-xl border border-amber-400/25">
         <div class="relative z-10">
@@ -242,11 +240,11 @@
           <div class="mt-5 grid grid-cols-3 gap-2.5 pt-3.5 border-t border-white/15 text-center">
             <div class="bg-black/20 rounded-2xl p-2.5 backdrop-blur-xs border border-white/10">
               <span class="text-[10px] text-amber-200/90 font-bold block">رصيد الخبرة</span>
-              <span id="dash-xp-val" class="text-sm font-extrabold text-amber-300 mt-0.5 block">0 XP</span>
+              <span id="dash-xp-val" class="text-sm font-extrabold text-amber-300 mt-0.5 block">150 XP</span>
             </div>
             <div class="bg-black/20 rounded-2xl p-2.5 backdrop-blur-xs border border-white/10">
               <span class="text-[10px] text-emerald-200/90 font-bold block">الدروس المتقنة</span>
-              <span id="dash-completed-val" class="text-sm font-extrabold text-white mt-0.5 block">0 درس</span>
+              <span id="dash-completed-val" class="text-sm font-extrabold text-white mt-0.5 block">1 درس</span>
             </div>
             <div class="bg-black/20 rounded-2xl p-2.5 backdrop-blur-xs border border-white/10">
               <span class="text-[10px] text-emerald-200/90 font-bold block">المقررات المتاحة</span>
@@ -263,6 +261,7 @@
       <div id="courses-container" class="space-y-3"></div>
     </section>
 
+    <!-- SCREEN 4: COURSE UNITS -->
     <section id="scr-course" class="hidden screen-fade space-y-4">
       <div class="lux-card rounded-3xl p-5 border-r-4 border-r-emerald-700">
         <div class="flex items-center justify-between mb-1.5">
@@ -275,16 +274,37 @@
       <div id="units-container" class="space-y-3.5"></div>
     </section>
 
+    <!-- SCREEN 5: LESSON STUDIO -->
     <section id="scr-lesson" class="hidden screen-fade space-y-4">
       <div class="lux-card rounded-3xl p-4 border-r-4 border-r-amber-500">
         <div class="flex items-center justify-between mb-1">
           <span id="lesson-code-badge" class="bg-emerald-900 text-amber-200 text-xs font-extrabold px-3 py-0.5 rounded-full">و1-د1</span>
-          <span id="lesson-cache-badge" class="text-[11px] text-emerald-700 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full">متصل ومحدث ☁️</span>
+          <span id="lesson-cache-badge" class="text-[11px] text-emerald-700 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full">جاهز للدراسة ✨</span>
         </div>
         <h2 id="lesson-title-heading" class="text-base font-bold text-slate-900 font-display mt-1">نشأة المحاسبة وتعريفها وأهدافها</h2>
       </div>
 
       <div class="sticky top-[68px] z-20 lux-card p-1.5 rounded-2xl flex gap-1">
         <button type="button" onclick="switchStudioTab('reader')" id="tab-btn-reader" class="flex-1 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-900 text-white shadow-xs transition">📖 الشرح الذكي</button>
-        <button type="button" onclick="switchStudioTab('cards')" id="tab-btn-cards" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-600 transition">🃏 البطاقات (<span id="tab-cards-count">4</span>)</button>
-        <button type="button" onclick="switchStudioTab('quiz')" id="tab-btn-quiz" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-600 transition">
+        <button type="button" onclick="switchStudioTab('cards')" id="tab-btn-cards" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-600 transition">🃏 البطاقات (4)</button>
+        <button type="button" onclick="switchStudioTab('quiz')" id="tab-btn-quiz" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-600 transition">🏆 كويز التحدي</button>
+      </div>
+
+      <div id="studio-pane-reader" class="space-y-4">
+        <div class="bg-gradient-to-l from-amber-50/90 to-emerald-50/60 border border-amber-300/60 rounded-2xl p-4 shadow-xs">
+          <div class="flex items-center gap-1.5 mb-1.5">
+            <span class="text-sm">🧭</span>
+            <h3 class="text-xs font-extrabold text-amber-950 font-display">الخلاصة التنفيذية للمحاضرة:</h3>
+          </div>
+          <p id="lesson-overview-text" class="text-xs text-slate-800 leading-relaxed font-semibold">يمثل هذا الدرس المدخل الأساسي لعلم المحاسبة المالية، حيث يستعرض التطور التاريخي للمحاسبة منذ نشأة القيد المزدوج، ويحلل مفهومها المعاصر كنظام للمعلومات، ويحدد أهدافها والأطراف المستفيدة من مخرجاتها.</p>
+        </div>
+        <article id="lesson-article-body" class="lux-card rounded-3xl p-5 lesson-prose">
+          <h3>1. التطور التاريخي للمحاسبة</h3>
+          <p>بدأت المحاسبة كأداة تسجيل بدائية تعتمد على الذاكرة الفردية وإثبات المعاملات البسيطة، وتطورت تدريجياً مع اتساع نطاق التجارة وظهور المدن التجارية الإيطالية حتى عام <strong>1494م</strong> عندما وضع العالم والرياضي الإيطالي <strong>لوكا باتشولي (Luca Pacioli)</strong> الأساس العلمي لنظرية <strong>القيد المزدوج</strong>، والتي تعد الحجر الأساس لعلم المحاسبة الحديث.</p>
+          <h3>2. مفهوم المحاسبة المعاصر (نظام معلومات)</h3>
+          <p>لم تعد المحاسبة مجرد عملية روتينية لمسك الدفاتر (Bookkeeping)، بل أصبحت <strong>نظام معلومات متكاملاً</strong> يتكون من أربع وظائف متسلسلة:</p>
+          <ul>
+            <li><strong>التحديد (Identification):</strong> انتقاء الأحداث الاقتصادية والمالية الخاصة بالوحدة المحاسبية.</li>
+            <li><strong>القياس (Measurement):</strong> التعبير عن تلك الأحداث بوحدة النقد بصورة موضوعية قابلة للتحقق.</li>
+            <li><strong>التسجيل والتلخيص (Recording):</strong> إثبات العمليات في الدفاتر المحاسبية وتبويبها وفق معايير مقننة.</li>
+            <li><strong>التوصيل
