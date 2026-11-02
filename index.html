@@ -3,722 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://telegram.org https://rahf-n8n.app.n8n.cloud; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://telegram.org; img-src 'self' data: https:; media-src 'self' https:;">
     <title>سَنَد | الدعم الأكاديمي 2.0</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --emerald-900: #064E3B;
-            --emerald-800: #065F46;
-            --emerald-600: #059669;
-            --emerald-500: #10B981;
-            --emerald-50: #ECFDF5;
-            --teal-600: #0D9488;
-            --gold-500: #F59E0B;
-            --gold-600: #D97706;
-            --gold-100: #FEF3C7;
-            --slate-50: #F8FAFC;
-            --slate-100: #F1F5F9;
-            --slate-200: #E2E8F0;
-            --slate-400: #94A3B8;
-            --slate-600: #475569;
-            --slate-800: #1E293B;
-            --slate-900: #0F172A;
-            --rose-500: #F43F5E;
-            --rose-50: #FFF1F2;
-            --radius-lg: 18px;
-            --radius-md: 12px;
-            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
-            --shadow-md: 0 8px 24px rgba(6, 78, 59, 0.08);
-            --shadow-gold: 0 4px 15px rgba(217, 119, 6, 0.25);
+            --em-900: #064E3B; --em-800: #065F46; --em-600: #059669; --em-50: #ECFDF5;
+            --gold-500: #F59E0B; --gold-100: #FEF3C7;
+            --bg: #F8FAFC; --card: #FFFFFF; --border: #E2E8F0;
+            --txt-dark: #0F172A; --txt-muted: #475569;
+            --rose-500: #F43F5E; --rose-50: #FFF1F2;
         }
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            margin: 0;
-            padding: 0 0 90px 0;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--slate-50);
-            color: var(--slate-800);
-            line-height: 1.65;
-            overflow-x: hidden;
+            margin: 0; padding: 0 0 90px 0;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: var(--bg); color: var(--txt-dark); line-height: 1.65;
         }
-
-        /* الهيدر الملكي الأكاديمي */
         .royal-header {
-            background: linear-gradient(135deg, var(--emerald-900) 0%, var(--emerald-600) 100%);
-            color: #FFFFFF;
-            padding: 20px 18px 28px;
-            border-bottom-left-radius: 26px;
-            border-bottom-right-radius: 26px;
-            box-shadow: 0 6px 20px rgba(6, 78, 59, 0.22);
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(135deg, var(--em-900) 0%, var(--em-600) 100%);
+            color: #FFF; padding: 20px 16px 28px;
+            border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;
+            box-shadow: 0 6px 20px rgba(6, 78, 59, 0.2);
         }
-
-        .royal-header::before {
-            content: "";
-            position: absolute;
-            top: -40px;
-            left: -40px;
-            width: 160px;
-            height: 160px;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
+        .container { max-width: 520px; margin: 0 auto; padding: 0 14px; }
+        .hdr-row { display: flex; align-items: center; justify-content: space-between; }
+        .brand-box { display: flex; align-items: center; gap: 10px; }
+        .crest {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: rgba(255,255,255,0.12); border: 1.5px solid var(--gold-500);
+            display: flex; align-items: center; justify-content: center;
         }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
+        .xp-badge {
+            background: rgba(6,78,59,0.7); border: 1px solid var(--gold-500);
+            color: var(--gold-100); padding: 5px 12px; border-radius: 20px;
+            font-size: 13px; font-weight: 700;
         }
-
-        .brand-wrap {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .screen { display: none; }
+        .screen.active { display: block; }
+        .card {
+            background: var(--card); border-radius: 16px; padding: 16px;
+            margin-top: 14px; border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(15,23,42,0.04);
         }
-
-        .crest-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1.5px solid rgba(245, 158, 11, 0.55);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-gold);
-            flex-shrink: 0;
-        }
-
-        .brand-title {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .brand-version {
-            font-size: 11px;
-            background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
-            color: #fff;
-            padding: 2px 7px;
-            border-radius: 20px;
-            font-weight: 700;
-        }
-
-        .brand-sub {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.85);
-            margin: 2px 0 0 0;
-        }
-
-        .xp-pill {
-            background: rgba(6, 78, 59, 0.65);
-            border: 1px solid rgba(245, 158, 11, 0.5);
-            padding: 6px 12px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 700;
-            font-size: 13px;
-            color: var(--gold-100);
-        }
-
-        /* الحاوية والشاشات */
-        .container {
-            max-width: 540px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-
-        .screen {
-            display: none;
-            animation: fadeIn 0.22s ease-out;
-        }
-
-        .screen.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* البطاقات الأكاديمية */
-        .academic-card {
-            background: #FFFFFF;
-            border-radius: var(--radius-lg);
-            padding: 18px;
-            margin-top: 16px;
-            border: 1px solid var(--slate-200);
-            box-shadow: var(--shadow-sm);
-        }
-
         .id-card {
-            margin-top: -18px;
-            position: relative;
-            z-index: 5;
-            background: #FFFFFF;
-            border-radius: var(--radius-lg);
-            padding: 18px;
-            border: 1px solid rgba(5, 150, 105, 0.2);
-            box-shadow: var(--shadow-md);
+            margin-top: -18px; background: var(--card); border-radius: 16px;
+            padding: 16px; border: 1px solid rgba(5,150,105,0.25);
+            box-shadow: 0 8px 20px rgba(6,78,59,0.08);
         }
-
-        .student-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 12px;
+        .tag {
+            display: inline-block; font-size: 12px; font-weight: 700;
+            background: var(--em-50); color: var(--em-800);
+            padding: 4px 10px; border-radius: 8px; margin-top: 4px;
         }
-
-        .student-name {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--slate-900);
-            margin: 0 0 4px 0;
-        }
-
-        .student-meta {
-            font-size: 13px;
-            color: var(--emerald-800);
-            background: var(--emerald-50);
-            padding: 4px 10px;
-            border-radius: 8px;
-            display: inline-block;
-            font-weight: 600;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px dashed var(--slate-200);
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+            margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border);
             text-align: center;
         }
-
-        .stat-box {
-            background: var(--slate-50);
-            padding: 8px 6px;
-            border-radius: 10px;
-        }
-
-        .stat-val {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--emerald-600);
-            display: block;
-        }
-
-        .stat-lbl {
-            font-size: 11px;
-            color: var(--slate-600);
-        }
-
-        /* شريط التقدم */
-        .progress-wrap {
-            margin-top: 12px;
-        }
-
-        .progress-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--slate-600);
-            margin-bottom: 6px;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: 8px;
-            background: var(--slate-100);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--emerald-600), var(--emerald-500));
-            border-radius: 10px;
-            transition: width 0.35s ease;
-        }
-
-        /* العناوين والأزرار */
-        .section-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 22px 4px 10px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--slate-900);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .stat-item { background: var(--bg); padding: 8px 4px; border-radius: 10px; }
+        .stat-num { font-size: 15px; font-weight: 800; color: var(--em-600); display: block; }
+        .stat-lbl { font-size: 11px; color: var(--txt-muted); }
+        .bar-track { width: 100%; height: 8px; background: #E2E8F0; border-radius: 8px; overflow: hidden; margin-top: 6px; }
+        .bar-fill { height: 100%; background: var(--em-600); border-radius: 8px; }
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 48px;
-            padding: 10px 18px;
-            border-radius: var(--radius-md);
-            font-size: 15px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            transition: transform 0.12s ease, opacity 0.15s ease;
-            font-family: inherit;
+            display: inline-flex; align-items: center; justify-content: center;
+            min-height: 46px; padding: 10px 16px; border-radius: 12px;
+            font-size: 14px; font-weight: 700; border: none; cursor: pointer;
+            width: 100%; font-family: inherit;
         }
-
-        .btn:active {
-            transform: scale(0.98);
+        .btn-primary { background: var(--em-600); color: #FFF; }
+        .btn-outline { background: #FFF; color: var(--em-800); border: 1.5px solid var(--em-600); }
+        .btn-sm { min-height: 34px; padding: 4px 12px; font-size: 12px; width: auto; }
+        .tabs {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+            background: #E2E8F0; padding: 4px; border-radius: 12px; margin-top: 14px;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--emerald-600), var(--emerald-800));
-            color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
-        }
-
-        .btn-outline {
-            background: #FFFFFF;
-            color: var(--emerald-800);
-            border: 1.5px solid var(--emerald-600);
-        }
-
-        .btn-gold {
-            background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
-            color: #FFFFFF;
-            box-shadow: var(--shadow-gold);
-        }
-
-        .btn-sm {
-            min-height: 36px;
-            padding: 6px 12px;
-            font-size: 12px;
-            width: auto;
-        }
-
-        /* بطاقة المقرر */
-        .course-card {
-            background: #FFFFFF;
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            margin-bottom: 12px;
-            border: 1px solid var(--slate-200);
-            box-shadow: var(--shadow-sm);
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .course-card:hover, .course-card:active {
-            border-color: var(--emerald-600);
-        }
-
-        .course-badge {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--teal-600);
-            background: #F0FDFA;
-            padding: 3px 8px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-bottom: 6px;
-        }
-
-        .course-title {
-            font-size: 16px;
-            font-weight: 800;
-            margin: 0 0 6px 0;
-            color: var(--slate-900);
-        }
-
-        .course-meta {
-            font-size: 12px;
-            color: var(--slate-600);
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        /* شجرة الوحدات والدروس */
-        .unit-box {
-            background: #FFFFFF;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--slate-200);
-            margin-bottom: 12px;
-            overflow: hidden;
-        }
-
-        .unit-header {
-            padding: 14px 16px;
-            background: var(--slate-50);
-            font-weight: 800;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--slate-200);
-        }
-
-        .lesson-item {
-            padding: 14px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid var(--slate-100);
-            cursor: pointer;
-        }
-
-        .lesson-item:last-child {
-            border-bottom: none;
-        }
-
-        .lesson-title-wrap {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .lesson-num {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: var(--emerald-50);
-            color: var(--emerald-800);
-            font-weight: 800;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .status-chip {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 9px;
-            border-radius: 20px;
-            flex-shrink: 0;
-        }
-
-        .chip-done {
-            background: var(--emerald-50);
-            color: var(--emerald-600);
-        }
-
-        .chip-open {
-            background: var(--gold-100);
-            color: var(--gold-600);
-        }
-
-        /* تبويبات استوديو الدرس */
-        .studio-tabs {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            background: var(--slate-200);
-            padding: 5px;
-            border-radius: 14px;
-            position: sticky;
-            top: 10px;
-            z-index: 20;
-            margin-top: 14px;
-        }
-
         .tab-btn {
-            border: none;
-            background: transparent;
-            padding: 10px 6px;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--slate-600);
-            cursor: pointer;
+            border: none; background: transparent; padding: 9px 4px;
+            border-radius: 9px; font-weight: 700; font-size: 12px;
+            color: var(--txt-muted); cursor: pointer; font-family: inherit;
+        }
+        .tab-btn.active { background: #FFF; color: var(--em-800); }
+        .flip-box {
+            min-height: 190px; border: 2px solid var(--em-600); border-radius: 16px;
+            padding: 20px; margin: 14px 0; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            cursor: pointer; background: #FFF; transition: background 0.25s, color 0.25s;
+        }
+        .flip-box.flipped { background: var(--em-900); color: #FFF; border-color: var(--gold-500); }
+        .quiz-opt {
+            width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 10px;
+            border: 1.5px solid var(--border); background: #FFF; text-align: right;
+            font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+        }
+        .quiz-opt.correct { background: var(--em-50); border-color: var(--em-600); color: var(--em-900); }
+        .quiz-opt.wrong { background: var(--rose-50); border-color: var(--rose-500); color: #9F1239; }
+        .sync-footer {
+            position: fixed; bottom: 0; left: 0; right: 0; background: #0F172A;
+            color: #E2E8F0; font-size: 11px; padding: 8px 14px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 50;
+        }
+        #log-panel {
+            display: none; position: fixed; bottom: 36px; left: 10px; right: 10px;
+            background: #0F172A; color: #34D399; padding: 12px; border-radius: 10px;
+            font-family: monospace; font-size: 11px; direction: ltr; text-align: left;
+            max-height: 170px; overflow-y: auto; z-index: 60; border: 1px solid #334155;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="royal-header">
+        <div class="container hdr-row">
+            <div class="brand-box">
+                <div class="crest">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3L2 8L12 13L22 8L12 3Z" fill="#F59E0B" stroke="#FEF3C7" stroke-width="1.3"/>
+                        <path d="M6 10.5V15.5C6 17.5 9 19 12 19C15 19 18 17.5 18 15.5V10.5" stroke="#FFF" stroke-width="1.6"/>
+                    </svg>
+                </div>
+                <div>
+                    <div style="font-size:19px; font-weight:800;">سَنَد <span style="font-size:11px; background:#F59E0B; padding:2px 6px; border-radius:10px;">2.0</span></div>
+                    <div style="font-size:11px; opacity:0.85;">رفيقك الأكاديمي من المحاضرة إلى الاختبار</div>
+                </div>
+            </div>
+            <div class="xp-badge" id="hdr-xp">★ 150 XP</div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- شاشة لوحة الطالب الرئيسية -->
+        <section id="scr-home" class="screen active">
+            <div class="id-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                        <div style="font-size:17px; font-weight:800;" id="st-name">طلال غالب محمد</div>
+                        <span class="tag" id="st-major">كلية العلوم الإدارية والإنسانية • المحاسبة</span>
+                    </div>
+                    <span style="font-size:12px; font-weight:700; color:var(--em-600);">المستوى 1</span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="stat-num" id="st-xp">150</span><span class="stat-lbl">نقاط XP</span></div>
+                    <div class="stat-item"><span class="stat-num" id="st-done">1</span><span class="stat-lbl">دروس مكتملة</span></div>
+                    <div class="stat-item"><span class="stat-num">15/15</span><span class="stat-lbl">رصيد دكتور سَنَد</span></div>
+                </div>
+            </div>
+
+            <div class="card" style="background:linear-gradient(135deg,#ECFDF5,#FFF); border-color:#A7F3D0;">
+                <div style="font-size:11px; font-weight:800; color:var(--em-600);">واصل من حيث توقفت</div>
+                <div style="font-size:15px; font-weight:800; margin:4px 0;">نشأة المحاسبة وتعريفها وأهدافها (و1-د1)</div>
+                <div style="font-size:12px; color:var(--txt-muted); margin-bottom:10px;">مبادئ المحاسبة المالية (1) • الوحدة الأولى</div>
+                <button class="btn btn-primary" onclick="openStudio()">دخول استوديو المحاضرة ←</button>
+            </div>
+
+            <h3 style="font-size:15px; margin:18px 4px 6px;">📚 المقررات الدراسية</h3>
+            <div class="card" onclick="openStudio()" style="cursor:pointer;">
+                <span class="tag" style="margin:0 0 6px 0;">ACC101</span>
+                <div style="font-size:16px; font-weight:800;">مبادئ المحاسبة المالية (1)</div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--txt-muted); margin-top:6px;">
+                    <span>الوحدة الأولى • درسان</span>
+                    <span style="color:var(--em-600); font-weight:700;">50% مكتمل</span>
+                </div>
+                <div class="bar-track"><div class="bar-fill" style="width:50%;"></div></div>
+            </div>
+        </section>
+
+        <!-- شاشة استوديو المحاضرة التفاعلي -->
+        <section id="scr-studio" class="screen">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+                <strong style="font-size:15px; color:var(--em-900);">نشأة المحاسبة وتعريفها وأهدافها</strong>
+                <button class="btn btn-outline btn-sm" onclick="goHome()">← لوحة الطالب</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" id="tbtn-read" onclick="setTab('read')">📖 الشرح الذكي</button>
+                <button class="tab-btn" id="tbtn-cards" onclick="setTab('cards')">🗂️ البطاقات (4)</button>
+                <button class="tab-btn" id="tbtn-quiz" onclick="setTab('quiz')">🏆 كويز التحدي</button>
+            </div>
+
+            <!-- الشرح -->
+            <div id="pane-read" class="card">
+                <div style="background:var(--em-50); border-right:4px solid var(--em-600); padding:10px 12px; border-radius:8px; font-size:13px; margin-bottom:12px;">
+                    يتناول هذا الدرس التطور التاريخي للمحاسبة منذ قاعدة القيد المزدوج للوكا باتشولي، ومفهومها كنظام معلومات، والأطراف المستفيدة.
+                </div>
+                <h4 style="color:var(--em-900); margin:12px 0 6px;">1. النشأة التاريخية والقيد المزدوج</h4>
+                <p style="font-size:14px; margin:0 0 10px;">في عام 1494م وضع العالم الإيطالي <strong>لوكا باتشولي</strong> أساس المحاسبة الحديثة عبر تقعيد نظرية القيد المزدوج (لكل عملية مالية طرفان متساويان: مدين ودائن).</p>
+                <h4 style="color:var(--em-900); margin:12px 0 6px;">2. التعريف الأكاديمي للمحاسبة</h4>
+                <p style="font-size:14px; margin:0 0 10px;">المحاسبة هي <strong>نظام معلومات</strong> يختص بتحديد وقياس وتسجيل وتوصيل الأحداث الاقتصادية للوحدة الاقتصادية إلى المستفيدين لاتخاذ القرارات.</p>
+                <h4 style="color:var(--em-900); margin:12px 0 6px;">3. الفرق بين المحاسبة ومسك الدفاتر</h4>
+                <p style="font-size:14px; margin:0 0 14px;"><strong>مسك الدفاتر</strong> يقتصر على التسجيل الروتيني اليومي، بينما <strong>المحاسبة</strong> أشمل؛ إذ تتضمن تصميم النظام والتحليل وإعداد وتفسير القوائم المالية.</p>
+                <button class="btn btn-primary" onclick="setTab('cards')">انتقل إلى بطاقات التثبيت النشط ←</button>
+            </div>
+
+            <!-- البطاقات المتقلبة -->
+            <div id="pane-cards" class="card" style="display:none;">
+                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; color:var(--txt-muted);">
+                    <span id="fc-pos">بطاقة 1 من 4</span>
+                    <span style="color:var(--em-600);">انقر على البطاقة لقلبها ↺</span>
+                </div>
+                <div class="flip-box" id="fc-box" onclick="flipCard()">
+                    <div style="font-size:11px; opacity:0.8; margin-bottom:8px;" id="fc-side-lbl">السؤال</div>
+                    <div style="font-size:16px; font-weight:700;" id="fc-text"></div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <button class="btn btn-outline" onclick="nextCard(false)">أحتاج مراجعة ↺</button>
+                    <button class="btn btn-primary" onclick="nextCard(true)">أتقنتها ✓</button>
+                </div>
+            </div>
+
+            <!-- الكويز -->
+            <div id="pane-quiz" class="card" style="display:none;">
+                <div style="font-size:12px; font-weight:700; color:var(--txt-muted); margin-bottom:8px;" id="qz-pos">السؤال 1 من 4</div>
+                <div style="font-size:15px; font-weight:800; margin-bottom:12px;" id="qz-q"></div>
+                <div id="qz-opts"></div>
+                <div id="qz-exp" style="display:none; background:#F1F5F9; padding:10px; border-radius:8px; font-size:12px; margin-top:8px;"></div>
+                <button class="btn btn-primary" id="qz-next" style="display:none; margin-top:12px;" onclick="nextQuestion()">السؤال التالي ←</button>
+            </div>
+        </section>
+    </main>
+
+    <div id="log-panel"></div>
+    <footer class="sync-footer" onclick="toggleLogs()">
+        <div>
+            <span id="sync-dot" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#F59E0B; margin-left:6px;"></span>
+            <span id="sync-txt">جاري الاتصال ببوابة سَنَد (n8n)...</span>
+        </div>
+        <span style="text-decoration:underline; cursor:pointer;">سجل الفحص ▲</span>
+    </footer>
+
+    <script>
+        const WEBHOOK_URL = 'https://rahf-n8n.app.n8n.cloud/webhook/sanad-v1-api';
+
+        const CARDS = [
+            { q: 'ما هو الجوهر العلمي للمحاسبة الحديثة؟', a: 'نظام معلومات يحدد ويقيس ويسجل ويوصل الأحداث الاقتصادية للمستفيدين.' },
+            { q: 'ما الفرق بين مسك الدفاتر والمحاسبة؟', a: 'مسك الدفاتر تسجيل روتيني فقط، بينما المحاسبة تشمل التحليل وإعداد وتفسير القوائم.' },
+            { q: 'من هو مؤسس قاعدة القيد المزدوج؟', a: 'العالم الإيطالي لوكا باتشولي عام 1494م.' },
+            { q: 'من هم المستفيدون الأساسيون من المحاسبة المالية؟', a: 'الأطراف الخارجية مثل المستثمرين والبنوك والدائنين.' }
+        ];
+
+        const QUIZ = [
+            { q_id: 1, q: 'الخطوة الأولى في نظام المعلومات المحاسبي هي:', opts: ['إعداد ميزان المراجعة', 'تحديد الأحداث الاقتصادية القابلة للقياس', 'توزيع الأرباح'], ans: 1, exp: 'يبدأ النظام المحاسبي بتحديد الأحداث المالية قبل قياسها وتسجيلها.' },
+            { q_id: 2, q: 'العلاقة الصحيحة بين المحاسبة ومسك الدفاتر هي:', opts: ['مسك الدفاتر جزء تسجيلي روتيني من المحاسبة', 'مسك الدفاتر أشمل من المحاسبة', 'لا علاقة بينهما'], ans: 0, exp: 'مسك الدفاتر يمثل الجانب التسجيلي فقط داخل مظلة المحاسبة.' },
+            { q_id: 3, q: 'تخدم المحاسبة المالية بالدرجة الأولى:', opts: ['مدير الإنتاج فقط', 'الأطراف الخارجية كالمستثمرين والبنوك', 'قسم المشتريات'], ans: 1, exp: 'المحاسبة المالية موجهة لخدمة الأطراف الخارجية بقوائم مالية موثوقة.' },
+            { q_id: 4, q: 'تعتمد نظرية القيد المزدوج على أن لكل عملية مالية:', opts: ['طرفين متساويين أحدهما مدين والآخر دائن', 'طرفاً واحداً فقط', 'ثلاثة أطراف غير متساوية'], ans: 0, exp: 'أساس القيد المزدوج هو توازن الطرف المدين مع الطرف الدائن.' }
+        ];
+
+        let fcIdx = 0, fcFlipped = false, qzIdx = 0, userAnswers = [];
+
+        function addLog(msg) {
+            const p = document.getElementById('log-panel');
+            p.textContent += msg + '\n';
+        }
+        function toggleLogs() {
+            const p = document.getElementById('log-panel');
+            p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+        }
+        function openStudio() {
+            document.getElementById('scr-home').classList.remove('active');
+            document.getElementById('scr-studio').classList.add('active');
+            renderCard(); renderQuiz();
+        }
+        function goHome() {
+            document.getElementById('scr-studio').classList.remove('active');
+            document.getElementById('scr-home').classList.add('active');
+        }
+        function setTab(t) {
+            ['read', 'cards', 'quiz'].forEach(k => {
+                document.getElementById('tbtn-' + k).classList.toggle('active', k === t);
+                document.getElementById('pane-' + k).style.display = (k === t) ? 'block' : 'none';
+            });
+        }
+        function renderCard() {
+            fcFlipped = false;
+            const box = document.getElementById('fc-box');
+            box.classList.remove('flipped');
+            document.getElementById('fc-pos').textContent = `بطاقة ${fcIdx + 1} من ${CARDS.length}`;
+            document.getElementById('fc-side-lbl').textContent = 'السؤال — انقر للقلب';
+            document.getElementById('fc-text').textContent = CARDS[fcIdx].q;
+        }
+        function flipCard() {
+            fcFlipped = !fcFlipped;
+            const box = document.getElementById('fc-box');
+            box.classList.toggle('flipped', fcFlipped);
+            document.getElementById('fc-side-lbl').textContent = fcFlipped ? 'الإجابة النموذجية ✓' : 'السؤال — انقر للقلب';
+            document.getElementById('fc-text').textContent = fcFlipped ? CARDS[fcIdx].a : CARDS[fcIdx].q;
+        }
+        function nextCard() {
+            fcIdx = (fcIdx + 1) % CARDS.length;
+            renderCard();
+        }
+        function renderQuiz() {
+            const item = QUIZ[qzIdx];
+            document.getElementById('qz-pos').textContent = `السؤال ${qzIdx + 1} من ${QUIZ.length}`;
+            document.getElementById('qz-q').textContent = item.q;
+            document.getElementById('qz-exp').style.display = 'none';
+            document.getElementById('qz-next').style.display = 'none';
+            const box = document.getElementById('qz-opts');
+            box.innerHTML = '';
+            item.opts.forEach((opt, i) => {
+                const b = document.createElement('button');
+                b.className = 'quiz-opt';
+                b.textContent = opt;
+                b.onclick = () => {
+                    b.classList.add(i === item.ans ? 'correct' : 'wrong');
+                    userAnswers.push({ q_id: item.q_id, selected_index: i });
+                    const exp = document.getElementById('qz-exp');
+                    exp.textContent = '💡 ' + item.exp;
+                    exp.style.display = 'block';
+                    document.getElementById('qz-next').style.display = 'inline-flex';
+                };
+                box.appendChild(b);
+            });
+        }
+        function nextQuestion() {
+            if (qzIdx + 1 < QUIZ.length) {
+                qzIdx++; renderQuiz();
+            } else {
+                syncWithBackend({ action: 'submit-quiz', lesson_code: 'ACC101-U1-L1', attempt_id: 'att_' + Date.now(), answers: userAnswers });
+                qzIdx = 0; userAnswers = []; renderQuiz();
+            }
         }
 
-        .tab-btn.active {
-            background: #FFFFFF;
-            color: var(--emerald-800);
-            box-shadow: var(--shadow-sm);
+        // استخراج initData حتى لو تأخر سكريبت telegram.org
+        function getTelegramInitData() {
+            if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
+                return Telegram.WebApp.initData;
+            }
+            try {
+                const hash = window.location.hash.substring(1);
+                const params = new URLSearchParams(hash);
+                if (params.get('tgWebAppData')) return params.get('tgWebAppData');
+            } catch (e) {}
+            return '';
         }
 
-        /* القارئ الذكي */
-        .overview-banner {
-            background: var(--emerald-50);
-            border-right: 4px solid var(--emerald-600);
-            padding: 12px 14px;
-            border-radius: 10px;
-            font-size: 14px;
-            color: var(--emerald-900);
-            margin-bottom: 16px;
-        }
-
-        .article-body {
-            font-size: 16px;
-            line-height: 1.8;
-            color: var(--slate-800);
-        }
-
-        .article-body h3, .article-body h4 {
-            color: var(--emerald-900);
-            margin-top: 18px;
-            margin-bottom: 8px;
-            border-bottom: 1px solid var(--slate-200);
-            padding-bottom: 6px;
-        }
-
-        .article-body ul, .article-body ol {
-            padding-right: 20px;
-        }
-
-        .article-body li {
-            margin-bottom: 8px;
-        }
-
-        /* البطاقات المتقلبة ثلاثية الأبعاد (3D Flip Cards) */
-        .flip-scene {
-            width: 100%;
-            height: 250px;
-            perspective: 1000px;
-            margin: 16px 0;
-            cursor: pointer;
-        }
-
-        .flip-card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .flip-card.is-flipped {
-            transform: rotateY(180deg);
-        }
-
-        .flip-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border-radius: var(--radius-lg);
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: var(--shadow-md);
-        }
-
-        .flip-front {
-            background: #FFFFFF;
-            border: 2px solid var(--emerald-600);
-            color: var(--slate-900);
-        }
-
-        .flip-back {
-            background: linear-gradient(135deg, var(--emerald-900), var(--emerald-800));
-            color: #FFFFFF;
-            transform: rotateY(180deg);
-            border: 2px solid var(--gold-500);
-        }
-
-        .flip-tag {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-bottom: 12px;
-        }
-
-        .hint-box {
-            background: var(--rose-50);
-            border-right: 4px solid var(--rose-500);
-            color: #9F1239;
-            padding: 12px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            margin-bottom: 14px;
-            display: none;
-        }
-
-        /* كويز التحدي */
-        .quiz-option {
-            width: 100%;
-            min-height: 52px;
-            padding: 12px 16px;
-            margin-bottom: 10px;
-            border-radius: 12px;
-            border: 1.5px solid var(--slate-200);
-            background: #FFFFFF;
-            text-align: right;
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--slate-800);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.15s ease;
-        }
-
-        .quiz-option.correct {
-            background: var(--emerald-50);
-            border-color: var(--emerald-500);
-            color: var(--emerald-900);
-        }
-
-        .quiz-option.wrong {
-            background: var(--rose-50);
-            border-color: var(--rose-500);
-            color: #9F1239;
-        }
-
-        .explanation-box {
-            padding: 12px 14px;
-            border-radius: 10px;
-            background: var(--slate-100);
-            font-size: 13px;
-            margin-top: 10px;
-            display: none;
-        }
-
-        /* نماذج التسجيل */
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--slate-800);
-        }
-
-        .form-input, .form-select {
-            width: 100%;
-            min-height: 48px;
-            padding: 10px 14px;
-            border-radius: 12px;
-            border: 1.5px solid var(--slate-200);
-            font-family: inherit;
-            font-size: 14px;
-            background: #FFFFFF;
-            color: var(--slate-900);
-        }
-
-        .level-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-
-        .level-btn {
-            min-height: 44px;
-            border-radius: 10px;
-            border: 1.5px solid var(--slate-200);
-            background: #FFFFFF;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .level-btn.selected {
-            background: var(--emerald-50);
-            border-color: var(--emerald-600);
-            color: var(--emerald-800);
-        }
-
-        /* الزر العائم ونافذة دكتور سند */
-        .mentor-fab {
-            position: fixed;
-            bottom: 48px;
-            left: 18px;
-            z-index: 40;
-            background: linear-gradient(135deg, var(--emerald-800), var(--emerald-600));
-            color: #FFFFFF;
-            border: 2px solid var(--gold-500);
-            border-radius: 30px;
-            padding: 10px 16px;
-            font-family: inherit;
-            font-weight: 800;
-            font-size: 13px;
-            display: none;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 8px 25px rgba(6, 78, 59, 0.35);
-            cursor: pointer;
-        }
-
-        .drawer-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.45);
-            z-index: 50;
-            display: none;
-        }
-
-        .mentor-drawer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 68vh;
-            background: #FFFFFF;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            z-index: 60;
-            display: none;
-            flex-direction: column;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.15);
-        }
-
-        .drawer-header {
-            padding: 14px 18px;
-            background: var(--emerald-900);
-            color: #FFFFFF;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-area {
-            flex: 1;
-            padding: 14px;
-            overflow-
+        async function syncWithBackend(payload) {
+            const initData = getTelegramInitData();
+            const dot = documen
