@@ -1,293 +1,169 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>منصة سَنَد | الصرح الأكاديمي الذكي 2.0</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Readex+Pro:wght@500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <style>
-    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    body {
-      font-family: 'Cairo', system-ui, sans-serif;
-      background-color: #F4F7F6;
-      color: #0F172A;
-      margin: 0; padding: 0; overflow-x: hidden; user-select: none;
-    }
-    h1, h2, h3, .font-display { font-family: 'Readex Pro', 'Cairo', sans-serif; }
-    .royal-header-bg { background: linear-gradient(135deg, #022C22 0%, #064E3B 55%, #0F766E 100%); }
-    .lux-card {
-      background: #FFFFFF;
-      border: 1px solid rgba(6, 78, 59, 0.12);
-      box-shadow: 0 10px 25px -5px rgba(2, 44, 34, 0.08);
-    }
-    .gold-pill {
-      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-      border: 1px solid rgba(217, 119, 6, 0.35);
-      color: #92400E;
-    }
-    .lesson-prose { user-select: text; line-height: 1.95; font-size: 1.04rem; color: #1E293B; }
-    .lesson-prose h3 {
-      font-family: 'Readex Pro', sans-serif;
-      color: #064E3B; font-weight: 700; font-size: 1.15rem;
-      margin-top: 1.4rem; margin-bottom: 0.65rem; padding: 0.5rem 0.8rem;
-      background: rgba(16, 185, 129, 0.10); border-right: 4px solid #059669; border-radius: 0.5rem;
-    }
-    .lesson-prose p { margin-bottom: 0.95rem; }
-    .perspective-1000 { perspective: 1200px; }
-    .flip-card-inner { position: relative; width: 100%; min-height: 270px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); transform-style: preserve-3d; }
-    .flip-card-inner.flipped { transform: rotateY(180deg); }
-    .flip-card-front, .flip-card-back {
-      position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-      border-radius: 1.25rem; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center;
-    }
-    .flip-card-back { transform: rotateY(180deg); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سَنَد | الدعم الأكاديمي</title>
+    <!-- استدعاء مكتبة تيليجرام الرسمية فقط -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* هوية سَنَد: CSS مدمج وخفيف جداً */
+        :root {
+            --primary-color: #059669; /* الزمردي */
+            --bg-color: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-main: #1e293b;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .status-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .loader {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #e2e8f0;
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        /* صندوق الفحص البرمجي للمطور */
+        #debug-log {
+            margin-top: 25px;
+            padding: 15px;
+            background: #1e293b;
+            color: #10b981;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 11px;
+            text-align: left;
+            direction: ltr;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            display: none; /* مخفي افتراضياً، يظهر فقط عند وجود بيانات */
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between pb-20">
+<body>
 
-  <header class="sticky top-0 z-30 royal-header-bg text-white px-4 py-3 shadow-lg border-b border-emerald-400/20">
-    <div class="max-w-lg mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-300 to-amber-600 p-[2px] shadow-md">
-          <div class="w-full h-full bg-emerald-950 rounded-[14px] flex items-center justify-center">
-            <svg class="w-7 h-7" viewBox="0 0 64 64" fill="none"><path d="M32 8L6 20L32 32L58 20L32 8Z" fill="#F59E0B" stroke="#FEF3C7" stroke-width="1.5"/><path d="M50 24V38C50 40.5 42 45 32 45C22 45 14 40.5 14 38V24" stroke="#10B981" stroke-width="2.5"/><circle cx="54" cy="34" r="2.5" fill="#FBBF24"/></svg>
-          </div>
-        </div>
-        <div>
-          <div class="flex items-center gap-1.5">
-            <h1 class="text-base font-bold text-white font-display">سَنَد</h1>
-            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30">الأكاديمية 2.0</span>
-          </div>
-          <p class="text-[11px] text-emerald-200/90 font-medium">رفيقك الجامعي من المحاضرة إلى الامتياز</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-        <div id="xp-badge" class="items-center gap-1.5 gold-pill px-3 py-1 rounded-full text-xs font-extrabold flex">
-          <span>👑</span><span id="header-xp">150</span><span>XP</span>
-        </div>
-        <button type="button" id="btn-top-back" onclick="navigateBack()" class="hidden items-center gap-1 bg-white/15 text-white border border-white/20 px-3 py-1.5 rounded-xl text-xs font-bold">
-          <span>رجوع</span><span>←</span>
-        </button>
-      </div>
+    <div class="header-logo">سَنَد</div>
+    
+    <div class="card">
+        <div class="status-title" id="status-text">جاري إعداد بيئة الطالب...</div>
+        <div class="loader" id="loader-icon"></div>
     </div>
-  </header>
 
-  <main class="flex-1 max-w-lg w-full mx-auto px-4 pt-4">
+    <!-- صندوق سري يعرض نتيجة الاتصال بخوادم n8n -->
+    <div id="debug-log"></div>
 
-    <!-- SCREEN 1: SPLASH WITH DIRECT ENTRY -->
-    <section id="scr-splash" class="py-6 flex flex-col items-center justify-center text-center">
-      <div class="lux-card rounded-3xl p-6 w-full space-y-4">
-        <div class="w-20 h-20 mx-auto rounded-3xl royal-header-bg p-0.5 shadow-xl flex items-center justify-center border-2 border-amber-400/40">
-          <svg class="w-12 h-12" viewBox="0 0 64 64" fill="none"><path d="M32 6L4 19L32 32L60 19L32 6Z" fill="#F59E0B" stroke="#FEF3C7" stroke-width="1.8"/><path d="M14 25V39C14 43 22 47 32 47C42 47 50 43 50 39V25" stroke="#34D399" stroke-width="3"/></svg>
-        </div>
-        <div>
-          <h2 class="text-lg font-bold text-slate-900 font-display">مرحباً بك في منصة سَنَد</h2>
-          <p class="text-xs text-slate-500 mt-1">اضغط بالأسفل لفتح لوحة قيادة الطالب والمقررات الدراسية فوراً:</p>
-        </div>
-        <button type="button" onclick="goToDashboard()" class="w-full py-4 royal-header-bg text-amber-300 rounded-2xl font-extrabold text-sm shadow-xl active:scale-95 transition border border-amber-400/40 flex items-center justify-center gap-2">
-          <span>دخول لوحة الطالب والمقررات</span>
-          <span>🚀</span>
-        </button>
-      </div>
-    </section>
+    <script>
+        // رابط البوابة الخاصة بك في n8n
+        const WEBHOOK_URL = 'https://rahf-n8n.app.n8n.cloud/webhook/sanad-v1-api';
+        
+        const statusText = document.getElementById('status-text');
+        const loaderIcon = document.getElementById('loader-icon');
+        const debugLog = document.getElementById('debug-log');
 
-    <!-- SCREEN 2: DASHBOARD -->
-    <section id="scr-dashboard" class="hidden space-y-4">
-      <div class="royal-header-bg rounded-3xl p-5 text-white shadow-xl border border-amber-400/25">
-        <div class="flex items-start justify-between">
-          <div>
-            <span class="inline-flex items-center gap-1 bg-amber-400/20 text-amber-200 px-3 py-0.5 rounded-full text-[11px] font-extrabold mb-2">🏛️ كلية العلوم الإدارية والإنسانية</span>
-            <h2 id="dash-student-name" class="text-xl font-bold font-display">طلال غالب محمد</h2>
-            <p class="text-xs text-emerald-200 font-bold mt-0.5">قسم المحاسبة — المستوى الأول</p>
-          </div>
-          <span class="text-[11px] bg-white/10 px-3 py-1.5 rounded-xl font-bold">طالب نشط ✅</span>
-        </div>
-        <div class="mt-5 grid grid-cols-3 gap-2.5 pt-3.5 border-t border-white/15 text-center">
-          <div class="bg-black/20 rounded-2xl p-2.5"><span class="text-[10px] text-amber-200 font-bold block">رصيد الخبرة</span><span class="text-sm font-extrabold text-amber-300">150 XP</span></div>
-          <div class="bg-black/20 rounded-2xl p-2.5"><span class="text-[10px] text-emerald-200 font-bold block">الدروس المتقنة</span><span class="text-sm font-extrabold text-white">1 درس</span></div>
-          <div class="bg-black/20 rounded-2xl p-2.5"><span class="text-[10px] text-emerald-200 font-bold block">المقررات</span><span class="text-sm font-extrabold text-emerald-300">6 مقررات</span></div>
-        </div>
-      </div>
+        function logInfo(msg) {
+            debugLog.style.display = 'block';
+            debugLog.textContent += msg + '\n\n';
+        }
 
-      <div class="lux-card p-1.5 rounded-2xl flex items-center gap-1">
-        <button type="button" onclick="filterTerm('ALL')" id="term-tab-ALL" class="flex-1 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-900 text-white">كل الفصول</button>
-        <button type="button" onclick="filterTerm('T1')" id="term-tab-T1" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-600">الفصل الأول (T1)</button>
-        <button type="button" onclick="filterTerm('T2')" id="term-tab-T2" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-600">الفصل الثاني (T2)</button>
-      </div>
-      <div id="courses-container" class="space-y-3"></div>
-    </section>
+        function initSanadApp() {
+            try {
+                // 1. تهيئة تطبيق تيليجرام
+                Telegram.WebApp.ready();
+                Telegram.WebApp.expand();
+                
+                const initData = Telegram.WebApp.initData;
+                
+                // إذا تم فتح الرابط من خارج تيليجرام
+                if (!initData) {
+                    statusText.textContent = 'خطأ: الرجاء فتح المنصة من داخل بوت سَنَد في تيليجرام.';
+                    loaderIcon.style.display = 'none';
+                    logInfo('Error: window.Telegram.WebApp.initData is empty.');
+                    return;
+                }
 
-    <!-- SCREEN 3: COURSE UNITS -->
-    <section id="scr-course" class="hidden space-y-4">
-      <div class="lux-card rounded-3xl p-5 border-r-4 border-r-emerald-700">
-        <div class="flex items-center justify-between mb-1.5">
-          <span id="course-code-badge" class="gold-pill text-[11px] font-extrabold px-3 py-0.5 rounded-full">CAH-ACC-101</span>
-          <span class="text-[11px] text-emerald-800 font-extrabold">خطة المقرر المعتمدة 📚</span>
-        </div>
-        <h2 id="course-title-heading" class="text-lg font-bold text-slate-900 font-display">مبادئ المحاسبة المالية (1)</h2>
-        <p class="text-xs text-slate-500 mt-1">اختر الدرس لفتح الشرح الذكي، بطاقات التثبيت، وكويز التحدي.</p>
-      </div>
-      <div id="units-container" class="space-y-3"></div>
-    </section>
+                statusText.textContent = 'جاري المصادقة الأكاديمية...';
+                logInfo('InitData found. Connecting to n8n Webhook (POST)...');
+                
+                // 2. إرسال الطلب إلى n8n باستخدام fetch نقي (بدون AbortSignal لتجنب أخطاء المتصفح)
+                fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': initData
+                    },
+                    body: JSON.stringify({
+                        action: 'init-session',
+                        client_version: '2.0.0'
+                    })
+                })
+                .then(response => {
+                    logInfo('HTTP Status: ' + response.status);
+                    if (!response.ok) {
+                        throw new Error('Server returned ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // نجاح الاتصال!
+                    statusText.textContent = 'تم الاتصال بنجاح!';
+                    statusText.style.color = '#059669';
+                    loaderIcon.style.display = 'none';
+                    logInfo('Success! Server Reply:\n' + JSON.stringify(data, null, 2));
+                })
+                .catch(error => {
+                    // فشل الاتصال (غالباً مشكلة CORS أو خطأ داخلي في n8n)
+                    statusText.textContent = 'فشل الاتصال بخوادم سَنَد.';
+                    statusText.style.color = '#ef4444';
+                    loaderIcon.style.display = 'none';
+                    logInfo('Fetch Error Details:\n' + error.message);
+                });
 
-    <!-- SCREEN 4: LESSON STUDIO -->
-    <section id="scr-lesson" class="hidden space-y-4">
-      <div class="lux-card rounded-3xl p-4 border-r-4 border-r-amber-500">
-        <div class="flex items-center justify-between mb-1">
-          <span class="bg-emerald-900 text-amber-200 text-xs font-extrabold px-3 py-0.5 rounded-full">و1-د1</span>
-          <span class="text-[11px] text-emerald-700 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full">جاهز للدراسة ✨</span>
-        </div>
-        <h2 class="text-base font-bold text-slate-900 font-display mt-1">نشأة المحاسبة وتعريفها وأهدافها</h2>
-      </div>
+            } catch(e) {
+                statusText.textContent = 'حدث خطأ في واجهة التطبيق.';
+                loaderIcon.style.display = 'none';
+                logInfo('Critical Try/Catch Error:\n' + e.message);
+            }
+        }
 
-      <div class="sticky top-[68px] z-20 lux-card p-1.5 rounded-2xl flex gap-1">
-        <button type="button" onclick="switchStudioTab('reader')" id="tab-btn-reader" class="flex-1 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-900 text-white">📖 الشرح الذكي</button>
-        <button type="button" onclick="switchStudioTab('cards')" id="tab-btn-cards" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-600">🃏 البطاقات (4)</button>
-        <button type="button" onclick="switchStudioTab('quiz')" id="tab-btn-quiz" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-slate-600">🏆 كويز التحدي</button>
-      </div>
-
-      <!-- TAB 1: SMART READER -->
-      <div id="studio-pane-reader" class="space-y-4">
-        <div class="bg-gradient-to-l from-amber-50 to-emerald-50 border border-amber-300/60 rounded-2xl p-4">
-          <h3 class="text-xs font-extrabold text-amber-950 font-display mb-1">🧭 الخلاصة التنفيذية للمحاضرة:</h3>
-          <p class="text-xs text-slate-800 leading-relaxed font-semibold">يمثل هذا الدرس المدخل التأسيسي لعلم المحاسبة المالية، حيث يستعرض التطور التاريخي للمحاسبة منذ نشأة القيد المزدوج، ويحلل مفهومها المعاصر كنظام للمعلومات، ويحدد أهدافها والأطراف المستفيدة من مخرجاتها.</p>
-        </div>
-        <article class="lux-card rounded-3xl p-5 lesson-prose">
-          <h3>1. التطور التاريخي للمحاسبة</h3>
-          <p>بدأت المحاسبة كأداة تسجيل بدائية تعتمد على الذاكرة الفردية وإثبات المعاملات البسيطة، وتطورت تدريجياً حتى عام <strong>1494م</strong> عندما وضع العالم الإيطالي <strong>لوكا باتشولي (Luca Pacioli)</strong> الأساس العلمي لنظرية <strong>القيد المزدوج</strong>، والتي تعد الحجر الأساس لعلم المحاسبة الحديث.</p>
-          <h3>2. مفهوم المحاسبة المعاصر (نظام معلومات)</h3>
-          <p>المحاسبة ليست مجرد مسك دفاتر، بل هي <strong>نظام معلومات متكامل</strong> يقوم بأربع وظائف متسلسلة:</p>
-          <ul class="list-disc pr-5">
-            <li><strong>التحديد (Identification):</strong> تمييز الأحداث الاقتصادية للوحدة.</li>
-            <li><strong>القياس (Measurement):</strong> التعبير عنها بوحدة النقد بصورة موضوعية.</li>
-            <li><strong>التسجيل والتلخيص (Recording):</strong> إثبات العمليات وتبويبها بالدفاتر.</li>
-            <li><strong>التوصيل (Communication):</strong> إعداد القوائم المالية للمستفيدين.</li>
-          </ul>
-        </article>
-        <button type="button" onclick="switchStudioTab('cards')" class="w-full py-4 royal-header-bg text-amber-300 rounded-2xl font-extrabold text-sm shadow-lg active:scale-98">
-          انتقل إلى بطاقات التثبيت ثلاثية الأبعاد 🃏 ←
-        </button>
-      </div>
-
-      <!-- TAB 2: FLIP CARDS -->
-      <div id="studio-pane-cards" class="hidden space-y-4">
-        <div class="lux-card rounded-2xl p-4 flex items-center justify-between text-xs font-extrabold text-slate-700">
-          <span id="fc-progress-label">البطاقة 1 من 4</span>
-          <span id="fc-mastered-label" class="text-emerald-800">تم إتقان: 0</span>
-        </div>
-        <div id="fc-stage" class="perspective-1000 cursor-pointer" onclick="flipCurrentCard()">
-          <div id="fc-inner" class="flip-card-inner">
-            <div class="flip-card-front lux-card border-2 border-emerald-800/15">
-              <span class="gold-pill text-[11px] font-extrabold px-3 py-1 rounded-full">سؤال المفهوم (انقر للقلب ↺)</span>
-              <p id="fc-question-text" class="text-base font-extrabold text-slate-900 leading-relaxed my-4 font-display">من هو مؤسس نظرية القيد المزدوج وفي أي عام وضعها؟</p>
-              <span class="text-[11px] text-emerald-800 font-bold bg-emerald-50 px-3 py-1 rounded-lg">اضغط لكشف الإجابة 💡</span>
-            </div>
-            <div class="flip-card-back royal-header-bg text-white border-2 border-amber-400/50 shadow-xl">
-              <span class="bg-amber-400 text-slate-950 text-[11px] font-extrabold px-3 py-1 rounded-full">الإجابة المعتمدة ✅</span>
-              <p id="fc-answer-text" class="text-base font-bold text-white leading-relaxed my-4">العالم الإيطالي لوكا باتشولي (Luca Pacioli) عام 1494م.</p>
-              <span class="text-[11px] text-emerald-200">قيّم حفظك بالأسفل 👇</span>
-            </div>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <button type="button" onclick="nextCard()" class="py-3.5 rounded-2xl border-2 border-rose-300 bg-rose-50 text-rose-900 font-extrabold text-xs">أحتاج مراجعة 🔄</button>
-          <button type="button" onclick="nextCard(true)" class="py-3.5 rounded-2xl bg-emerald-700 text-white font-extrabold text-xs shadow-md">أتقنتها تماماً ✅</button>
-        </div>
-      </div>
-
-      <!-- TAB 3: QUIZ -->
-      <div id="studio-pane-quiz" class="hidden space-y-4">
-        <div class="lux-card rounded-3xl p-5 space-y-4">
-          <span class="gold-pill px-3 py-0.5 rounded-full text-[11px] font-extrabold">السؤال 1 من 4</span>
-          <p class="text-sm font-extrabold text-slate-900 font-display">أي من الأطراف التالية يُعد من المستخدمين الخارجيين للقوائم المالية؟</p>
-          <div class="space-y-2.5">
-            <button type="button" onclick="handleQuizAnswer(this, false)" class="w-full text-right p-3.5 rounded-2xl border-2 border-slate-200 bg-white font-bold text-xs text-slate-800">مدير إدارة التسويق بالمنشأة</button>
-            <button type="button" onclick="handleQuizAnswer(this, false)" class="w-full text-right p-3.5 rounded-2xl border-2 border-slate-200 bg-white font-bold text-xs text-slate-800">رئيس قسم المشتريات والمخازن</button>
-            <button type="button" onclick="handleQuizAnswer(this, true)" class="w-full text-right p-3.5 rounded-2xl border-2 border-slate-200 bg-white font-bold text-xs text-slate-800">البنوك والمؤسسات المقرضة ✅</button>
-            <button type="button" onclick="handleQuizAnswer(this, false)" class="w-full text-right p-3.5 rounded-2xl border-2 border-slate-200 bg-white font-bold text-xs text-slate-800">المشرف التشغيلي لخط الإنتاج</button>
-          </div>
-          <div id="quiz-feedback" class="hidden p-3.5 rounded-xl border text-xs leading-relaxed font-semibold"></div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <button type="button" id="fab-mentor" onclick="toggleMentorDrawer(true)" class="hidden fixed bottom-5 left-4 z-40 flex items-center gap-2.5 royal-header-bg text-white px-4 py-3 rounded-2xl shadow-xl border border-amber-400/40 active:scale-95">
-    <span class="text-lg">👨‍🏫</span><span class="text-xs font-extrabold">اسأل دكتور سَنَد</span>
-  </button>
-
-  <div id="mentor-backdrop" onclick="toggleMentorDrawer(false)" class="hidden fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-40"></div>
-  <aside id="mentor-drawer" class="hidden fixed bottom-0 inset-x-0 z-50 bg-white rounded-t-3xl border-t-2 border-amber-400/40 shadow-2xl max-w-lg mx-auto flex flex-col max-h-[80vh]">
-    <div class="p-4 royal-header-bg text-white rounded-t-3xl flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl bg-amber-400/20 flex items-center justify-center text-xl">👨‍🏫</div>
-        <div><h3 class="text-sm font-bold text-white font-display">دكتور سَنَد الأكاديمي</h3><p class="text-[11px] text-amber-200 font-medium">مستشارك الذكي لمقرر المحاسبة</p></div>
-      </div>
-      <button type="button" onclick="toggleMentorDrawer(false)" class="w-8 h-8 rounded-xl bg-white/15 text-white font-bold text-sm">✕</button>
-    </div>
-    <div id="mentor-messages" class="flex-1 overflow-y-auto p-4 space-y-3 text-xs bg-slate-50/50">
-      <div class="bg-white border border-emerald-200 text-slate-800 rounded-2xl rounded-tr-none p-3.5 leading-relaxed font-semibold">
-        أهلاً بك يا بني! أنا <strong>دكتور سَنَد</strong>، جاهز لشرح أي مفهوم في المحاضرة. ماذا تحب أن أوضح لك؟
-      </div>
-    </div>
-    <form onsubmit="submitMentorQuestion(event)" class="p-3 border-t border-slate-200 bg-white flex gap-2">
-      <input id="inp-mentor-q" type="text" maxlength="400" required placeholder="اكتب سؤالك الأكاديمي..." class="flex-1 rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-xs font-bold text-slate-900 focus:outline-none" />
-      <button type="submit" class="royal-header-bg text-white px-5 py-2.5 rounded-xl font-extrabold text-xs shadow">إرسال</button>
-    </form>
-  </aside>
-
-  <script>
-    const COURSES = [
-      { code: "CAH-ACC-101", name: "مبادئ المحاسبة المالية (1)", term: "T1", active: true },
-      { code: "CAH-MGT-101", name: "مبادئ إدارة الأعمال الحديثة", term: "T1", active: false },
-      { code: "CAH-ENG-101", name: "اللغة الإنجليزية الأكاديمية (1)", term: "T1", active: false },
-      { code: "CAH-GEN-101", name: "المهارات اللغوية والتحرير العربي", term: "T1", active: false },
-      { code: "CAH-ACC-102", name: "مبادئ المحاسبة المالية (2)", term: "T2", active: false },
-      { code: "CAH-ECO-101", name: "مبادئ الاقتصاد الجزئي", term: "T2", active: false }
-    ];
-
-    const CARDS = [
-      { q: "من هو مؤسس نظرية القيد المزدوج وفي أي عام وضعها؟", a: "العالم الإيطالي لوكا باتشولي (Luca Pacioli) عام 1494م." },
-      { q: "ما هي الوظائف الأربع المتسلسلة للمحاسبة كنظام معلومات؟", a: "التحديد، القياس النقدي، التسجيل والتلخيص، وأخيراً التوصيل." },
-      { q: "ما الفرق الجوهري بين المحاسبة ومسك الدفاتر؟", a: "مسك الدفاتر يقتصر على التسجيل فقط، بينما المحاسبة تشمل التحليل والتفسير والتوصيل." },
-      { q: "من هم المستخدمون الخارجيون للقوائم المالية؟", a: "المستثمرون، البنوك والمقرضون، الموردون، ومصلحة الضرائب." }
-    ];
-
-    let currentCardIdx = 0;
-    let masteredCount = 0;
-    let selectedTerm = 'ALL';
-    let currentScreen = 'scr-splash';
-
-    function showScreen(id) {
-      ['scr-splash', 'scr-dashboard', 'scr-course', 'scr-lesson'].forEach(s => {
-        document.getElementById(s).classList.toggle('hidden', s !== id);
-      });
-      currentScreen = id;
-      const canBack = (id === 'scr-course' || id === 'scr-lesson');
-      document.getElementById('btn-top-back').classList.toggle('hidden', !canBack);
-      document.getElementById('btn-top-back').classList.toggle('inline-flex', canBack);
-      document.getElementById('fab-mentor').classList.toggle('hidden', id !== 'scr-lesson');
-      document.getElementById('fab-mentor').classList.toggle('flex', id === 'scr-lesson');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function navigateBack() {
-      if (currentScreen === 'scr-lesson') showScreen('scr-course');
-      else if (currentScreen === 'scr-course') showScreen('scr-dashboard');
-    }
-
-    function goToDashboard() {
-      renderCourses();
-      showScreen('scr-dashboard');
-    }
-
-    function filterTerm(t) {
-      selectedTerm = t;
-      ['ALL', 'T1', 'T2'].forEach(code => {
-        document.getElementById('term-tab-' + code).className = (code === t)
-          ? 'flex-1 py-2.5 rounded-xl text-xs font-extrab
+        // تشغيل الدالة فور تحميل الكود
+        initSanadApp();
+    </script>
+</body>
+</html>
