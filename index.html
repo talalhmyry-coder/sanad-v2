@@ -132,7 +132,6 @@
     </header>
 
     <main class="container">
-        <!-- شاشة لوحة الطالب الرئيسية -->
         <section id="scr-home" class="screen active">
             <div class="id-card">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
@@ -168,7 +167,6 @@
             </div>
         </section>
 
-        <!-- شاشة استوديو المحاضرة التفاعلي -->
         <section id="scr-studio" class="screen">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
                 <strong style="font-size:15px; color:var(--em-900);">نشأة المحاسبة وتعريفها وأهدافها</strong>
@@ -181,7 +179,6 @@
                 <button class="tab-btn" id="tbtn-quiz" onclick="setTab('quiz')">🏆 كويز التحدي</button>
             </div>
 
-            <!-- الشرح -->
             <div id="pane-read" class="card">
                 <div style="background:var(--em-50); border-right:4px solid var(--em-600); padding:10px 12px; border-radius:8px; font-size:13px; margin-bottom:12px;">
                     يتناول هذا الدرس التطور التاريخي للمحاسبة منذ قاعدة القيد المزدوج للوكا باتشولي، ومفهومها كنظام معلومات، والأطراف المستفيدة.
@@ -195,7 +192,6 @@
                 <button class="btn btn-primary" onclick="setTab('cards')">انتقل إلى بطاقات التثبيت النشط ←</button>
             </div>
 
-            <!-- البطاقات المتقلبة -->
             <div id="pane-cards" class="card" style="display:none;">
                 <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; color:var(--txt-muted);">
                     <span id="fc-pos">بطاقة 1 من 4</span>
@@ -211,7 +207,6 @@
                 </div>
             </div>
 
-            <!-- الكويز -->
             <div id="pane-quiz" class="card" style="display:none;">
                 <div style="font-size:12px; font-weight:700; color:var(--txt-muted); margin-bottom:8px;" id="qz-pos">السؤال 1 من 4</div>
                 <div style="font-size:15px; font-weight:800; margin-bottom:12px;" id="qz-q"></div>
@@ -324,7 +319,6 @@
             }
         }
 
-        // استخراج initData حتى لو تأخر سكريبت telegram.org
         function getTelegramInitData() {
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
                 return Telegram.WebApp.initData;
@@ -339,4 +333,47 @@
 
         async function syncWithBackend(payload) {
             const initData = getTelegramInitData();
-            const dot = documen
+            const dot = document.getElementById('sync-dot');
+            const txt = document.getElementById('sync-txt');
+            addLog('POST -> ' + payload.action + ' (initData length: ' + initData.length + ')');
+
+            try {
+                const res = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': initData
+                    },
+                    body: JSON.stringify(payload)
+                });
+                addLog('HTTP Status: ' + res.status);
+                const text = await res.text();
+                addLog('Response: ' + text.slice(0, 180));
+                if (res.ok) {
+                    dot.style.background = '#10B981';
+                    txt.textContent = 'متصل بخادم سَنَد السحابي (n8n) ✓';
+                    const data = JSON.parse(text);
+                    if (data && data.student && data.student.full_name) {
+                        document.getElementById('st-name').textContent = data.student.full_name;
+                    }
+                } else {
+                    dot.style.background = '#EF4444';
+                    txt.textContent = 'رد الخادم بكود: ' + res.status + ' (افتح السجل)';
+                }
+            } catch (err) {
+                addLog('Fetch Error: ' + err.message);
+                dot.style.background = '#F59E0B';
+                txt.textContent = 'يعمل محلياً — تعذر الوصول لـ n8n (' + err.message + ')';
+            }
+        }
+
+        setTimeout(() => {
+            if (window.Telegram && Telegram.WebApp) {
+                try { Telegram.WebApp.ready(); Telegram.WebApp.expand(); } catch(e) {}
+            }
+            syncWithBackend({ action: 'init-session', client_version: '2.0.0' });
+        }, 150);
+    </script>
+    <script src="https://telegram.org/js/telegram-web-app.js" async></script>
+</body>
+</html>
