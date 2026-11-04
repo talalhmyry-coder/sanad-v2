@@ -62,14 +62,14 @@ body {
   overflow-x: hidden;
 }
 
-button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; touch-action: manipulation; }
 button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 .app {
   max-width: 520px;
   margin: 0 auto;
   min-height: 100vh;
-  padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  padding-bottom: calc(76px + env(safe-area-inset-bottom));
 }
 
 /* =========================================================
@@ -368,10 +368,10 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .toast {
   position: fixed;
   left: 14px; right: 14px;
-  bottom: calc(18px + env(safe-area-inset-bottom));
+  bottom: calc(44px + env(safe-area-inset-bottom));
   max-width: 492px;
   margin: 0 auto;
-  z-index: 100;
+  z-index: 300;
   display: flex; align-items: flex-start; gap: 12px;
   padding: 15px 16px;
   border-radius: var(--radius);
@@ -398,6 +398,161 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   width: 26px; height: 26px; border-radius: 50%;
   color: var(--gold-soft); font-size: 15px;
   background: rgba(255,255,255,.08);
+}
+
+/* Toast variants */
+.toast.success { background: #064E3B; border-color: #10B981; }
+.toast.success .toast-icon { background: rgba(16,185,129,.22); color: #6EE7B7; font-weight: 800; }
+.toast.success .toast-close { color: #A7F3D0; }
+.toast.error { background: #7F1D1D; border-color: #F87171; }
+.toast.error .toast-icon { background: rgba(248,113,113,.22); color: #FCA5A5; font-weight: 800; }
+.toast.error .toast-close { color: #FECACA; }
+
+/* =========================================================
+   5. ACADEMIC PROFILE MODAL
+   ========================================================= */
+.modal-overlay {
+  position: fixed; inset: 0;
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px;
+  background: rgba(11,25,44,.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0; visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+
+.modal {
+  width: 100%; max-width: 480px;
+  max-height: calc(100vh - 36px);
+  max-height: calc(100dvh - 36px);
+  display: flex; flex-direction: column;
+  background: #FFFFFF;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(212,175,55,.55);
+  box-shadow: 0 24px 60px rgba(11,25,44,.45);
+  transform: translateY(28px) scale(.97);
+  transition: transform .35s cubic-bezier(.22,.9,.3,1);
+}
+.modal-overlay.open .modal { transform: none; }
+
+.modal-header {
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px var(--pad);
+  background: var(--navy-grad);
+  color: #FFFFFF;
+}
+.modal-header::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.modal-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.modal-title .mark { color: var(--gold); }
+.modal-close {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,.12);
+  color: #FFFFFF; font-size: 16px;
+  transition: background .15s ease, transform .15s ease;
+}
+.modal-close:active { transform: scale(.92); background: rgba(212,175,55,.3); }
+
+.modal-form { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.modal-body { padding: 20px var(--pad) 6px; overflow-y: auto; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
+
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-size: 13px; font-weight: 800; color: var(--navy-800);
+  margin-bottom: 7px;
+}
+.field input,
+.field select {
+  width: 100%;
+  height: 50px;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 15px; font-weight: 600;
+  color: var(--navy-900);
+  background: #FFFFFF;
+  border: 1.5px solid #D5DCE6;
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field select {
+  padding-left: 40px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1.5l6 6 6-6' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: left 15px center;
+}
+.field input:focus,
+.field select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(212,175,55,.22), 0 0 14px rgba(212,175,55,.25);
+}
+.field input:disabled,
+.field select:disabled { opacity: .6; cursor: not-allowed; }
+
+.modal-actions {
+  display: flex; gap: 10px;
+  padding: 10px var(--pad) calc(var(--pad) + 2px);
+}
+.modal-actions .cta-btn { margin-top: 0; flex: 1.6; }
+.cta-btn:disabled { opacity: .75; cursor: not-allowed; transform: none; }
+.ghost-btn {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 13px 14px;
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  border: 1.5px solid #D5DCE6;
+  color: var(--text-muted);
+  font-size: 14.5px; font-weight: 800;
+  transition: transform .15s ease, background .15s ease;
+}
+.ghost-btn:active { transform: scale(.98); background: #F3F5F9; }
+.ghost-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+body.modal-open { overflow: hidden; }
+
+/* =========================================================
+   6. SYNC FOOTER BAR
+   ========================================================= */
+.sync-bar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  z-index: 150;
+  height: calc(28px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: #0B192C;
+  border-top: 1px solid rgba(212,175,55,.35);
+  color: var(--gold-soft);
+  font-size: 11.5px; font-weight: 700;
+  letter-spacing: .2px;
+}
+.sync-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 0 0 rgba(34,197,94,.7), 0 0 8px rgba(34,197,94,.8);
+  animation: syncPulse 1.8s infinite;
+}
+.sync-bar.offline .sync-dot {
+  background: #EF4444;
+  box-shadow: 0 0 8px rgba(239,68,68,.8);
+  animation: none;
+}
+@keyframes syncPulse {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,.7), 0 0 8px rgba(34,197,94,.8); }
+  70% { box-shadow: 0 0 0 8px rgba(34,197,94,0), 0 0 8px rgba(34,197,94,.8); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0), 0 0 8px rgba(34,197,94,.8); }
 }
 
 /* Entrance animation */
@@ -466,10 +621,10 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     </button>
 
     <div class="id-main">
-      <div class="avatar" aria-hidden="true">ط</div>
+      <div class="avatar" id="studentAvatar" aria-hidden="true">ط</div>
       <div>
         <div class="student-name">
-          <span>طلال غالب محمد</span>
+          <span id="studentName">طلال غالب محمد</span>
           <svg class="verified" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="حساب موثّق">
             <circle cx="12" cy="12" r="11" fill="#0B192C"/>
             <circle cx="12" cy="12" r="10.2" fill="none" stroke="#D4AF37" stroke-width="1"/>
@@ -478,12 +633,12 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
             <line x1="19" y1="8.6" x2="19" y2="13" stroke="#D4AF37" stroke-width="1" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="student-college">كلية العلوم الإدارية والإنسانية • قسم المحاسبة</div>
+        <div class="student-college">كلية العلوم الإدارية والإنسانية • <span id="studentMajor">قسم المحاسبة</span></div>
       </div>
     </div>
 
     <div class="level-row">
-      <span class="level-pill">المستوى الأول</span>
+      <span class="level-pill" id="studentLevel">المستوى الأول</span>
       <span class="level-pct">25%</span>
     </div>
     <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" aria-label="التقدم الأكاديمي">
@@ -592,9 +747,58 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 </div>
 
+<!-- Academic Profile Modal -->
+<div class="modal-overlay" id="profileModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle"><span class="mark" aria-hidden="true">🎓</span><span>تحديث السجل الأكاديمي</span></div>
+      <button class="modal-close" type="button" id="modalClose" aria-label="إغلاق">✕</button>
+    </div>
+
+    <form class="modal-form" id="profileForm" novalidate onsubmit="return false;">
+      <div class="modal-body">
+        <div class="field">
+          <label for="fldName">الاسم الرباعي الكامل</label>
+          <input type="text" id="fldName" name="full_name" value="طلال غالب محمد" autocomplete="name" maxlength="80">
+        </div>
+
+        <div class="field">
+          <label for="fldMajor">التخصص الأكاديمي</label>
+          <select id="fldMajor" name="major">
+            <option value="قسم المحاسبة" selected>قسم المحاسبة</option>
+            <option value="قسم إدارة الأعمال">قسم إدارة الأعمال</option>
+            <option value="قسم إدارة الأعمال الدولية">قسم إدارة الأعمال الدولية</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fldLevel">المستوى الدراسي</label>
+          <select id="fldLevel" name="level">
+            <option value="المستوى الأول" selected>المستوى الأول</option>
+            <option value="المستوى الثاني">المستوى الثاني</option>
+            <option value="المستوى الثالث">المستوى الثالث</option>
+            <option value="المستوى الرابع">المستوى الرابع</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="cta-btn" type="button" id="saveBtn">حفظ واعتماد السجل</button>
+        <button class="ghost-btn" type="button" id="cancelBtn">تراجع</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Sync Footer Bar -->
+<div class="sync-bar" id="syncBar" role="status" aria-live="polite">
+  <span class="sync-dot" aria-hidden="true"></span>
+  <span id="syncText">متصل ببوابة سَنَد (n8n)</span>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast" role="status" aria-live="polite">
-  <div class="toast-icon" aria-hidden="true">🎓</div>
+  <div class="toast-icon" id="toastIcon" aria-hidden="true">🎓</div>
   <div class="toast-text" id="toastText"></div>
   <button class="toast-close" type="button" id="toastClose" aria-label="إغلاق">✕</button>
 </div>
@@ -628,8 +832,15 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   var toastTimer = null;
   var PENDING_MSG = 'أهلاً بك يا زميلنا.. يعكف الطاقم الأكاديمي حالياً على إعداد وتدقيق ملخصات هذا المقرر وفق خطة الكلية، وسيتم إشعارك فور اعتماده.';
 
-  function showToast(message, duration) {
+  var toastIcon = document.getElementById('toastIcon');
+  var TOAST_ICONS = { info: '🎓', success: '✓', error: '!' };
+
+  function showToast(message, duration, type) {
+    type = type || 'info';
+    toast.className = 'toast ' + type;
+    toastIcon.textContent = TOAST_ICONS[type] || TOAST_ICONS.info;
     toastText.textContent = message;
+    void toast.offsetWidth;
     toast.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(hideToast, duration || 5200);
@@ -672,10 +883,174 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   }
 
   /* ---------- Public handlers (provisional for next phases) ---------- */
+  /* =======================================================
+     PHASE 2 — Academic Data Engine & Cloud Connection
+     ======================================================= */
+  var API_URL = 'https://rahf-n8n.app.n8n.cloud/webhook/sanad-v1-api';
+  var REQUEST_TIMEOUT_MS = 15000;
+
+  var modal = document.getElementById('profileModal');
+  var form = document.getElementById('profileForm');
+  var fldName = document.getElementById('fldName');
+  var fldMajor = document.getElementById('fldMajor');
+  var fldLevel = document.getElementById('fldLevel');
+  var saveBtn = document.getElementById('saveBtn');
+  var cancelBtn = document.getElementById('cancelBtn');
+  var closeBtn = document.getElementById('modalClose');
+
+  var cardName = document.getElementById('studentName');
+  var cardMajor = document.getElementById('studentMajor');
+  var cardLevel = document.getElementById('studentLevel');
+  var cardAvatar = document.getElementById('studentAvatar');
+
+  var SAVE_LABEL = 'حفظ واعتماد السجل';
+  var SAVING_LABEL = 'جاري المزامنة... ⏳';
+  var isSaving = false;
+
+  var profile = {
+    full_name: cardName.textContent.trim(),
+    major: cardMajor.textContent.trim(),
+    level: cardLevel.textContent.trim()
+  };
+
+  function getInitData() {
+    try {
+      if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.initData === 'string') {
+        return window.Telegram.WebApp.initData;
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function setSaving(state) {
+    isSaving = state;
+    saveBtn.disabled = state;
+    cancelBtn.disabled = state;
+    closeBtn.disabled = state;
+    fldName.disabled = state;
+    fldMajor.disabled = state;
+    fldLevel.disabled = state;
+    saveBtn.textContent = state ? SAVING_LABEL : SAVE_LABEL;
+  }
+
+  function fillForm() {
+    fldName.value = profile.full_name;
+    fldMajor.value = profile.major;
+    fldLevel.value = profile.level;
+  }
+
+  function applyProfileToCard(data) {
+    cardName.textContent = data.full_name;
+    cardMajor.textContent = data.major;
+    cardLevel.textContent = data.level;
+    cardAvatar.textContent = data.full_name.charAt(0) || 'ط';
+  }
+
   window.openEditModal = function () {
     haptic('light');
-    showToast('نافذة تعديل البيانات الجامعية ستتوفر في المرحلة القادمة من التطوير.', 3800);
+    hideToast();
+    fillForm();
+    setSaving(false);
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    setTimeout(function () { try { fldName.focus(); } catch (e) {} }, 320);
   };
+
+  window.closeEditModal = function () {
+    if (isSaving) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  };
+
+  function runSave() {
+    if (isSaving) return;
+
+    var fullName = fldName.value.replace(/\s+/g, ' ').trim();
+    if (!fullName) {
+      haptic('warn');
+      showToast('يرجى إدخال الاسم الرباعي الكامل قبل الحفظ.', 4200, 'error');
+      fldName.focus();
+      return;
+    }
+
+    var payload = {
+      action: 'update-profile',
+      full_name: fullName,
+      major: fldMajor.value,
+      level: fldLevel.value
+    };
+
+    setSaving(true);
+
+    var controller = ('AbortController' in window) ? new AbortController() : null;
+    var timeoutId = controller ? setTimeout(function () { controller.abort(); }, REQUEST_TIMEOUT_MS) : null;
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Telegram-Init-Data': getInitData()
+      },
+      body: JSON.stringify(payload),
+      signal: controller ? controller.signal : undefined
+    })
+    .then(function (response) {
+      if (!response.ok) { throw new Error('HTTP ' + response.status); }
+      profile = { full_name: payload.full_name, major: payload.major, level: payload.level };
+      applyProfileToCard(profile);
+      setSaving(false);
+      closeEditModal();
+      try { if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); } catch (e) {}
+      showToast('تم تحديث سجلك الأكاديمي بنجاح ✓', 4200, 'success');
+    })
+    .catch(function () {
+      haptic('warn');
+      showToast('عذراً، فشل الاتصال بخوادم سَنَد. يرجى المحاولة لاحقاً.', 5200, 'error');
+    })
+    .then(function () {
+      if (timeoutId) clearTimeout(timeoutId);
+      setSaving(false);
+    });
+  }
+
+  window.saveAcademicProfile = function () {
+    try {
+      runSave();
+    } catch (err) {
+      setSaving(false);
+      haptic('warn');
+      showToast('عذراً، فشل الاتصال بخوادم سَنَد. يرجى المحاولة لاحقاً.', 5200, 'error');
+    }
+  };
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+  saveBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    window.saveAcademicProfile();
+  });
+  fldName.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); window.saveAcademicProfile(); }
+  });
+  cancelBtn.addEventListener('click', function () { closeEditModal(); });
+  closeBtn.addEventListener('click', function () { closeEditModal(); });
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeEditModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeEditModal();
+  });
+
+  /* ---------- Sync footer: live connectivity state ---------- */
+  var syncBar = document.getElementById('syncBar');
+  var syncText = document.getElementById('syncText');
+  function updateSyncState() {
+    var online = navigator.onLine !== false;
+    syncBar.classList.toggle('offline', !online);
+    syncText.textContent = online ? 'متصل ببوابة سَنَد (n8n)' : 'غير متصل بالشبكة';
+  }
+  window.addEventListener('online', updateSyncState);
+  window.addEventListener('offline', updateSyncState);
+  updateSyncState();
 
   window.enterLectureStudio = function (courseCode) {
     haptic('light');
