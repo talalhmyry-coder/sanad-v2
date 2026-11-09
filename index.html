@@ -7,11 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ===== لوحة الألوان المعتمدة فقط ===== */
+  /* ===== لوحة الألوان المعتمدة ===== */
   :root{
     --navy:#0B192C;      /* الكحلي الملكي */
     --emerald:#0D9488;   /* الأخضر الزمردي */
     --gold:#D4AF37;      /* الذهبي */
+    --silver:#C0C0C0;    /* الفضي (الشعار اللفظي) */
     --bg:#F5F6F8;        /* خلفية Off-white */
     --surface:#FFFFFF;
     --line:#E1E5EA;      /* رمادي فاتح */
@@ -21,33 +22,37 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;line-height:1.75}
-  button,input{font-family:inherit;color:inherit}
+  button,input,select{font-family:inherit;color:inherit}
   [hidden]{display:none!important}
 
   /* ===== الهيدر ===== */
-  header{background:var(--navy);padding:30px 16px 36px;text-align:center;border-bottom:4px solid var(--gold)}
-  .logo-frame {
-    width: 130px;
-    height: 130px;
-    margin: -15px auto 15px auto;
-    border-radius: 50%;
-    border: 2px solid #D4AF37;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-    background: #fff;
+  header{
+    background:var(--navy);padding:30px 16px 36px;border-bottom:4px solid var(--gold);
+    display:flex;flex-direction:column;align-items:center;text-align:center;
   }
-  .logo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+  .logo-frame{
+    width:130px;
+    height:130px;
+    margin:10px auto 15px auto;
+    border-radius:50%;
+    border:2px solid #D4AF37;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 15px rgba(212,175,55,.3);
+    background:#fff;
   }
-  .slogan{font-family:'Tajawal','Cairo',system-ui,sans-serif;color:#D4AF37;font-size:15px;font-weight:500;text-align:center;margin:8px 0 10px}
-  header h1{font-family:'Montserrat','Tajawal',sans-serif;direction:ltr;color:#fff;font-size:2.3rem;font-weight:700;letter-spacing:.4em;padding-inline-start:.4em;line-height:1.2}
-  header .uni{color:var(--gold);font-size:1.02rem;font-weight:700;margin-top:6px}
-  header .faculty{display:inline-block;margin-top:10px;padding:5px 20px;border:1.5px solid var(--gold);border-radius:999px;color:#fff;font-size:.95rem;font-weight:500;background:rgba(212,175,55,.12)}
+  .logo{
+    width:100%;
+    height:100%;
+    max-width:100%;
+    object-fit:contain;
+  }
+  header .uni{width:100%;text-align:center;color:var(--gold);font-size:1.02rem;font-weight:700;margin-top:6px}
+  header h1{width:100%;text-align:center;font-family:'Montserrat','Tajawal',sans-serif;direction:ltr;color:#fff;font-size:2.3rem;font-weight:700;letter-spacing:.4em;padding-inline-start:.4em;line-height:1.2}
+  .slogan{width:100%;font-family:'Tajawal','Cairo',system-ui,sans-serif;color:var(--silver);font-size:15px;font-weight:500;text-align:center;margin:8px 0 10px}
+  header .faculty{width:100%;text-align:center;display:inline-block;margin-top:4px;padding:5px 20px;border:1.5px solid var(--gold);border-radius:999px;color:#fff;font-size:.95rem;font-weight:500;background:rgba(212,175,55,.12)}
   header .rule{width:90px;height:2px;background:var(--gold);margin:10px auto 0;border-radius:2px}
 
   main{max-width:780px;margin:0 auto;padding:22px 14px 48px}
@@ -56,32 +61,6 @@
   .card h2::before{content:"";width:5px;height:20px;border-radius:3px;background:var(--gold)}
   .card h2.center{justify-content:center;text-align:center;width:100%}
   .card h2.center::after{content:"";width:5px;height:20px;border-radius:3px;background:var(--gold)}
-
-  /* قوائم منسدلة بشكل Pill */
-  select{width:100%;appearance:none;-webkit-appearance:none;padding:12px 18px 12px 42px;border:1.5px solid var(--line);border-radius:999px;font-size:1rem;font-family:inherit;color:var(--navy);cursor:pointer;
-    background:var(--bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' fill='none' stroke='%230B192C' stroke-width='2' stroke-linecap='round'/></svg>") no-repeat left 18px center;transition:border .2s,box-shadow .2s}
-  select:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(13,148,136,.2)}
-  .opt-tag{font-weight:400;opacity:.65;font-size:.8rem}
-
-  /* ===== صفحة الدروس النشطة (Grid) ===== */
-  .hero{background:var(--navy);border-bottom:4px solid var(--gold);border-radius:var(--radius);padding:26px 20px;text-align:center;margin-bottom:18px;box-shadow:0 6px 22px rgba(11,25,44,.12)}
-  .hero .ico{font-size:2.4rem}
-  .hero h2{color:#fff;font-size:1.35rem;font-weight:800;margin:4px 0}
-  .hero p{color:var(--gold);font-size:.95rem}
-  .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-  .lcard{position:relative;display:flex;flex-direction:column;gap:6px;text-align:right;min-height:150px;background:var(--surface);border:1.5px solid var(--line);border-top:4px solid var(--gold);border-radius:var(--radius);padding:16px;cursor:pointer;box-shadow:0 4px 14px rgba(11,25,44,.06);transition:transform .2s,box-shadow .2s,border-color .2s}
-  .lcard:hover{transform:translateY(-4px);border-color:var(--emerald);box-shadow:0 12px 26px rgba(11,25,44,.14)}
-  .lcard .n{width:38px;height:38px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800}
-  .lcard .t{font-weight:700;font-size:1.02rem}
-  .lcard .s{font-size:.84rem;opacity:.7}
-  .lcard .go{margin-top:auto;color:var(--emerald);font-weight:700;font-size:.88rem}
-  .ghost{pointer-events:none;border-style:dashed;border-top-style:dashed;border-top-color:var(--line);box-shadow:none;min-height:130px;gap:10px}
-  .ghost i{display:block;height:12px;border-radius:999px;background:var(--soft);animation:pulse 1.6s ease-in-out infinite}
-  .ghost i.c{width:38px;height:38px;border-radius:50%}
-  .ghost i.l{width:85%}
-  .ghost i.m{width:55%}
-  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
-  .lempty{margin-bottom:16px}
 
   /* ===== الأزرار (Pill) ===== */
   .pill{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:2px solid var(--navy);background:var(--navy);color:#fff;border-radius:999px;padding:13px 24px;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s,color .2s}
@@ -100,8 +79,12 @@
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   @media(max-width:560px){.grid{grid-template-columns:1fr}}
   label{display:block;font-size:.85rem;margin-bottom:4px;font-weight:500}
+  .opt-tag{font-weight:400;opacity:.65;font-size:.8rem}
   input[type=text]{width:100%;padding:12px 16px;border:1.5px solid var(--line);border-radius:999px;font-size:1rem;background:var(--bg);transition:border .2s,box-shadow .2s}
   input[type=text]:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(13,148,136,.2)}
+  select{width:100%;appearance:none;-webkit-appearance:none;padding:12px 18px 12px 42px;border:1.5px solid var(--line);border-radius:999px;font-size:1rem;color:var(--navy);cursor:pointer;
+    background:var(--bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' fill='none' stroke='%230B192C' stroke-width='2' stroke-linecap='round'/></svg>") no-repeat left 18px center;transition:border .2s,box-shadow .2s}
+  select:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(13,148,136,.2)}
   .msg{margin-top:12px;padding:12px 18px;border-radius:999px;font-weight:700;text-align:center}
   .msg.ok{background:var(--emerald);color:#fff}
   .msg.err{background:var(--surface);border:2px solid var(--wrong);color:var(--wrong)}
@@ -127,13 +110,28 @@
   .smart{text-align:center;padding:34px 18px;border:2px dashed var(--gold);border-radius:var(--radius);background:var(--bg)}
   .smart .ico{font-size:2.3rem}
   .smart p{font-weight:500;font-size:1.05rem;line-height:1.9}
+  .lempty{margin-bottom:16px}
 
-  .lesson-row{display:flex;align-items:center;gap:12px;width:100%;text-align:right;border:1.5px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border .2s,transform .15s}
-  .lesson-row:hover{border-color:var(--gold);transform:translateY(-1px)}
-  .num{flex:none;width:38px;height:38px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800}
-  .lesson-row .t{font-weight:700}
-  .lesson-row .s{font-size:.84rem;opacity:.7}
+  /* ===== صفحة الدروس النشطة (Grid) ===== */
+  .hero{background:var(--navy);border-bottom:4px solid var(--gold);border-radius:var(--radius);padding:26px 20px;text-align:center;margin-bottom:18px;box-shadow:0 6px 22px rgba(11,25,44,.12)}
+  .hero .ico{font-size:2.4rem}
+  .hero h2{color:#fff;font-size:1.35rem;font-weight:800;margin:4px 0}
+  .hero p{color:var(--gold);font-size:.95rem}
+  .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+  .lcard{position:relative;display:flex;flex-direction:column;gap:6px;text-align:right;min-height:150px;background:var(--surface);border:1.5px solid var(--line);border-top:4px solid var(--gold);border-radius:var(--radius);padding:16px;cursor:pointer;box-shadow:0 4px 14px rgba(11,25,44,.06);transition:transform .2s,box-shadow .2s,border-color .2s}
+  .lcard:hover{transform:translateY(-4px);border-color:var(--emerald);box-shadow:0 12px 26px rgba(11,25,44,.14)}
+  .lcard .n{width:38px;height:38px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800}
+  .lcard .t{font-weight:700;font-size:1.02rem}
+  .lcard .s{font-size:.84rem;opacity:.7}
+  .lcard .go{margin-top:auto;color:var(--emerald);font-weight:700;font-size:.88rem}
+  .ghost{pointer-events:none;border-style:dashed;border-top-color:var(--line);box-shadow:none;min-height:130px;gap:10px}
+  .ghost i{display:block;height:12px;border-radius:999px;background:var(--soft);animation:pulse 1.6s ease-in-out infinite}
+  .ghost i.c{width:38px;height:38px;border-radius:50%}
+  .ghost i.l{width:85%}
+  .ghost i.m{width:55%}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
 
+  /* ===== صفحة الدرس ===== */
   .derivs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 4px}
   .deriv{border:2px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:18px 10px;cursor:pointer;font-weight:700;font-size:1rem;text-align:center;transition:all .2s}
   .deriv .i{display:block;font-size:1.6rem;margin-bottom:2px}
@@ -174,44 +172,13 @@
   .score{font-size:2.6rem;font-weight:800;direction:ltr}
   .result p{font-size:1.05rem;font-weight:500;margin:10px 0 16px;line-height:1.9}
   footer{text-align:center;font-size:.82rem;opacity:.7;padding-bottom:26px}
-
-  /* --- الضربة القاضية من المايسترو لإصلاح الهيدر بالقوة الجبرية --- */
-  header {
-    text-align: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-  .logo-frame {
-    width: 130px !important;
-    height: 130px !important;
-    margin: 10px auto 15px auto !important;
-    border-radius: 50% !important;
-    overflow: hidden !important;
-    border: 2px solid #D4AF37 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
-  }
-  .logo {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important;
-    max-width: 100% !important;
-  }
-  h1, .uni, .faculty {
-    text-align: center !important;
-    width: 100% !important;
-  }
-  /* -------------------------------------------------------- */
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo-frame">
-    <img class="logo" src="logo.jpg" alt="شعار جامعة العلوم والتكنولوجيا">
+    <img class="logo" src="logo.jpg" alt="شعار منصة سند">
   </div>
   <div class="uni">جامعة العلوم والتكنولوجيا</div>
   <h1>SANAD</h1>
@@ -278,15 +245,15 @@
 <footer>سَنَد 2.0 · جامعة العلوم والتكنولوجيا</footer>
 
 <script>
-/* ===== الإعدادات: عدّل BASE_URL إلى رابط n8n الفعلي ===== */
-const CONFIG = { BASE_URL: "https://YOUR-N8N-DOMAIN/webhook", REGISTER_PATH: "/register-student" };
+/* ===== عنوان بوابة سَنَد (الإنتاج) ===== */
+const BASE_URL = "https://rahf-n8n.app.n8n.cloud/webhook/sanad-v1-api";
 
 /* ===== تحويل الأسماء الصريحة إلى الرموز المعتمدة في الخادم =====
    الطالب يرى الأسماء فقط؛ القيمة الداخلية لكل خيار هي الرمز المرسَل للخادم. */
 const PROGRAMS = [
   { name: "المحاسبة", code: "ACC" },
   { name: "إدارة الأعمال", code: "BA" },
-  { name: "إدارة الأعمال الدولية", code: "IBA" }   // تحقق من الرمز المعتمد في الخادم
+  { name: "إدارة الأعمال الدولية", code: "IBA" }
 ];
 const LEVELS = [
   { name: "المستوى الأول", code: "L1" },
@@ -294,17 +261,18 @@ const LEVELS = [
   { name: "المستوى الثالث", code: "L3" },
   { name: "المستوى الرابع", code: "L4" }
 ];
-function fillSelect(id, placeholder, items){
-  const s = document.getElementById(id);
-  const ph = document.createElement("option"); ph.value = ""; ph.textContent = placeholder; ph.disabled = true; ph.selected = true;
-  s.appendChild(ph);
-  items.forEach(i => { const o = document.createElement("option"); o.value = i.code; o.textContent = i.name; s.appendChild(o); });
-}
-fillSelect("program_code", "اختر التخصص الأكاديمي", PROGRAMS);
-fillSelect("level_code", "اختر المستوى الدراسي", LEVELS);
 const KEY_PROFILE = "sanad_profile_v2", KEY_DATA = "sanad_data_v2";
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+function fillSelect(id, placeholder, items){
+  const s = $(id);
+  const ph = el("option", "", placeholder); ph.value = ""; ph.disabled = true; ph.selected = true;
+  s.appendChild(ph);
+  items.forEach(i => { const o = el("option", "", i.name); o.value = i.code; s.appendChild(o); });
+}
+fillSelect("program_code", "اختر التخصص الأكاديمي", PROGRAMS);
+fillSelect("level_code", "اختر المستوى الدراسي", LEVELS);
 
 let data = { s1: [], s2: [], lessons: [] };
 let openSem = null;
@@ -501,7 +469,7 @@ function startQuiz(v, L){
   show();
 }
 
-/* ---------- الملف الشخصي والمزامنة ---------- */
+/* ---------- الملف الشخصي والمزامنة مع الخادم ---------- */
 const form = $("profile-form"), msg = $("profile-msg");
 let msgTimer = null;
 function flash(text, type, ms){
@@ -525,7 +493,7 @@ form.addEventListener("submit", async (e) => {
   if (!payload.program_code || !payload.level_code){ flash("يرجى اختيار التخصص الأكاديمي والمستوى الدراسي.", "err"); return; }
   const btn = $("save-btn"); btn.disabled = true; btn.textContent = "جاري الحفظ...";
   try{
-    const r = await fetch(CONFIG.BASE_URL + CONFIG.REGISTER_PATH, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const r = await fetch(BASE_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     if (!r.ok) throw new Error("HTTP " + r.status);
     const res = await r.json();
     try{ localStorage.setItem(KEY_PROFILE, JSON.stringify(payload)); localStorage.setItem(KEY_DATA, JSON.stringify(res)); }catch(_){}
