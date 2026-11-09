@@ -26,8 +26,24 @@
 
   /* ===== الهيدر ===== */
   header{background:var(--navy);padding:30px 16px 36px;text-align:center;border-bottom:4px solid var(--gold)}
-  .logo-frame{width:140px;height:140px;margin:0 auto 14px;border-radius:50%;padding:5px;background:var(--gold);box-shadow:0 0 0 7px rgba(212,175,55,.22),0 14px 30px rgba(0,0,0,.45)}
-  .logo{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;border:4px solid var(--navy);background:var(--navy)}
+  .logo-frame {
+    width: 130px;
+    height: 130px;
+    margin: -15px auto 15px auto;
+    border-radius: 50%;
+    border: 2px solid #D4AF37;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    background: #fff;
+  }
+  .logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
   header h1{font-family:'Montserrat','Tajawal',sans-serif;direction:ltr;color:#fff;font-size:2.3rem;font-weight:700;letter-spacing:.4em;padding-inline-start:.4em;line-height:1.2}
   header .uni{color:var(--gold);font-size:1.02rem;font-weight:700;margin-top:6px}
   header .faculty{display:inline-block;margin-top:10px;padding:5px 20px;border:1.5px solid var(--gold);border-radius:999px;color:#fff;font-size:.95rem;font-weight:500;background:rgba(212,175,55,.12)}
@@ -161,7 +177,10 @@
 </head>
 <body>
 
-<img class="logo" src="logo.jpg" alt="شعار جامعة العلوم والتكنولوجيا">
+<header>
+  <div class="logo-frame">
+    <img class="logo" src="logo.jpg" alt="شعار جامعة العلوم والتكنولوجيا">
+  </div>
   <h1>SANAD</h1>
   <div class="uni">جامعة العلوم والتكنولوجيا</div>
   <div class="faculty">كلية العلوم الإدارية والإنسانية</div>
