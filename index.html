@@ -169,6 +169,57 @@
   .art blockquote{border-inline-start:3px solid var(--gold);padding:2px 12px;margin:8px 0;opacity:.9}
   .expl{margin-top:12px;padding:10px 14px;border-radius:14px;background:var(--surface);border:1px dashed var(--emerald);font-size:.92rem}
   .rawtxt{white-space:pre-wrap}
+  .grp{font-size:1rem;font-weight:800;margin:18px 4px 10px;display:flex;align-items:center;gap:8px}
+  .grp::before{content:"";width:5px;height:18px;border-radius:3px;background:var(--gold)}
+  .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  .ccard{display:flex;flex-direction:column;gap:6px;text-align:right;width:100%;background:var(--surface);border:1.5px solid var(--line);border-inline-start:5px solid var(--gold);border-radius:var(--radius);padding:14px 16px;cursor:pointer;box-shadow:0 4px 14px rgba(11,25,44,.06);transition:transform .2s,box-shadow .2s,border-color .2s}
+  .ccard:hover{transform:translateY(-2px);border-color:var(--emerald);box-shadow:0 12px 26px rgba(11,25,44,.14)}
+  .ccard .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .ccard .t{font-weight:700;font-size:1.02rem}
+  .ccard .s{font-size:.84rem;opacity:.75}
+  .ccard.zero{opacity:.7}
+  .lectures{display:flex;flex-direction:column;gap:10px}
+  .unit{font-weight:800;font-size:.92rem;margin:10px 4px 0;color:var(--emerald)}
+  .lrow{display:flex;align-items:center;gap:12px;text-align:right;width:100%;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 14px;cursor:pointer;transition:transform .15s,border-color .2s,box-shadow .2s}
+  .lrow:hover{border-color:var(--emerald);box-shadow:0 8px 20px rgba(11,25,44,.1);transform:translateY(-1px)}
+  .lrow .n{flex:none;width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:.92rem}
+  .lrow .t{flex:1;font-weight:700}
+  .lrow .go{flex:none;color:var(--emerald);font-weight:700;font-size:.85rem}
+
+  .media-frame{margin:14px 0 4px;border:2px dashed var(--gold);border-radius:var(--radius);padding:10px 12px 12px;background:rgba(212,175,55,.07)}
+  .media-cap{text-align:center;font-weight:800;font-size:.9rem;margin-bottom:8px}
+  .media-frame .derivs{margin:0}
+  .box.media{padding:10px}
+  .mframe{display:block;width:100%;border:0;border-radius:14px;aspect-ratio:16/9;background:#000}
+  .mframe.audio{aspect-ratio:auto;height:150px;background:var(--bg)}
+  .box video,.box audio{width:100%;border-radius:14px}
+  .mlink{margin-top:10px}
+
+  body.noscroll{overflow:hidden}
+  .fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:8px;border:2px solid var(--gold);background:var(--navy);color:#fff;border-radius:999px;padding:12px 18px;font-weight:800;font-size:.98rem;cursor:pointer;box-shadow:0 10px 24px rgba(11,25,44,.35);transition:transform .15s}
+  .fab:active{transform:scale(.96)}
+  .fab .e{font-size:1.25rem}
+  .backdrop{position:fixed;inset:0;background:rgba(11,25,44,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
+  .backdrop.open{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:780px;height:82vh;display:flex;flex-direction:column;background:var(--surface);border-top:4px solid var(--gold);border-radius:24px 24px 0 0;box-shadow:0 -12px 34px rgba(11,25,44,.25);transform:translateY(105%);visibility:hidden;transition:transform .3s ease,visibility 0s .3s;z-index:60}
+  .sheet.open{transform:none;visibility:visible;transition:transform .3s ease}
+  .sheet-head{padding:8px 16px 10px;border-bottom:1px solid var(--line)}
+  .grab{width:44px;height:5px;border-radius:999px;background:var(--line);margin:0 auto 8px}
+  .sh-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .sh-row strong{font-size:1.02rem}
+  .x{flex:none;border:none;background:var(--soft);width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer}
+  #mentor-lesson{display:block;font-size:.82rem;opacity:.7;margin-top:2px}
+  .chat{flex:1;overflow-y:auto;padding:14px 14px 6px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch}
+  .bub{max-width:88%;padding:10px 14px;border-radius:18px;line-height:1.8;font-size:.97rem;word-break:break-word}
+  .bub.u{align-self:flex-start;background:var(--navy);color:#fff;border-bottom-right-radius:6px}
+  .bub.b{align-self:flex-end;background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:6px}
+  .bub.err{align-self:flex-end;background:var(--surface);border:2px solid var(--wrong);color:var(--wrong)}
+  .typing{align-self:flex-end;font-size:.88rem;opacity:.7}
+  .chat-hint{text-align:center;font-size:.9rem;opacity:.75;padding:8px 6px}
+  .remain{text-align:center;font-size:.78rem;opacity:.65;padding:2px 0 6px}
+  .chat-input{display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--surface)}
+  .chat-input input{flex:1;min-width:0}
+  .chat-input .pill{flex:none}
   footer{text-align:center;font-size:.82rem;opacity:.7;padding-bottom:26px}
 </style>
 </head>
@@ -210,21 +261,31 @@
       <div id="sem-panel" class="sem-panel" hidden></div>
     </div>
 
-    <button type="button" class="pill gold big" id="tree-btn">📚 شجرة المقررات الدراسية النشطة</button>
+    <button type="button" class="pill gold big" id="tree-btn">📚 شجرة المحاضرات النشطة</button>
   </section>
 
-  <section id="s-lessons" class="screen">
+  <section id="s-courses" class="screen">
     <button type="button" class="pill outline small back" data-go="home">→ رجوع</button>
     <div class="hero">
-      <div class="ico">📚</div>
-      <h2>شجرة المقررات الدراسية النشطة</h2>
-      <p>دروس مستواك الدراسي في مكان واحد</p>
+      <div class="ico">🌳</div>
+      <h2>شجرة المحاضرات النشطة</h2>
+      <p>اختر المقرر لعرض محاضراته النشطة</p>
     </div>
-    <div id="lessons"></div>
+    <div id="course-tree"></div>
+  </section>
+
+  <section id="s-course" class="screen">
+    <button type="button" class="pill outline small back" data-go="courses">→ رجوع للمقررات</button>
+    <div class="hero">
+      <div class="ico">📚</div>
+      <h2 id="course-title"></h2>
+      <p id="course-sub"></p>
+    </div>
+    <div id="lecture-list" class="lectures"></div>
   </section>
 
   <section id="s-lesson" class="screen">
-    <button type="button" class="pill outline small back" data-go="lessons">→ رجوع للدروس</button>
+    <button type="button" class="pill outline small back" data-go="course">→ رجوع للمحاضرات</button>
     <div class="card">
       <h2 id="lesson-title"></h2>
       <div class="derivs">
@@ -233,11 +294,35 @@
         <button type="button" class="deriv" data-d="cards"><span class="i">🗂️</span>البطاقات</button>
         <button type="button" class="deriv" data-d="quiz"><span class="i">🎯</span>الكويز</button>
       </div>
+      <div class="media-frame">
+        <div class="media-cap">✨ الوسائط الإثرائية</div>
+        <div class="derivs">
+          <button type="button" class="deriv" data-d="video"><span class="i">🎬</span>الفيديو التلخيصي</button>
+          <button type="button" class="deriv" data-d="podcast"><span class="i">🎧</span>البودكاست الصوتي</button>
+        </div>
+      </div>
       <div id="deriv-view"></div>
     </div>
   </section>
 </main>
 <footer>سَنَد 2.0 · جامعة العلوم والتكنولوجيا</footer>
+
+<!-- دكتور سَنَد: زر عائم + نافذة محادثة منزلقة -->
+<button type="button" class="fab" id="mentor-fab" hidden aria-label="فتح محادثة دكتور سَنَد"><span class="e">🎓</span><span>دكتور سَنَد</span></button>
+<div class="backdrop" id="mentor-backdrop"></div>
+<section class="sheet" id="mentor-sheet" role="dialog" aria-modal="true" aria-labelledby="mentor-title">
+  <div class="sheet-head">
+    <div class="grab"></div>
+    <div class="sh-row"><strong id="mentor-title">🎓 دكتور سَنَد · المرشد الأكاديمي</strong><button type="button" class="x" id="mentor-close" aria-label="إغلاق">✕</button></div>
+    <small id="mentor-lesson"></small>
+  </div>
+  <div class="chat" id="mentor-log" aria-live="polite"></div>
+  <div class="remain" id="mentor-remain" hidden></div>
+  <form class="chat-input" id="mentor-form" novalidate>
+    <input type="text" id="mentor-q" maxlength="400" placeholder="اكتب سؤالك عن هذه المحاضرة…" autocomplete="off">
+    <button type="submit" class="pill emerald small" id="mentor-send">إرسال</button>
+  </form>
+</section>
 
 <script>
 const BASE_URL = "https://rahf-n8n.app.n8n.cloud/webhook/sanad-v1-api";
@@ -255,7 +340,7 @@ const LEVELS = [
   { name: "المستوى الثالث", code: "L3" },
   { name: "المستوى الرابع", code: "L4" }
 ];
-const KEY_PROFILE = "sanad_profile_v3", KEY_DATA = "sanad_data_v4";
+const KEY_PROFILE = "sanad_profile_v3", KEY_DATA = "sanad_data_v5";
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
@@ -267,10 +352,10 @@ const OUTSIDE_TG_MSG = "تعمل منصة سَنَد من داخل تطبيق ت
 let registered = false;
 
 /* ---------- API (طلب بسيط بلا preflight) ---------- */
-async function api(action, extra){
+async function api(action, extra, timeoutMs){
   if (!initData){ const e = new Error("NO_TELEGRAM"); e.code = "NO_TELEGRAM"; throw e; }
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), API_TIMEOUT_MS);
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs || API_TIMEOUT_MS);
   try{
     const params = new URLSearchParams();
     params.set("action", action);
@@ -295,7 +380,7 @@ async function api(action, extra){
 }
 function errText(err){
   if (err && err.code === "NO_TELEGRAM") return OUTSIDE_TG_MSG;
-  if (err && err.name === "AbortError") return "انتهت مهلة الاتصال (15 ثانية). تحقق من الشبكة وأعد المحاولة.";
+  if (err && err.name === "AbortError") return "انتهت مهلة الاتصال. تحقق من الشبكة وأعد المحاولة.";
   if (err && err.server) return err.message;
   if (err instanceof TypeError) return "تعذّر الاتصال بالخادم. تحقق من الشبكة وأعد المحاولة.";
   return "تعذّر إتمام العملية: " + ((err && err.message) || "خطأ غير معروف");
@@ -311,14 +396,14 @@ function fillSelect(id, placeholder, items){
 fillSelect("program_code", "اختر التخصص الأكاديمي", PROGRAMS);
 fillSelect("level_code", "اختر المستوى الدراسي", LEVELS);
 
-let data = { s1: [], s2: [], lessons: [] };
+let data = { s1: [], s2: [], lessons: [], courses: [] };
 let openSem = null;
 
 /* ---------- تحليل رد n8n ---------- */
 const arr = (v) => Array.isArray(v) ? v : (v && typeof v === "object" ? Object.values(v) : []);
 
 // المقررات تُبنى من courses (كل مقررات التخصص والمستوى حسب term_code: T1 / T2)،
-// والدروس من active_curriculum (الدروس النشطة فقط). كلاهما يأتيان في ردّ init-session و register-student و update-profile.
+// والمحاضرات من active_curriculum (المحاضرات النشطة فقط). كلاهما يأتيان في ردّ init-session و register-student و update-profile.
 const termKey = (v) => {
   const t = String(v || "").trim().toLowerCase();
   if (/^(t|s|sem|term)?[\s_-]*0?1$|first|1st|أول|اول/.test(t)) return 1;
@@ -333,7 +418,7 @@ function parseSession(res, filter){
     (!r.level_code || String(r.level_code).trim() === filter.level)
   );
   const norm = (r) => Object.assign({}, r, {
-    title: r.lesson_title || r.title || r.lesson_code || "درس",
+    title: r.lesson_title || r.title || r.lesson_code || "محاضرة",
     course_name: r.course_name || r.course_code || ""
   });
   const all = rows("lessons").length ? rows("lessons") : [...rows("first_semester"), ...rows("second_semester"), ...rows("unassigned_semester")];
@@ -343,22 +428,26 @@ function parseSession(res, filter){
     if (seen.has(k)) return false;
     seen.add(k); return true;
   });
-  const sems = { 1: new Map(), 2: new Map() };
-  const termByCourse = new Map();
-  const add = (n, c) => {
+  // ترتيب اختياري: إن وُجد عمود ترتيب رقمي في كل الصفوف نستخدمه، وإلا يبقى ترتيب الشيت كما هو
+  const ORDER_KEYS = ["lesson_order", "order", "sort_order", "display_order", "seq", "lesson_no"];
+  const ok = lessons.length ? ORDER_KEYS.find(k => lessons.every(r => r[k] !== undefined && r[k] !== "" && Number.isFinite(Number(r[k])))) : null;
+  if (ok) lessons.sort((a, b) => Number(a[ok]) - Number(b[ok]));
+
+  // المقررات: من courses (كل مقررات التخصص والمستوى) + أي مقرر له محاضرات نشطة
+  const cmap = new Map();
+  const addC = (c, term) => {
     const k = c.course_code || c.course_name;
-    if (k && !sems[n].has(k)) sems[n].set(k, { course_name: c.course_name || c.course_code || "", course_code: c.course_code || "" });
+    if (!k) return;
+    const ex = cmap.get(k);
+    if (!ex) cmap.set(k, { course_code: c.course_code || "", course_name: c.course_name || c.course_code || "", term: term || 0 });
+    else if (!ex.term && term) ex.term = term;
   };
-  arr(res && res.courses).filter(c => c && typeof c === "object").forEach(c => {
-    const n = termKey(c.term_code);
-    if (n){ add(n, c); if (c.course_code) termByCourse.set(c.course_code, n); }
-  });
-  lessons.forEach(r => {
-    const n = termKey(r.term_code) || termByCourse.get(r.course_code) || 0;
-    if (n) add(n, r);
-  });
-  return { s1: [...sems[1].values()], s2: [...sems[2].values()], lessons };
+  arr(res && res.courses).filter(c => c && typeof c === "object").forEach(c => addC(c, termKey(c.term_code)));
+  lessons.forEach(r => addC(r, termKey(r.term_code)));
+  const courses = [...cmap.values()];
+  return { s1: courses.filter(c => c.term === 1), s2: courses.filter(c => c.term === 2), lessons, courses };
 }
+
 const cName = (c) => typeof c === "string" ? c : (c.name || c.course_name || c.title || c.name_ar || "مقرر");
 const cCode = (c) => typeof c === "string" ? "" : (c.code || c.course_code || "");
 
@@ -385,36 +474,86 @@ function drawPanel(){
 
 function go(name){
   document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === "s-" + name));
+  syncFab(name);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => go(b.dataset.go)));
 
-let currentLesson = null;
-function renderLessons(){
-  const box = $("lessons"); box.replaceChildren();
-  const grid = el("div", "lgrid");
-  if (!data.lessons.length){
-    const m = el("div", "smart lempty");
-    m.append(el("div", "ico", "⏳"), el("p", "", "جاري العمل من قبل الطاقم الأكاديمي في سَنَد على تجهيز دروس ومقررات مستواك. سيتم إشعارك فور توفرها."));
-    box.appendChild(m);
-    for (let k = 0; k < 6; k++){
-      const g = el("div", "lcard ghost"); g.setAttribute("aria-hidden", "true");
-      g.append(el("i", "c"), el("i", "l"), el("i", "m")); grid.appendChild(g);
-    }
-    box.appendChild(grid); return;
-  }
-  data.lessons.forEach((l, i) => {
-    const L = typeof l === "string" ? { title: l } : l;
-    const b = el("button", "lcard"); b.type = "button";
-    b.append(el("span", "n", i + 1), el("div", "t", L.title || L.name || L.lesson_name || "درس"));
-    if (L.course_name || L.course) b.appendChild(el("div", "s", L.course_name || L.course));
-    b.appendChild(el("div", "go", "فتح الدرس ←"));
-    b.addEventListener("click", () => openLesson(L));
-    grid.appendChild(b);
-  });
-  box.appendChild(grid);
+let currentLesson = null, currentCourse = null;
+const lessonsOf = (c) => data.lessons.filter(l => c.course_code ? l.course_code === c.course_code : l.course_name === c.course_name);
+const TERM_LABEL = { 1: "الفصل الدراسي الأول", 2: "الفصل الدراسي الثاني", 0: "مقررات أخرى" };
+function arCount(n){
+  if (n === 1) return "محاضرة واحدة نشطة";
+  if (n === 2) return "محاضرتان نشطتان";
+  if (n >= 3 && n <= 10) return n + " محاضرات نشطة";
+  return n + " محاضرة نشطة";
 }
-$("tree-btn").addEventListener("click", () => { renderLessons(); go("lessons"); });
+const activeScreen = () => { const s = document.querySelector(".screen.active"); return s ? s.id.replace("s-", "") : ""; };
+
+/* شجرة المحاضرات: (1) اختيار المقرر ← (2) صفحة المقرر بكل محاضراته النشطة مرتبة عمودياً (قائمة ديناميكية بلا حد أقصى) */
+function renderCourseTree(){
+  const box = $("course-tree"); box.replaceChildren();
+  if (!data.courses.length){
+    const m = el("div", "smart lempty");
+    m.append(el("div", "ico", "⏳"), el("p", "", "جاري العمل من قبل الطاقم الأكاديمي في سَنَد على تجهيز محاضرات ومقررات مستواك. سيتم إشعارك فور توفرها."));
+    box.appendChild(m); return;
+  }
+  [1, 2, 0].forEach(t => {
+    const list = data.courses.filter(c => (c.term || 0) === t);
+    if (!list.length) return;
+    box.appendChild(el("div", "grp", TERM_LABEL[t]));
+    const grid = el("div", "cgrid");
+    list.forEach(c => {
+      const n = lessonsOf(c).length;
+      const b = el("button", "ccard" + (n ? "" : " zero")); b.type = "button";
+      const row = el("div", "row"); row.appendChild(el("span", "t", c.course_name || c.course_code));
+      if (c.course_code) row.appendChild(el("span", "code", c.course_code));
+      b.append(row, el("div", "s", n ? arCount(n) : "لا توجد محاضرات نشطة بعد"));
+      b.addEventListener("click", () => { currentCourse = c; renderCourse(); go("course"); });
+      grid.appendChild(b);
+    });
+    box.appendChild(grid);
+  });
+}
+function renderCourse(){
+  const c = currentCourse; if (!c) return;
+  const list = lessonsOf(c);
+  $("course-title").textContent = c.course_name || c.course_code || "المقرر";
+  $("course-sub").textContent = list.length ? arCount(list.length) : "لا توجد محاضرات نشطة بعد";
+  const box = $("lecture-list"); box.replaceChildren();
+  if (!list.length){
+    const m = el("div", "smart lempty");
+    m.append(el("div", "ico", "⏳"), el("p", "", "لم تُنشر محاضرات هذا المقرر بعد. سيتم إشعارك فور توفرها."));
+    box.appendChild(m); return;
+  }
+  let lastUnit = "";
+  list.forEach((L, i) => {
+    const unit = String(L.unit_title || "").trim();
+    if (unit && unit !== lastUnit) box.appendChild(el("div", "unit", unit));
+    if (unit) lastUnit = unit;
+    const b = el("button", "lrow"); b.type = "button";
+    b.append(el("span", "n", i + 1), el("span", "t", L.title), el("span", "go", "فتح ←"));
+    b.addEventListener("click", () => openLesson(L));
+    box.appendChild(b);
+  });
+}
+$("tree-btn").addEventListener("click", () => { renderCourseTree(); go("courses"); });
+
+/* تحديث شامل: يُستدعى بعد أي تحميل أو حفظ للبيانات فتنعكس التغييرات فوراً على الفصلين وعلى الشجرة */
+function applyData(){
+  renderSemesters();
+  renderCourseTree();
+  if (currentCourse){
+    const fresh = data.courses.find(c => c.course_code ? c.course_code === currentCourse.course_code : c.course_name === currentCourse.course_name);
+    if (fresh){
+      currentCourse = fresh; renderCourse();
+      if (currentLesson && activeScreen() === "lesson" && !lessonsOf(fresh).some(l => l.lesson_code === currentLesson.lesson_code)){ currentLesson = null; go("course"); }
+    } else {
+      currentCourse = null; currentLesson = null;
+      if (["course", "lesson"].includes(activeScreen())) go("courses");
+    }
+  }
+}
 
 let viewSeq = 0;
 const lessonCache = new Map();
@@ -422,13 +561,13 @@ const lessonCache = new Map();
 function openLesson(L){
   currentLesson = L;
   viewSeq++;
-  $("lesson-title").textContent = L.title || L.name || L.lesson_name || "الدرس";
+  $("lesson-title").textContent = L.title || L.name || L.lesson_name || "المحاضرة";
   $("deriv-view").replaceChildren();
   document.querySelectorAll(".deriv").forEach(d => d.classList.remove("on"));
   go("lesson");
 }
 
-/* ---------- محتوى الدرس: get-lesson (صف Lesson_Assets كاملاً) ---------- */
+/* ---------- محتوى المحاضرة: get-lesson (صف Lesson_Assets كاملاً) ---------- */
 function parseMaybeJSON(v){
   if (v == null) return null;
   if (typeof v === "object") return v;
@@ -461,12 +600,18 @@ function normCards(raw){
   const strip = (s) => String(s == null ? "" : s).replace(/<\/?[a-zA-Z][^>]*>/g, "").trim();
   return list.map(c => (c && typeof c === "object") ? { front: strip(c.front ?? c.question ?? c.q), back: strip(c.back ?? c.answer ?? c.a) } : null).filter(c => c && (c.front || c.back));
 }
+function pickUrl(r, re){
+  for (const [k, v] of Object.entries(r || {})) if (re.test(k) && /^https?:\/\//i.test(String(v || "").trim())) return String(v).trim();
+  return "";
+}
 function normLesson(r){
   return {
     article: String(r.Detailed_Article_HTML || "").trim(),
     mind: String(r.Mindmap_Text || "").trim(),
     cards: normCards(r.Flashcards_JSON),
-    quiz: normQuiz(r.Quiz_Data_JSON)
+    quiz: normQuiz(r.Quiz_Data_JSON),
+    video: pickUrl(r, /video/i),
+    audio: pickUrl(r, /audio|podcast/i)
   };
 }
 async function loadLesson(L){
@@ -490,9 +635,39 @@ document.querySelectorAll(".deriv").forEach(btn => btn.addEventListener("click",
   if (failed && failed.code !== "LESSON_NOT_FOUND"){
     const b = el("div", "box"); b.appendChild(el("p", "", errText(failed))); v.appendChild(b); return;
   }
-  ({ explain: viewExplain, mindmap: viewMindmap, cards: viewCards, quiz: startQuiz })[btn.dataset.d](v, full || {});
+  ({ explain: viewExplain, mindmap: viewMindmap, cards: viewCards, quiz: startQuiz, video: viewVideo, podcast: viewPodcast })[btn.dataset.d](v, full || {});
 }));
 const pending = (v) => { const b = el("div", "box"); b.appendChild(el("p", "", "هذا المحتوى قيد التجهيز من الطاقم الأكاديمي.")); v.appendChild(b); };
+
+/* الوسائط الإثرائية: الفيديو التلخيصي (Video_URL) والبودكاست الصوتي (Audio_URL) */
+function mediaView(v, url, kind){
+  const u = String(url || "").trim();
+  if (!/^https?:\/\//i.test(u)) return pending(v);
+  const box = el("div", "box media");
+  let m, frame = null;
+  if ((m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/))([\w-]{11})/))){
+    frame = "https://www.youtube.com/embed/" + m[1];
+  } else if ((m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)) || (m = u.match(/drive\.google\.com\/(?:open|uc)\?(?:[^#]*&)?id=([\w-]+)/))){
+    frame = "https://drive.google.com/file/d/" + m[1] + "/preview";
+  }
+  if (frame){
+    const f = el("iframe", "mframe" + (kind === "audio" ? " audio" : ""));
+    f.src = frame; f.setAttribute("allow", "autoplay; encrypted-media; picture-in-picture; fullscreen");
+    f.setAttribute("allowfullscreen", ""); f.setAttribute("loading", "lazy"); f.title = kind === "audio" ? "البودكاست الصوتي" : "الفيديو التلخيصي";
+    box.appendChild(f);
+  } else if (kind === "video" && /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(u)){
+    const p = el("video"); p.controls = true; p.setAttribute("playsinline", ""); p.preload = "metadata"; p.src = u; box.appendChild(p);
+  } else if (kind === "audio" && /\.(mp3|m4a|wav|ogg|aac)(\?|#|$)/i.test(u)){
+    const p = el("audio"); p.controls = true; p.preload = "metadata"; p.src = u; box.appendChild(p);
+  }
+  const a = el("a", "pill outline small mlink", kind === "audio" ? "فتح البودكاست في نافذة خارجية ↗" : "فتح الفيديو في نافذة خارجية ↗");
+  a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer";
+  a.addEventListener("click", (e) => { if (tg && typeof tg.openLink === "function"){ e.preventDefault(); tg.openLink(u); } });
+  box.appendChild(a);
+  v.appendChild(box);
+}
+const viewVideo = (v, L) => mediaView(v, L.video, "video");
+const viewPodcast = (v, L) => mediaView(v, L.audio, "audio");
 
 /* تنقية HTML الشرح: نسمح بوسوم التنسيق فقط ونحذف كل الخصائص والسكربتات */
 const HTML_OK = new Set(["P","BR","H1","H2","H3","H4","H5","H6","UL","OL","LI","STRONG","B","EM","I","U","BLOCKQUOTE","TABLE","THEAD","TBODY","TR","TH","TD","SPAN","DIV","SUP","SUB","HR","MARK","CODE","PRE","SMALL"]);
@@ -595,7 +770,7 @@ function startQuiz(v, L){
     let msg;
     if (ratio < 0.5) msg = "لم يحالفك الحظ هذه المرة. الأخطاء هي فرص للتعلم. راجع الشرح الأكاديمي وحاول مجدداً.";
     else if (ratio < 1) msg = "نتيجة جيدة. راجع الأسئلة التي أخطأت فيها لتثبيت الفهم.";
-    else msg = "نتيجة كاملة. أتقنت محتوى هذا الدرس.";
+    else msg = "نتيجة كاملة. أتقنت محتوى هذه المحاضرة.";
     const r = el("div", "result");
     r.append(el("div", "score", score + "/" + qs.length), el("p", "", msg));
     const again = el("button", "pill small", "إعادة الكويز"); again.type = "button"; again.style.margin = "0 auto 8px";
@@ -658,7 +833,7 @@ form.addEventListener("submit", async (e) => {
       data = parseSession(res, filter);
     }
     cacheState(profile);
-    renderSemesters(); renderLessons();
+    applyData();
     openForm(false);
     flash("تم الاعتماد وتحديث السجل الأكاديمي", "ok", 5000);
   }catch(err){
@@ -669,15 +844,84 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
+/* ---------- دكتور سَنَد (ask-mentor) ---------- */
+const fab = $("mentor-fab"), sheet = $("mentor-sheet"), backdrop = $("mentor-backdrop");
+const mLog = $("mentor-log"), mForm = $("mentor-form"), mQ = $("mentor-q"), mSend = $("mentor-send"), mRemain = $("mentor-remain");
+const MENTOR_TIMEOUT_MS = 45000; // الرد يمرّ بـ Gemini وعدة قراءات شيت، فنمنحه مهلة أطول من 15 ثانية
+let mentorFor = null, mentorBusy = false;
+
+function syncFab(name){
+  fab.hidden = (name !== "lesson");
+  if (name !== "lesson") closeMentor();
+}
+function renderRich(box, text){
+  String(text || "").replace(/\r/g, "").split("\n").forEach(line => {
+    if (!line.trim()) return;
+    const d = el("div");
+    line.replace(/^\s*[*-]\s+/, "• ").split(/(\*\*[^*]+\*\*)/).forEach(seg => {
+      if (/^\*\*[^*]+\*\*$/.test(seg)) d.appendChild(el("strong", "", seg.slice(2, -2)));
+      else if (seg) d.appendChild(document.createTextNode(seg.replace(/\*/g, "")));
+    });
+    box.appendChild(d);
+  });
+}
+function addBubble(kind, text){
+  const b = el("div", "bub " + kind);
+  if (kind === "b") renderRich(b, text); else b.textContent = text;
+  mLog.appendChild(b); mLog.scrollTop = mLog.scrollHeight; return b;
+}
+function openMentor(){
+  if (!currentLesson) return;
+  const code = String(currentLesson.lesson_code || "");
+  if (mentorFor !== code){
+    mentorFor = code; mLog.replaceChildren(); mRemain.hidden = true;
+    mLog.appendChild(el("div", "chat-hint", "اسأل دكتور سَنَد عن أي نقطة في هذه المحاضرة وسيشرحها لك بأسلوب مبسّط."));
+  }
+  $("mentor-lesson").textContent = currentLesson.title || "";
+  sheet.classList.add("open"); backdrop.classList.add("open"); document.body.classList.add("noscroll");
+  setTimeout(() => { try { mQ.focus(); } catch (_) {} }, 320);
+}
+function closeMentor(){
+  sheet.classList.remove("open"); backdrop.classList.remove("open"); document.body.classList.remove("noscroll");
+}
+fab.addEventListener("click", openMentor);
+backdrop.addEventListener("click", closeMentor);
+$("mentor-close").addEventListener("click", closeMentor);
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMentor(); });
+
+mForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (mentorBusy || !currentLesson) return;
+  const q = mQ.value.trim();
+  if (q.length < 3){ addBubble("err", "يرجى كتابة سؤالك بوضوح (3 أحرف على الأقل)."); return; }
+  if (!initData){ addBubble("err", OUTSIDE_TG_MSG); return; }
+  mentorBusy = true; mSend.disabled = true; mQ.disabled = true;
+  addBubble("u", q); mQ.value = "";
+  const typing = el("div", "typing", "دكتور سَنَد يكتب…"); mLog.appendChild(typing); mLog.scrollTop = mLog.scrollHeight;
+  try{
+    const res = await api("ask-mentor", { lesson_code: currentLesson.lesson_code || "", student_question: q }, MENTOR_TIMEOUT_MS);
+    typing.remove();
+    addBubble("b", res.mentor_reply || "تعذّر الحصول على رد، حاول مرة أخرى.");
+    if (typeof res.remaining_daily_questions === "number"){
+      mRemain.textContent = "المتبقي اليوم: " + res.remaining_daily_questions + " سؤالاً"; mRemain.hidden = false;
+    }
+  }catch(err){
+    typing.remove(); addBubble("err", errText(err));
+  }finally{
+    mentorBusy = false; mSend.disabled = false; mQ.disabled = false;
+    try { mQ.focus(); } catch (_) {}
+  }
+});
+
 /* ---------- التهيئة ---------- */
 (async function init(){
   try{
     const p = JSON.parse(localStorage.getItem(KEY_PROFILE) || "null");
     if (p) ["full_name","student_id","program_code","level_code"].forEach(k => { if (p[k]) $(k).value = p[k]; });
     const d = JSON.parse(localStorage.getItem(KEY_DATA) || "null");
-    if (d && Array.isArray(d.lessons)) data = d;
+    if (d && Array.isArray(d.lessons) && Array.isArray(d.courses)) data = d;
   }catch(_){}
-  renderSemesters(); renderLessons();
+  applyData();
 
   if (!initData){ flash(OUTSIDE_TG_MSG, "err"); return; }
 
@@ -698,7 +942,7 @@ form.addEventListener("submit", async (e) => {
         program_code: st.program_code || "",
         level_code: st.level_code || ""
       });
-      renderSemesters(); renderLessons();
+      applyData();
     } else if (s.status === "NEW_STUDENT"){
       registered = false;
       openForm(true);
