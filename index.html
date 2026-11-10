@@ -161,6 +161,14 @@
   .result{text-align:center;padding:10px 0}
   .score{font-size:2.6rem;font-weight:800;direction:ltr}
   .result p{font-size:1.05rem;font-weight:500;margin:10px 0 16px;line-height:1.9}
+  .art h1,.art h2,.art h3,.art h4{margin:14px 0 6px;font-weight:800;line-height:1.5}
+  .art ul,.art ol{padding-inline-start:24px;margin:6px 0 12px}
+  .art li{margin:4px 0}
+  .art table{border-collapse:collapse;width:100%;margin:8px 0;font-size:.92rem}
+  .art th,.art td{border:1px solid var(--line);padding:6px 10px;text-align:right}
+  .art blockquote{border-inline-start:3px solid var(--gold);padding:2px 12px;margin:8px 0;opacity:.9}
+  .expl{margin-top:12px;padding:10px 14px;border-radius:14px;background:var(--surface);border:1px dashed var(--emerald);font-size:.92rem}
+  .rawtxt{white-space:pre-wrap}
   footer{text-align:center;font-size:.82rem;opacity:.7;padding-bottom:26px}
 </style>
 </head>
@@ -247,7 +255,7 @@ const LEVELS = [
   { name: "المستوى الثالث", code: "L3" },
   { name: "المستوى الرابع", code: "L4" }
 ];
-const KEY_PROFILE = "sanad_profile_v3", KEY_DATA = "sanad_data_v3";
+const KEY_PROFILE = "sanad_profile_v3", KEY_DATA = "sanad_data_v4";
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
@@ -280,7 +288,7 @@ async function api(action, extra){
     try { res = raw ? JSON.parse(raw) : null; } catch (_) {}
     if (!res || typeof res !== "object") throw new Error("رد غير مفهوم من الخادم (HTTP " + r.status + ")");
     if (!r.ok || res.ok === false){
-      const e = new Error(res.message || ("HTTP " + r.status)); e.server = true; throw e;
+      const e = new Error(res.message || ("HTTP " + r.status)); e.server = true; e.code = res.error_code || ""; throw e;
     }
     return res;
   } finally { clearTimeout(timer); }
@@ -309,8 +317,15 @@ let openSem = null;
 /* ---------- تحليل رد n8n ---------- */
 const arr = (v) => Array.isArray(v) ? v : (v && typeof v === "object" ? Object.values(v) : []);
 
-// يقبل رد register-student (active_curriculum) أو رد get-curriculum (first_semester / second_semester / lessons)
-function parse(res, filter){
+// المقررات تُبنى من courses (كل مقررات التخصص والمستوى حسب term_code: T1 / T2)،
+// والدروس من active_curriculum (الدروس النشطة فقط). كلاهما يأتيان في ردّ init-session و register-student و update-profile.
+const termKey = (v) => {
+  const t = String(v || "").trim().toLowerCase();
+  if (/^(t|s|sem|term)?[\s_-]*0?1$|first|1st|أول|اول/.test(t)) return 1;
+  if (/^(t|s|sem|term)?[\s_-]*0?2$|second|2nd|ثان/.test(t)) return 2;
+  return 0;
+};
+function parseSession(res, filter){
   const src = (res && res.active_curriculum && typeof res.active_curriculum === "object") ? res.active_curriculum : (res || {});
   const rows = (k) => arr(src[k]).filter(r => r && typeof r === "object");
   const keep = (r) => !filter || (
@@ -321,19 +336,28 @@ function parse(res, filter){
     title: r.lesson_title || r.title || r.lesson_code || "درس",
     course_name: r.course_name || r.course_code || ""
   });
-  const f = rows("first_semester").filter(keep).map(norm);
-  const s = rows("second_semester").filter(keep).map(norm);
-  const u = rows("unassigned_semester").filter(keep).map(norm);
-  const lessons = rows("lessons").length ? rows("lessons").filter(keep).map(norm) : [...f, ...s, ...u];
-  const courses = (list) => {
-    const m = new Map();
-    list.forEach(r => {
-      const k = r.course_code || r.course_name;
-      if (k && !m.has(k)) m.set(k, { course_name: r.course_name, course_code: r.course_code || "" });
-    });
-    return [...m.values()];
+  const all = rows("lessons").length ? rows("lessons") : [...rows("first_semester"), ...rows("second_semester"), ...rows("unassigned_semester")];
+  const seen = new Set();
+  const lessons = all.filter(keep).map(norm).filter(r => {
+    const k = (r.course_code || "") + "__" + (r.lesson_code || r.title);
+    if (seen.has(k)) return false;
+    seen.add(k); return true;
+  });
+  const sems = { 1: new Map(), 2: new Map() };
+  const termByCourse = new Map();
+  const add = (n, c) => {
+    const k = c.course_code || c.course_name;
+    if (k && !sems[n].has(k)) sems[n].set(k, { course_name: c.course_name || c.course_code || "", course_code: c.course_code || "" });
   };
-  return { s1: courses(f), s2: courses(s), lessons };
+  arr(res && res.courses).filter(c => c && typeof c === "object").forEach(c => {
+    const n = termKey(c.term_code);
+    if (n){ add(n, c); if (c.course_code) termByCourse.set(c.course_code, n); }
+  });
+  lessons.forEach(r => {
+    const n = termKey(r.term_code) || termByCourse.get(r.course_code) || 0;
+    if (n) add(n, r);
+  });
+  return { s1: [...sems[1].values()], s2: [...sems[2].values()], lessons };
 }
 const cName = (c) => typeof c === "string" ? c : (c.name || c.course_name || c.title || c.name_ar || "مقرر");
 const cCode = (c) => typeof c === "string" ? "" : (c.code || c.course_code || "");
@@ -392,64 +416,153 @@ function renderLessons(){
 }
 $("tree-btn").addEventListener("click", () => { renderLessons(); go("lessons"); });
 
+let viewSeq = 0;
+const lessonCache = new Map();
+
 function openLesson(L){
   currentLesson = L;
+  viewSeq++;
   $("lesson-title").textContent = L.title || L.name || L.lesson_name || "الدرس";
   $("deriv-view").replaceChildren();
   document.querySelectorAll(".deriv").forEach(d => d.classList.remove("on"));
   go("lesson");
 }
-document.querySelectorAll(".deriv").forEach(btn => btn.addEventListener("click", () => {
+
+/* ---------- محتوى الدرس: get-lesson (صف Lesson_Assets كاملاً) ---------- */
+function parseMaybeJSON(v){
+  if (v == null) return null;
+  if (typeof v === "object") return v;
+  const s = String(v).trim();
+  if (!s) return null;
+  try { return JSON.parse(s); } catch (_) { return null; }
+}
+function normQuiz(raw){
+  const p = parseMaybeJSON(raw);
+  if (!p) return [];
+  const list = Array.isArray(p) ? p : (Array.isArray(p.questions) ? p.questions : []);
+  return list.map(q => {
+    if (!q || typeof q !== "object") return null;
+    const opts = arr(q.options || q.choices || q.answers).map(String);
+    let ci = q.correct_option_index ?? q.correct_index ?? q.correctIndex ?? q.correct ?? q.answer ?? q.correct_answer;
+    if (typeof ci === "string"){
+      const t = ci.trim(); const k = opts.findIndex(o => o.trim() === t);
+      if (k >= 0) ci = k;
+      else if (/^\d+$/.test(t)) ci = Number(t);
+      else if (/^[A-Da-d]$/.test(t)) ci = t.toUpperCase().charCodeAt(0) - 65;
+      else ci = -1;
+    }
+    return { text: String(q.question || q.q || q.text || ""), opts, ci: Number.isInteger(ci) ? ci : -1, explanation: String(q.explanation || "") };
+  }).filter(q => q && q.text && q.opts.length >= 2 && q.ci >= 0 && q.ci < q.opts.length);
+}
+function normCards(raw){
+  const p = parseMaybeJSON(raw);
+  if (!p) return [];
+  const list = Array.isArray(p) ? p : (Array.isArray(p.cards) ? p.cards : (Array.isArray(p.flashcards) ? p.flashcards : []));
+  const strip = (s) => String(s == null ? "" : s).replace(/<\/?[a-zA-Z][^>]*>/g, "").trim();
+  return list.map(c => (c && typeof c === "object") ? { front: strip(c.front ?? c.question ?? c.q), back: strip(c.back ?? c.answer ?? c.a) } : null).filter(c => c && (c.front || c.back));
+}
+function normLesson(r){
+  return {
+    article: String(r.Detailed_Article_HTML || "").trim(),
+    mind: String(r.Mindmap_Text || "").trim(),
+    cards: normCards(r.Flashcards_JSON),
+    quiz: normQuiz(r.Quiz_Data_JSON)
+  };
+}
+async function loadLesson(L){
+  const code = String((L && L.lesson_code) || "").trim();
+  if (!code) return {};
+  if (lessonCache.has(code)) return lessonCache.get(code);
+  const full = normLesson(await api("get-lesson", { lesson_code: code }));
+  lessonCache.set(code, full);
+  return full;
+}
+
+document.querySelectorAll(".deriv").forEach(btn => btn.addEventListener("click", async () => {
   document.querySelectorAll(".deriv").forEach(d => d.classList.toggle("on", d === btn));
   const v = $("deriv-view"); v.replaceChildren();
-  ({ explain: viewExplain, mindmap: viewMindmap, cards: viewCards, quiz: startQuiz })[btn.dataset.d](v, currentLesson);
+  const my = ++viewSeq;
+  const wait = el("div", "box"); wait.appendChild(el("p", "", "جاري تحميل المحتوى…")); v.appendChild(wait);
+  let full = {}, failed = null;
+  try { full = await loadLesson(currentLesson); } catch (err){ failed = err; }
+  if (my !== viewSeq) return;
+  v.replaceChildren();
+  if (failed && failed.code !== "LESSON_NOT_FOUND"){
+    const b = el("div", "box"); b.appendChild(el("p", "", errText(failed))); v.appendChild(b); return;
+  }
+  ({ explain: viewExplain, mindmap: viewMindmap, cards: viewCards, quiz: startQuiz })[btn.dataset.d](v, full || {});
 }));
 const pending = (v) => { const b = el("div", "box"); b.appendChild(el("p", "", "هذا المحتوى قيد التجهيز من الطاقم الأكاديمي.")); v.appendChild(b); };
 
+/* تنقية HTML الشرح: نسمح بوسوم التنسيق فقط ونحذف كل الخصائص والسكربتات */
+const HTML_OK = new Set(["P","BR","H1","H2","H3","H4","H5","H6","UL","OL","LI","STRONG","B","EM","I","U","BLOCKQUOTE","TABLE","THEAD","TBODY","TR","TH","TD","SPAN","DIV","SUP","SUB","HR","MARK","CODE","PRE","SMALL"]);
+const HTML_DROP = new Set(["SCRIPT","STYLE","IFRAME","OBJECT","EMBED","LINK","META","SVG","MATH","FORM","INPUT","BUTTON","TEXTAREA","SELECT","IMG","VIDEO","AUDIO"]);
+function sanitizeInto(parent, src){
+  src.childNodes.forEach(n => {
+    if (n.nodeType === 3){ parent.appendChild(document.createTextNode(n.nodeValue)); return; }
+    if (n.nodeType !== 1) return;
+    if (HTML_DROP.has(n.tagName)) return;
+    if (HTML_OK.has(n.tagName)){ const c = document.createElement(n.tagName.toLowerCase()); sanitizeInto(c, n); parent.appendChild(c); }
+    else sanitizeInto(parent, n);
+  });
+}
 function viewExplain(v, L){
-  const t = L.explanation || L.explain || L.content;
-  if (!t) return pending(v);
-  const b = el("div", "box");
-  (Array.isArray(t) ? t : String(t).split(/\n+/)).forEach(x => b.appendChild(el("p", "", x)));
+  const html = String(L.article || "").trim();
+  if (!html) return pending(v);
+  const b = el("div", "box art");
+  if (/<[a-zA-Z][^>]*>/.test(html)) sanitizeInto(b, new DOMParser().parseFromString(html, "text/html").body);
+  else html.split(/\n+/).forEach(x => b.appendChild(el("p", "", x)));
   v.appendChild(b);
 }
+
+/* الخريطة الذهنية: Mindmap_Text نص بسيط (قوائم بمسافات/شرطات/عناوين #) أو JSON شجري */
+function parseMindmap(text){
+  const root = { children: [] }, stack = [{ indent: -1, node: root }];
+  String(text).replace(/\r/g, "").split("\n").forEach(raw => {
+    if (!raw.trim() || /^\s*(```|mindmap\b)/i.test(raw)) return;
+    const h = raw.match(/^\s*(#{1,6})\s+/);
+    const indent = h ? (h[1].length - 1) * 4 : raw.match(/^\s*/)[0].replace(/\t/g, "    ").length;
+    const label = raw.trim().replace(/^(#{1,6}|[-*•+]|\d+[.)])\s+/, "").replace(/^[A-Za-z_]*[(\[{]{1,2}(.*?)[)\]}]{1,2}$/, "$1").trim();
+    if (!label) return;
+    while (stack.length > 1 && stack[stack.length - 1].indent >= indent) stack.pop();
+    const node = { title: label, children: [] };
+    stack[stack.length - 1].node.children.push(node);
+    stack.push({ indent, node });
+  });
+  return root.children;
+}
 function viewMindmap(v, L){
-  const m = L.mindmap || L.mind_map;
-  if (!m) return pending(v);
+  const text = String(L.mind || "").trim();
+  if (!text) return pending(v);
+  const j = parseMaybeJSON(text);
+  const roots = j ? (Array.isArray(j) ? j : [j]) : parseMindmap(text);
+  if (!roots.length){ const b = el("div", "box"); b.appendChild(el("p", "rawtxt", text)); v.appendChild(b); return; }
   const build = (node) => {
-    const li = el("li"); const label = typeof node === "string" ? node : (node.title || node.label || node.name || "");
+    const li = el("li");
+    const label = typeof node === "string" ? node : (node.title || node.label || node.name || node.text || "");
     li.appendChild(el("span", "node", label));
-    const kids = typeof node === "object" ? (node.children || node.branches || []) : [];
+    const kids = (typeof node === "object" && node) ? arr(node.children || node.branches) : [];
     if (kids.length){ const ul = el("ul"); kids.forEach(k => ul.appendChild(build(k))); li.appendChild(ul); }
     return li;
   };
   const wrap = el("div", "box mm"), ul = el("ul");
-  (Array.isArray(m) ? m : [m]).forEach(n => ul.appendChild(build(n)));
+  roots.forEach(n => ul.appendChild(build(n)));
   wrap.appendChild(ul); v.appendChild(wrap);
 }
 function viewCards(v, L){
-  const list = L.flashcards || L.cards;
-  if (!Array.isArray(list) || !list.length) return pending(v);
+  const list = Array.isArray(L.cards) ? L.cards : [];
+  if (!list.length) return pending(v);
   const g = el("div", "cards");
   list.forEach(c => {
-    const front = c.front || c.question || c.q || "", back = c.back || c.answer || c.a || "";
     const b = el("button", "fc"); b.type = "button";
-    const inn = el("div", "fc-in"); inn.append(el("div", "fc-f", front), el("div", "fc-b", back));
+    const inn = el("div", "fc-in"); inn.append(el("div", "fc-f", c.front), el("div", "fc-b", c.back));
     b.appendChild(inn); b.addEventListener("click", () => b.classList.toggle("flip")); g.appendChild(b);
   });
   v.appendChild(g);
 }
 
-function normQuiz(raw){
-  return arr(raw).map(q => {
-    const opts = arr(q.options || q.choices || q.answers).map(String);
-    let ci = q.correct_index ?? q.correctIndex ?? q.correct ?? q.answer ?? q.correct_answer;
-    if (typeof ci === "string"){ const k = opts.indexOf(ci); ci = k >= 0 ? k : (/^\d+$/.test(ci) ? Number(ci) : -1); }
-    return { text: q.question || q.q || q.text || "", opts, ci: Number.isInteger(ci) ? ci : -1 };
-  }).filter(q => q.text && q.opts.length >= 2 && q.ci >= 0 && q.ci < q.opts.length);
-}
 function startQuiz(v, L){
-  const qs = normQuiz(L.quiz || L.questions);
+  const qs = Array.isArray(L.quiz) ? L.quiz : [];
   if (!qs.length) return pending(v);
   let i = 0, score = 0;
   const box = el("div", "box"); v.appendChild(box);
@@ -469,6 +582,7 @@ function startQuiz(v, L){
       btns.forEach(b => b.disabled = true);
       btns[q.ci].classList.add("correct");
       if (k === q.ci) score++; else btns[k].classList.add("wrong");
+      if (q.explanation) box.appendChild(el("div", "expl", q.explanation));
       const next = el("button", "pill small", i + 1 < qs.length ? "السؤال التالي" : "عرض النتيجة");
       next.type = "button"; next.style.margin = "10px auto 0";
       next.addEventListener("click", () => { i++; i < qs.length ? show() : finish(); });
@@ -533,13 +647,15 @@ form.addEventListener("submit", async (e) => {
     const filter = { program: profile.program_code, level: profile.level_code };
     if (registered){
       // طالب مسجّل: تحديث الملف الشخصي فقط (لا يمس XP ولا التقدم) ثم جلب المقررات
-      await api("update-profile", { full_name: profile.full_name, major: profile.program_code, level: profile.level_code });
-      data = parse(await api("get-curriculum"), filter);
+      let res = await api("update-profile", { full_name: profile.full_name, major: profile.program_code, level: profile.level_code });
+      // الرد الجديد يحمل courses و active_curriculum؛ إن لم يحملهما (نسخة قديمة) نجلب المنهج بشكل منفصل
+      if (!res.active_curriculum) res = Object.assign({}, await api("get-curriculum"), { courses: res.courses });
+      data = parseSession(res, filter);
     } else {
       // طالب جديد: تسجيل كامل، والرد يحمل active_curriculum
       const res = await api("register-student", { full_name: profile.full_name, program_code: profile.program_code, level_code: profile.level_code });
       registered = (res.status === "REGISTERED");
-      data = parse(res, filter);
+      data = parseSession(res, filter);
     }
     cacheState(profile);
     renderSemesters(); renderLessons();
@@ -573,8 +689,9 @@ form.addEventListener("submit", async (e) => {
       if (st.full_name) $("full_name").value = st.full_name;
       if (st.program_code) $("program_code").value = st.program_code;
       if (st.level_code) $("level_code").value = st.level_code;
-      const cur = await api("get-curriculum");
-      data = parse(cur, { program: String(st.program_code || ""), level: String(st.level_code || "") });
+      // init-session يحمل courses و active_curriculum؛ get-curriculum احتياط فقط
+      const base = s.active_curriculum ? s : Object.assign({}, await api("get-curriculum"), { courses: s.courses });
+      data = parseSession(base, { program: String(st.program_code || ""), level: String(st.level_code || "") });
       cacheState({
         full_name: st.full_name || "",
         student_id: $("student_id").value.trim(),
