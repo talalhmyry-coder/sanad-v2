@@ -134,40 +134,70 @@
   .box{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
   .box p{margin-bottom:10px}
 
-  .mm ul{list-style:none;padding-inline-start:18px;border-inline-start:2px solid var(--gold)}
+  /* الخريطة الذهنية التفاعلية: شجرة قابلة للطي والتمدد */
+  .mm-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .mm-tools .pill{width:auto;padding:7px 16px;font-size:.88rem}
+  .mm ul{list-style:none;padding-inline-start:22px;margin:0;border-inline-start:2px solid rgba(212,175,55,.65)}
   .mm>ul{border:none;padding:0}
-  .mm li{margin:8px 0}
-  .mm .node{display:inline-block;background:var(--surface);border:1.5px solid var(--emerald);border-radius:999px;padding:3px 14px;font-weight:500}
+  .mm li{margin:9px 0}
+  .mm li.open>ul{animation:drop .25s ease}
+  .mm li.has-kids:not(.open)>ul{display:none}
+  .mm .node{display:inline-flex;align-items:center;gap:8px;max-width:100%;text-align:right;background:var(--surface);border:1.5px solid var(--emerald);border-radius:14px;padding:6px 14px;font-size:1rem;font-weight:500;line-height:1.6;color:var(--navy)}
+  .mm button.node{cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s}
+  .mm button.node:hover{border-color:var(--gold);box-shadow:0 4px 12px rgba(11,25,44,.12)}
+  .mm button.node:active{transform:scale(.98)}
+  .mm .caret{flex:none;display:inline-block;color:var(--emerald);font-size:.85rem;transition:transform .2s}
+  .mm li.open>.node .caret{transform:rotate(-90deg)}
+  .mm .kc{flex:none;min-width:22px;padding:0 7px;border-radius:999px;background:var(--gold);color:var(--navy);font-size:.74rem;font-weight:800;line-height:1.7;text-align:center}
+  .mm .node.leaf{border-style:dashed;font-weight:400}
   .mm>ul>li>.node{background:var(--navy);color:#fff;border-color:var(--gold);font-weight:700}
+  .mm>ul>li>.node .caret{color:var(--gold)}
+  .mm>ul>li>ul>li>.node{background:rgba(13,148,136,.09);font-weight:700}
 
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   @media(max-width:560px){.cards{grid-template-columns:1fr}}
-  .fc{height:140px;perspective:800px;cursor:pointer;background:none;border:none}
-  .fc-in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
-  .fc.flip .fc-in{transform:rotateY(180deg)}
-  .fc-f,.fc-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);display:grid;place-items:center;text-align:center;padding:14px;font-weight:700}
-  .fc-f{background:var(--navy);color:#fff;border:2px solid var(--gold)}
-  .fc-b{background:var(--surface);color:var(--navy);border:2px solid var(--emerald);transform:rotateY(180deg)}
+  .fc{height:180px;perspective:1000px;cursor:pointer;background:none;border:none}
+  .fc-in{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+  .fc:hover .fc-in{transform:translateY(-3px)}
+  .fc.flip .fc-in,.fc.flip:hover .fc-in{transform:rotateY(180deg)}
+  .fc-f,.fc-b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:16px 14px;font-weight:700}
+  .fc-f{background:linear-gradient(145deg,#0B192C 0%,#14284a 55%,#0B192C 100%);color:#fff;border:2.5px solid var(--gold);box-shadow:0 8px 20px rgba(11,25,44,.3),inset 0 0 0 4px rgba(212,175,55,.12)}
+  .fc-b{background:linear-gradient(145deg,#FFFFFF,#F1FAF8);color:var(--navy);border:2.5px solid var(--emerald);box-shadow:0 8px 20px rgba(13,148,136,.22);transform:rotateY(180deg)}
+  .fc-tag{flex:none;font-size:.72rem;font-weight:800;padding:1px 14px;border-radius:999px;line-height:1.8}
+  .fc-f .fc-tag{background:var(--gold);color:var(--navy)}
+  .fc-b .fc-tag{background:var(--emerald);color:#fff}
+  .fc-txt{width:100%;max-height:100%;overflow-y:auto;font-size:1rem;line-height:1.7}
+  .fc-hint{flex:none;font-size:.7rem;font-weight:500;opacity:.6}
+  @media(prefers-reduced-motion:reduce){.fc-in{transition:transform .01s}}
 
   .qmeta{display:flex;justify-content:space-between;font-size:.9rem;font-weight:700;margin-bottom:10px}
   .bar{height:8px;background:var(--soft);border-radius:999px;overflow:hidden;margin-bottom:16px}
   .bar>i{display:block;height:100%;background:var(--emerald);transition:width .3s}
   .qtext{font-size:1.1rem;font-weight:700;margin-bottom:14px}
-  .opt{display:block;width:100%;text-align:right;border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:12px 20px;margin-bottom:10px;font-size:1rem;cursor:pointer;transition:all .2s}
-  .opt:hover:not([disabled]){border-color:var(--gold)}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:right;border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 14px;margin-bottom:10px;font-size:1rem;line-height:1.6;cursor:pointer;transition:all .2s}
+  .opt .ol{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:var(--gold);font-weight:800;font-size:.9rem;transition:all .2s}
+  .opt .ot{flex:1}
+  .opt:hover:not([disabled]){border-color:var(--gold);box-shadow:0 4px 12px rgba(11,25,44,.1)}
   .opt[disabled]{cursor:default}
   .opt.correct{background:var(--emerald);border-color:var(--emerald);color:#fff;font-weight:700}
   .opt.wrong{background:var(--wrong);border-color:var(--wrong);color:#fff;font-weight:700}
+  .opt.correct .ol{background:#fff;color:var(--emerald)}
+  .opt.wrong .ol{background:#fff;color:var(--wrong)}
   .result{text-align:center;padding:10px 0}
   .score{font-size:2.6rem;font-weight:800;direction:ltr}
   .result p{font-size:1.05rem;font-weight:500;margin:10px 0 16px;line-height:1.9}
-  .art h1,.art h2,.art h3,.art h4{margin:14px 0 6px;font-weight:800;line-height:1.5}
-  .art ul,.art ol{padding-inline-start:24px;margin:6px 0 12px}
-  .art li{margin:4px 0}
+  .box.art{font-family:'Tajawal',system-ui,sans-serif;font-size:1.06rem;line-height:1.95;padding:22px 20px}
+  .art p{margin:0 0 14px}
+  .art h1,.art h2,.art h3,.art h4,.art h5,.art h6{margin:24px 0 12px;padding:10px 16px;font-weight:800;font-size:1.12rem;line-height:1.7;color:var(--navy);background:rgba(212,175,55,.13);border-radius:12px;border-inline-start:5px solid var(--gold)}
+  .art h1{font-size:1.25rem}
+  .art>:first-child{margin-top:0}
+  .art ul,.art ol{padding-inline-start:26px;margin:8px 0 16px}
+  .art li{margin:6px 0;line-height:1.95}
   .art table{border-collapse:collapse;width:100%;margin:8px 0;font-size:.92rem}
   .art th,.art td{border:1px solid var(--line);padding:6px 10px;text-align:right}
   .art blockquote{border-inline-start:3px solid var(--gold);padding:2px 12px;margin:8px 0;opacity:.9}
-  .expl{margin-top:12px;padding:10px 14px;border-radius:14px;background:var(--surface);border:1px dashed var(--emerald);font-size:.92rem}
+  .expl{margin-top:14px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(212,175,55,.14),rgba(13,148,136,.08));border:1px solid rgba(212,175,55,.5);border-inline-start:5px solid var(--gold);font-size:.96rem;line-height:1.85;animation:drop .3s ease}
+  .expl strong{display:block;color:var(--emerald);font-weight:800;margin-bottom:2px}
   .rawtxt{white-space:pre-wrap}
   .grp{font-size:1rem;font-weight:800;margin:18px 4px 10px;display:flex;align-items:center;gap:8px}
   .grp::before{content:"";width:5px;height:18px;border-radius:3px;background:var(--gold)}
@@ -186,9 +216,21 @@
   .lrow .t{flex:1;font-weight:700}
   .lrow .go{flex:none;color:var(--emerald);font-weight:700;font-size:.85rem}
 
-  .media-frame{margin:14px 0 4px;border:2px dashed var(--gold);border-radius:var(--radius);padding:10px 12px 12px;background:rgba(212,175,55,.07)}
-  .media-cap{text-align:center;font-weight:800;font-size:.9rem;margin-bottom:8px}
-  .media-frame .derivs{margin:0}
+  /* تذييل بطاقة المحاضرة: الوسائط الإثرائية والاستشارة الأكاديمية (فيديو ← دكتور سَنَد ← بودكاست) */
+  .enrich{margin:22px 0 4px;border:2px dashed var(--gold);border-radius:var(--radius);padding:12px 12px 14px;background:rgba(212,175,55,.07)}
+  .enrich-cap{text-align:center;font-weight:800;font-size:.92rem;margin-bottom:12px;line-height:1.6}
+  .enrich-row{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;align-items:stretch}
+  .enrich-row .deriv{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 6px;font-size:.92rem;line-height:1.5}
+  .mentor-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center;cursor:pointer;border:2.5px solid var(--gold);border-radius:var(--radius);padding:14px 8px;color:#fff;
+    background:linear-gradient(145deg,#0D9488 0%,#0a6f66 55%,#0B192C 130%);box-shadow:0 0 0 3px rgba(212,175,55,.25),0 10px 24px rgba(13,148,136,.35);transition:transform .2s,box-shadow .2s;animation:glow 3.2s ease-in-out infinite}
+  .mentor-card:hover{transform:translateY(-3px);box-shadow:0 0 0 4px rgba(212,175,55,.4),0 14px 30px rgba(13,148,136,.45)}
+  .mentor-card:active{transform:scale(.97)}
+  .mentor-card .mi{font-size:2rem;line-height:1.2}
+  .mentor-card .mt{font-weight:800;font-size:1.05rem;color:var(--gold)}
+  .mentor-card .ms{font-size:.76rem;font-weight:500;opacity:.92;line-height:1.5}
+  @keyframes glow{0%,100%{box-shadow:0 0 0 3px rgba(212,175,55,.25),0 10px 24px rgba(13,148,136,.35)}50%{box-shadow:0 0 0 6px rgba(212,175,55,.38),0 12px 28px rgba(13,148,136,.5)}}
+  @media(max-width:420px){.enrich-row{gap:7px}.enrich-row .deriv{font-size:.8rem;padding:12px 4px}.enrich-row .deriv .i{font-size:1.35rem}.mentor-card .mt{font-size:.95rem}.mentor-card .ms{font-size:.7rem}}
+  @media(prefers-reduced-motion:reduce){.mentor-card{animation:none}}
   .box.media{padding:10px}
   .mframe{display:block;width:100%;border:0;border-radius:14px;aspect-ratio:16/9;background:#000}
   .mframe.audio{aspect-ratio:auto;height:150px;background:var(--bg)}
@@ -196,9 +238,6 @@
   .mlink{margin-top:10px}
 
   body.noscroll{overflow:hidden}
-  .fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:8px;border:2px solid var(--gold);background:var(--navy);color:#fff;border-radius:999px;padding:12px 18px;font-weight:800;font-size:.98rem;cursor:pointer;box-shadow:0 10px 24px rgba(11,25,44,.35);transition:transform .15s}
-  .fab:active{transform:scale(.96)}
-  .fab .e{font-size:1.25rem}
   .backdrop{position:fixed;inset:0;background:rgba(11,25,44,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
   .backdrop.open{opacity:1;pointer-events:auto}
   .sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:780px;height:82vh;display:flex;flex-direction:column;background:var(--surface);border-top:4px solid var(--gold);border-radius:24px 24px 0 0;box-shadow:0 -12px 34px rgba(11,25,44,.25);transform:translateY(105%);visibility:hidden;transition:transform .3s ease,visibility 0s .3s;z-index:60}
@@ -294,21 +333,21 @@
         <button type="button" class="deriv" data-d="cards"><span class="i">🗂️</span>البطاقات</button>
         <button type="button" class="deriv" data-d="quiz"><span class="i">🎯</span>الكويز</button>
       </div>
-      <div class="media-frame">
-        <div class="media-cap">✨ الوسائط الإثرائية</div>
-        <div class="derivs">
+      <div id="deriv-view"></div>
+      <div class="enrich">
+        <div class="enrich-cap">✨ الوسائط الإثرائية والاستشارة الأكاديمية</div>
+        <div class="enrich-row">
           <button type="button" class="deriv" data-d="video"><span class="i">🎬</span>الفيديو التلخيصي</button>
+          <button type="button" class="mentor-card" id="mentor-fab" aria-label="فتح محادثة دكتور سَنَد"><span class="mi">🎓</span><span class="mt">دكتور سَنَد</span><span class="ms">المرشد الأكاديمي · اسأله الآن</span></button>
           <button type="button" class="deriv" data-d="podcast"><span class="i">🎧</span>البودكاست الصوتي</button>
         </div>
       </div>
-      <div id="deriv-view"></div>
     </div>
   </section>
 </main>
 <footer>سَنَد 2.0 · جامعة العلوم والتكنولوجيا</footer>
 
-<!-- دكتور سَنَد: زر عائم + نافذة محادثة منزلقة -->
-<button type="button" class="fab" id="mentor-fab" hidden aria-label="فتح محادثة دكتور سَنَد"><span class="e">🎓</span><span>دكتور سَنَد</span></button>
+<!-- دكتور سَنَد: نافذة محادثة منزلقة (زر الفتح #mentor-fab داخل تذييل بطاقة المحاضرة) -->
 <div class="backdrop" id="mentor-backdrop"></div>
 <section class="sheet" id="mentor-sheet" role="dialog" aria-modal="true" aria-labelledby="mentor-title">
   <div class="sheet-head">
@@ -681,8 +720,20 @@ function sanitizeInto(parent, src){
     else sanitizeInto(parent, n);
   });
 }
+/* تنظيف رموز المراجع الداخلية من نص الشرح: ف1 · ف2 · [ف1] · (ف1، ف2) ... بلا مساس بالكلمات العربية العادية */
+const FN_BRACKET_RE = /[\[\(（【]\s*ف\s*[\d٠-٩]+(?:\s*[،,\-–]\s*ف?\s*[\d٠-٩]+)*\s*[\]\)）】]/g;
+const FN_BARE_RE = /(^|[^؀-ۿ\w])ف[\d٠-٩]+/g;
+function cleanArticle(s){
+  return String(s || "")
+    .replace(FN_BRACKET_RE, "")
+    .replace(FN_BARE_RE, "$1").replace(FN_BARE_RE, "$1")
+    .replace(/[\[\(（【][ \t]*[\]\)）】]/g, "")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/[ \t]+([،.:؛!؟,])/g, "$1")
+    .trim();
+}
 function viewExplain(v, L){
-  const html = String(L.article || "").trim();
+  const html = cleanArticle(L.article);
   if (!html) return pending(v);
   const b = el("div", "box art");
   if (/<[a-zA-Z][^>]*>/.test(html)) sanitizeInto(b, new DOMParser().parseFromString(html, "text/html").body);
@@ -712,17 +763,34 @@ function viewMindmap(v, L){
   const j = parseMaybeJSON(text);
   const roots = j ? (Array.isArray(j) ? j : [j]) : parseMindmap(text);
   if (!roots.length){ const b = el("div", "box"); b.appendChild(el("p", "rawtxt", text)); v.appendChild(b); return; }
-  const build = (node) => {
+  // المستويان الأول والثاني مفتوحان افتراضياً، وما بعدهما مطويّ حتى يضغط الطالب على العقدة
+  const build = (node, depth) => {
     const li = el("li");
     const label = typeof node === "string" ? node : (node.title || node.label || node.name || node.text || "");
-    li.appendChild(el("span", "node", label));
     const kids = (typeof node === "object" && node) ? arr(node.children || node.branches) : [];
-    if (kids.length){ const ul = el("ul"); kids.forEach(k => ul.appendChild(build(k))); li.appendChild(ul); }
+    if (kids.length){
+      const open = depth < 2;
+      li.className = "has-kids" + (open ? " open" : "");
+      const b = el("button", "node"); b.type = "button"; b.setAttribute("aria-expanded", String(open));
+      b.append(el("span", "caret", "◂"), el("span", "lbl", label), el("span", "kc", String(kids.length)));
+      b.addEventListener("click", () => { const o = li.classList.toggle("open"); b.setAttribute("aria-expanded", String(o)); });
+      li.appendChild(b);
+      const ul = el("ul"); kids.forEach(k => ul.appendChild(build(k, depth + 1))); li.appendChild(ul);
+    } else {
+      li.appendChild(el("span", "node leaf", label));
+    }
     return li;
   };
   const wrap = el("div", "box mm"), ul = el("ul");
-  roots.forEach(n => ul.appendChild(build(n)));
-  wrap.appendChild(ul); v.appendChild(wrap);
+  const setAll = (open) => wrap.querySelectorAll("li.has-kids").forEach(li => { li.classList.toggle("open", open); li.firstChild.setAttribute("aria-expanded", String(open)); });
+  const tools = el("div", "mm-tools");
+  const expAll = el("button", "pill outline small", "⊞ توسيع الكل"), colAll = el("button", "pill outline small", "⊟ طي الكل");
+  expAll.type = "button"; colAll.type = "button";
+  expAll.addEventListener("click", () => setAll(true));
+  colAll.addEventListener("click", () => setAll(false));
+  tools.append(expAll, colAll);
+  roots.forEach(n => ul.appendChild(build(n, 0)));
+  wrap.append(tools, ul); v.appendChild(wrap);
 }
 function viewCards(v, L){
   const list = Array.isArray(L.cards) ? L.cards : [];
@@ -730,12 +798,16 @@ function viewCards(v, L){
   const g = el("div", "cards");
   list.forEach(c => {
     const b = el("button", "fc"); b.type = "button";
-    const inn = el("div", "fc-in"); inn.append(el("div", "fc-f", c.front), el("div", "fc-b", c.back));
+    const front = el("div", "fc-f"), back = el("div", "fc-b");
+    front.append(el("span", "fc-tag", "السؤال"), el("div", "fc-txt", c.front), el("span", "fc-hint", "اضغط لقلب البطاقة"));
+    back.append(el("span", "fc-tag", "الإجابة"), el("div", "fc-txt", c.back));
+    const inn = el("div", "fc-in"); inn.append(front, back);
     b.appendChild(inn); b.addEventListener("click", () => b.classList.toggle("flip")); g.appendChild(b);
   });
   v.appendChild(g);
 }
 
+const OPT_LETTERS = ["أ", "ب", "ج", "د", "هـ", "و"];
 function startQuiz(v, L){
   const qs = Array.isArray(L.quiz) ? L.quiz : [];
   if (!qs.length) return pending(v);
@@ -749,7 +821,8 @@ function startQuiz(v, L){
     const q = qs[i];
     box.append(meta, bar, el("div", "qtext", q.text));
     const btns = q.opts.map((o, k) => {
-      const b = el("button", "opt", o); b.type = "button"; box.appendChild(b);
+      const b = el("button", "opt"); b.type = "button";
+      b.append(el("span", "ol", OPT_LETTERS[k] || String(k + 1)), el("span", "ot", o)); box.appendChild(b);
       b.addEventListener("click", () => choose(k));
       return b;
     });
@@ -757,7 +830,7 @@ function startQuiz(v, L){
       btns.forEach(b => b.disabled = true);
       btns[q.ci].classList.add("correct");
       if (k === q.ci) score++; else btns[k].classList.add("wrong");
-      if (q.explanation) box.appendChild(el("div", "expl", q.explanation));
+      if (q.explanation){ const ex = el("div", "expl"); ex.append(el("strong", "", "💡 التعليل"), document.createTextNode(q.explanation)); box.appendChild(ex); }
       const next = el("button", "pill small", i + 1 < qs.length ? "السؤال التالي" : "عرض النتيجة");
       next.type = "button"; next.style.margin = "10px auto 0";
       next.addEventListener("click", () => { i++; i < qs.length ? show() : finish(); });
@@ -851,7 +924,7 @@ const MENTOR_TIMEOUT_MS = 45000; // الرد يمرّ بـ Gemini وعدة قر�
 let mentorFor = null, mentorBusy = false;
 
 function syncFab(name){
-  fab.hidden = (name !== "lesson");
+  // الزر صار داخل شاشة المحاضرة (يظهر ويختفي معها)؛ نغلق نافذة المحادثة فقط عند مغادرة المحاضرة
   if (name !== "lesson") closeMentor();
 }
 function renderRich(box, text){
