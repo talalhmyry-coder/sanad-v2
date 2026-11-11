@@ -186,6 +186,22 @@
   .result{text-align:center;padding:10px 0}
   .score{font-size:2.6rem;font-weight:800;direction:ltr}
   .result p{font-size:1.05rem;font-weight:500;margin:10px 0 16px;line-height:1.9}
+
+  /* نقاط الخبرة XP: شارة الهيدر + سطر النقاط المكتسبة في نتيجة الكويز */
+  header{position:relative;padding-top:38px}
+  .xp-badge{position:absolute;top:8px;right:12px;z-index:2;display:flex;align-items:center;gap:5px;padding:3px 11px;line-height:1.3;border-radius:999px;border:1.5px solid var(--gold);background:rgba(212,175,55,.14);color:#fff;font-weight:800;direction:ltr;box-shadow:0 2px 10px rgba(212,175,55,.25)}
+  .xp-badge .xp-star{font-size:.85rem;line-height:1}
+  .xp-badge .xp-val{font-family:'Montserrat','Tajawal',sans-serif;font-size:.92rem;min-width:1ch;color:#fff}
+  .xp-badge .xp-lbl{font-family:'Montserrat','Tajawal',sans-serif;font-size:.68rem;color:var(--gold);letter-spacing:.06em}
+  .xp-badge.pop{animation:xppop .9s cubic-bezier(.2,1.3,.4,1)}
+  @keyframes xppop{0%{transform:scale(1)}30%{transform:scale(1.22);box-shadow:0 0 0 6px rgba(212,175,55,.35),0 6px 22px rgba(212,175,55,.6)}100%{transform:scale(1)}}
+  .xp-float{position:absolute;top:100%;right:10px;margin-top:2px;color:var(--gold);font-weight:800;font-size:.95rem;pointer-events:none;animation:xpfloat 1.3s ease-out forwards}
+  @keyframes xpfloat{0%{opacity:0;transform:translateY(-4px)}20%{opacity:1}100%{opacity:0;transform:translateY(20px)}}
+  .xp-earn{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;width:fit-content;max-width:100%;margin:2px auto 14px;padding:8px 18px;border-radius:999px;background:var(--soft);font-weight:700;font-size:.95rem}
+  .xp-earn.gain{background:linear-gradient(135deg,rgba(212,175,55,.22),rgba(13,148,136,.12));border:1.5px solid var(--gold);animation:xpin .6s cubic-bezier(.2,1.4,.4,1)}
+  .xp-earn strong{direction:ltr;unicode-bidi:isolate;color:#8a6d00;font-family:'Montserrat','Tajawal',sans-serif}
+  @keyframes xpin{0%{opacity:0;transform:scale(.8)}100%{opacity:1;transform:scale(1)}}
+  @media(prefers-reduced-motion:reduce){.xp-badge.pop,.xp-float,.xp-earn.gain{animation:none}}
   .box.art{font-family:'Tajawal',system-ui,sans-serif;font-size:1.06rem;line-height:1.95;padding:22px 20px}
   .art p{margin:0 0 14px}
   .art h1,.art h2,.art h3,.art h4,.art h5,.art h6{margin:24px 0 12px;padding:10px 16px;font-weight:800;font-size:1.12rem;line-height:1.7;color:var(--navy);background:rgba(212,175,55,.13);border-radius:12px;border-inline-start:5px solid var(--gold)}
@@ -265,6 +281,7 @@
 <body>
 
 <header>
+  <div class="xp-badge" id="xp-badge" title="نقاط الخبرة" aria-live="polite"><span class="xp-star" aria-hidden="true">⭐</span><span class="xp-val" id="xp-val">0</span><span class="xp-lbl">XP</span></div>
   <div class="logo-frame">
     <img class="logo" src="logo.jpg" alt="شعار منصة سند">
   </div>
@@ -382,6 +399,8 @@ const LEVELS = [
 const KEY_PROFILE = "sanad_profile_v3", KEY_DATA = "sanad_data_v5";
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+// مفتاح مطابقة الأكواد (course/program/level): يتجاهل المسافات غير المرئية واختلاف حالة الأحرف القادم من Google Sheets
+const ck = (v) => String(v == null ? "" : v).replace(/[​-‏]/g, "").trim().toUpperCase();
 
 /* ---------- Telegram ---------- */
 const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
@@ -425,6 +444,82 @@ function errText(err){
   return "تعذّر إتمام العملية: " + ((err && err.message) || "خطأ غير معروف");
 }
 
+/* ---------- نقاط الخبرة XP ----------
+   المصدر الأول: رد الخادم (new_xp / total_xp / xp_points / xp، في الجذر أو داخل student).
+   المصدر الاحتياطي: localStorage. وإن لم يوجد شيء فالقيمة 0.
+   الخادم هو المرجع؛ التقدير المحلي (XP_PER_CORRECT لكل إجابة صحيحة، بلا تكرار لنفس المحاضرة) يُستخدم فورياً وكـ fallback فقط. */
+const KEY_XP = "sanad_xp_v1", XP_PER_CORRECT = 10;
+const XP_KEYS = ["new_xp", "total_xp", "xp_points", "xp"];
+let xpState = { xp: 0, awarded: {}, sent: {} }, xpAnim = 0, xpSynced = false; // xpSynced: الرصيد المعروض مصدره الخادم في هذه الجلسة
+try{
+  const x = JSON.parse(localStorage.getItem(KEY_XP) || "null");
+  if (x && typeof x === "object"){
+    const n = Number(x.xp);
+    xpState.xp = (Number.isFinite(n) && n >= 0) ? Math.floor(n) : 0;
+    if (x.awarded && typeof x.awarded === "object") xpState.awarded = x.awarded;
+    if (x.sent && typeof x.sent === "object") xpState.sent = x.sent;
+  }
+}catch(_){}
+const saveXp = () => { try{ localStorage.setItem(KEY_XP, JSON.stringify(xpState)); }catch(_){} };
+function pickXp(o){
+  for (const src of [o, o && o.student]){
+    if (!src || typeof src !== "object") continue;
+    for (const k of XP_KEYS){
+      const v = src[k];
+      if (v === "" || v == null) continue;
+      const n = Number(v);
+      if (Number.isFinite(n) && n >= 0) return Math.floor(n);
+    }
+  }
+  return null;
+}
+function setXp(n, celebrate){
+  n = Math.max(0, Math.floor(Number(n) || 0));
+  const prev = xpState.xp, val = $("xp-val"), badge = $("xp-badge");
+  xpState.xp = n; saveXp();
+  cancelAnimationFrame(xpAnim);
+  if (!celebrate || n <= prev){ val.textContent = String(n); return; }
+  // حركة احتفالية ناعمة: نبضة + "+N" طائرة + عدّ تصاعدي (تُختصر عند تفضيل تقليل الحركة)
+  badge.classList.remove("pop"); void badge.offsetWidth; badge.classList.add("pop");
+  const fl = el("span", "xp-float", "+" + (n - prev)); badge.appendChild(fl); setTimeout(() => fl.remove(), 1400);
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches){ val.textContent = String(n); return; }
+  const t0 = performance.now(), dur = 900;
+  const step = (t) => {
+    const k = Math.min(1, (t - t0) / dur);
+    val.textContent = String(Math.round(prev + (n - prev) * (1 - Math.pow(1 - k, 3))));
+    if (k < 1) xpAnim = requestAnimationFrame(step); else val.textContent = String(n);
+  };
+  xpAnim = requestAnimationFrame(step);
+}
+$("xp-val").textContent = String(xpState.xp);
+function syncXp(n, celebrate){ xpSynced = true; setXp(n, celebrate); }
+
+function showEarned(line, delta, score){
+  line.replaceChildren(); line.classList.toggle("gain", delta > 0);
+  if (delta > 0) line.append(el("span", "", "⭐"), el("strong", "", "+" + delta + " XP"), el("span", "", "نقاط خبرة مكتسبة"));
+  else line.appendChild(el("span", "", score > 0 ? "⭐ سبق احتساب نقاطك في هذه المحاضرة" : "⭐ لا نقاط هذه المرة، أعد المحاولة"));
+}
+// عند انتهاء الكويز: عرض النقاط فوراً + تحديث الشارة محلياً، ثم إرسال submit-quiz صامتاً (لا يُظهر أي خطأ للطالب)
+function awardQuiz(line, score, total){
+  const code = String((currentLesson && currentLesson.lesson_code) || "").trim();
+  const before = xpState.xp, wasSynced = xpSynced;
+  const delta = Math.max(0, score - (code ? (xpState.awarded[code] || 0) : 0)) * XP_PER_CORRECT;
+  showEarned(line, delta, score);
+  if (delta > 0){ if (code) xpState.awarded[code] = score; setXp(before + delta, true); }
+  // لا نُعيد الإرسال إلا إذا تحسّنت النتيجة عن آخر نتيجة أُرسلت بنجاح (فإن فشل الإرسال سابقاً يُعاد)
+  if (!code || score <= (xpState.sent[code] || 0)) return;
+  api("submit-quiz", { lesson_code: code, score: score, total: total }, 15000).then(res => {
+    xpState.sent[code] = Math.max(xpState.sent[code] || 0, score);
+    const t = pickXp(res);
+    if (t == null){ saveXp(); return; }
+    // فرق الخادم يُعرض فقط إن كان الرصيد قبل الكويز مزامَناً معه؛ وإلا يبقى التقدير المحلي، ولا نغيّره إلا إذا لم يمنح الخادم شيئاً
+    const earned = Math.max(0, t - before);
+    if (line.isConnected && (wasSynced ? earned !== delta : (t <= before && delta > 0))) showEarned(line, earned, score);
+    xpState.awarded[code] = Math.max(xpState.awarded[code] || 0, score);
+    xpSynced = true; setXp(t, t > xpState.xp);
+  }).catch(err => console.warn("submit-quiz:", (err && err.message) || err));
+}
+
 /* ---------- Selects ---------- */
 function fillSelect(id, placeholder, items){
   const s = $(id);
@@ -453,8 +548,8 @@ function parseSession(res, filter){
   const src = (res && res.active_curriculum && typeof res.active_curriculum === "object") ? res.active_curriculum : (res || {});
   const rows = (k) => arr(src[k]).filter(r => r && typeof r === "object");
   const keep = (r) => !filter || (
-    (!r.program_code || String(r.program_code).trim() === filter.program) &&
-    (!r.level_code || String(r.level_code).trim() === filter.level)
+    (!r.program_code || ck(r.program_code) === ck(filter.program)) &&
+    (!r.level_code || ck(r.level_code) === ck(filter.level))
   );
   const norm = (r) => Object.assign({}, r, {
     title: r.lesson_title || r.title || r.lesson_code || "محاضرة",
@@ -463,7 +558,7 @@ function parseSession(res, filter){
   const all = rows("lessons").length ? rows("lessons") : [...rows("first_semester"), ...rows("second_semester"), ...rows("unassigned_semester")];
   const seen = new Set();
   const lessons = all.filter(keep).map(norm).filter(r => {
-    const k = (r.course_code || "") + "__" + (r.lesson_code || r.title);
+    const k = ck(r.course_code) + "__" + (String(r.lesson_code || "").trim() || r.title);
     if (seen.has(k)) return false;
     seen.add(k); return true;
   });
@@ -475,10 +570,11 @@ function parseSession(res, filter){
   // المقررات: من courses (كل مقررات التخصص والمستوى) + أي مقرر له محاضرات نشطة
   const cmap = new Map();
   const addC = (c, term) => {
-    const k = c.course_code || c.course_name;
+    // المفتاح موحَّد (trim + UPPER) حتى لا تُنشأ بطاقة مقرر مكررة لمجرد اختلاف مسافة أو حالة أحرف بين courses والمحاضرات
+    const k = ck(c.course_code) || c.course_name;
     if (!k) return;
     const ex = cmap.get(k);
-    if (!ex) cmap.set(k, { course_code: c.course_code || "", course_name: c.course_name || c.course_code || "", term: term || 0 });
+    if (!ex) cmap.set(k, { course_code: String(c.course_code || "").trim(), course_name: c.course_name || c.course_code || "", term: term || 0 });
     else if (!ex.term && term) ex.term = term;
   };
   arr(res && res.courses).filter(c => c && typeof c === "object").forEach(c => addC(c, termKey(c.term_code)));
@@ -519,7 +615,7 @@ function go(name){
 document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => go(b.dataset.go)));
 
 let currentLesson = null, currentCourse = null;
-const lessonsOf = (c) => data.lessons.filter(l => c.course_code ? l.course_code === c.course_code : l.course_name === c.course_name);
+const lessonsOf = (c) => data.lessons.filter(l => c.course_code ? ck(l.course_code) === ck(c.course_code) : l.course_name === c.course_name);
 const TERM_LABEL = { 1: "الفصل الدراسي الأول", 2: "الفصل الدراسي الثاني", 0: "مقررات أخرى" };
 function arCount(n){
   if (n === 1) return "محاضرة واحدة نشطة";
@@ -583,7 +679,7 @@ function applyData(){
   renderSemesters();
   renderCourseTree();
   if (currentCourse){
-    const fresh = data.courses.find(c => c.course_code ? c.course_code === currentCourse.course_code : c.course_name === currentCourse.course_name);
+    const fresh = data.courses.find(c => c.course_code ? ck(c.course_code) === ck(currentCourse.course_code) : c.course_name === currentCourse.course_name);
     if (fresh){
       currentCourse = fresh; renderCourse();
       if (currentLesson && activeScreen() === "lesson" && !lessonsOf(fresh).some(l => l.lesson_code === currentLesson.lesson_code)){ currentLesson = null; go("course"); }
@@ -844,13 +940,14 @@ function startQuiz(v, L){
     if (ratio < 0.5) msg = "لم يحالفك الحظ هذه المرة. الأخطاء هي فرص للتعلم. راجع الشرح الأكاديمي وحاول مجدداً.";
     else if (ratio < 1) msg = "نتيجة جيدة. راجع الأسئلة التي أخطأت فيها لتثبيت الفهم.";
     else msg = "نتيجة كاملة. أتقنت محتوى هذه المحاضرة.";
-    const r = el("div", "result");
-    r.append(el("div", "score", score + "/" + qs.length), el("p", "", msg));
+    const r = el("div", "result"), xpLine = el("div", "xp-earn");
+    r.append(el("div", "score", score + "/" + qs.length), el("p", "", msg), xpLine);
     const again = el("button", "pill small", "إعادة الكويز"); again.type = "button"; again.style.margin = "0 auto 8px";
     again.addEventListener("click", () => { i = 0; score = 0; show(); });
     const rev = el("button", "pill outline small", "مراجعة الشرح"); rev.type = "button"; rev.style.margin = "0 auto";
     rev.addEventListener("click", () => document.querySelector('.deriv[data-d="explain"]').click());
     r.append(again, rev); box.appendChild(r);
+    awardQuiz(xpLine, score, qs.length);
   }
   show();
 }
@@ -896,6 +993,7 @@ form.addEventListener("submit", async (e) => {
     if (registered){
       // طالب مسجّل: تحديث الملف الشخصي فقط (لا يمس XP ولا التقدم) ثم جلب المقررات
       let res = await api("update-profile", { full_name: profile.full_name, major: profile.program_code, level: profile.level_code });
+      const ux = pickXp(res); if (ux != null) syncXp(ux, false);
       // الرد الجديد يحمل courses و active_curriculum؛ إن لم يحملهما (نسخة قديمة) نجلب المنهج بشكل منفصل
       if (!res.active_curriculum) res = Object.assign({}, await api("get-curriculum"), { courses: res.courses });
       data = parseSession(res, filter);
@@ -903,6 +1001,7 @@ form.addEventListener("submit", async (e) => {
       // طالب جديد: تسجيل كامل، والرد يحمل active_curriculum
       const res = await api("register-student", { full_name: profile.full_name, program_code: profile.program_code, level_code: profile.level_code });
       registered = (res.status === "REGISTERED");
+      const rx = pickXp(res); if (rx != null) syncXp(rx, false);
       data = parseSession(res, filter);
     }
     cacheState(profile);
@@ -1003,6 +1102,7 @@ mForm.addEventListener("submit", async (e) => {
     if (s.status === "REGISTERED" && s.student){
       registered = true;
       const st = s.student;
+      const sx = pickXp(s); if (sx != null) syncXp(sx, false);
       if (st.full_name) $("full_name").value = st.full_name;
       if (st.program_code) $("program_code").value = st.program_code;
       if (st.level_code) $("level_code").value = st.level_code;
