@@ -77,6 +77,12 @@
   @media(max-width:560px){.grid{grid-template-columns:1fr}}
   label{display:block;font-size:.85rem;margin-bottom:4px;font-weight:500}
   .opt-tag{font-weight:400;opacity:.65;font-size:.8rem}
+  .req-tag{font-weight:400;color:var(--wrong);font-size:.8rem}
+  .span2{grid-column:1/-1}
+  .hint{font-size:.78rem;opacity:.7;margin-top:4px;padding-inline:6px}
+  input[type=text].invalid{border-color:var(--wrong);box-shadow:0 0 0 3px rgba(192,57,43,.15)}
+  .welcome{text-align:center;margin-bottom:16px}
+  .welcome p{font-size:.95rem;opacity:.85}
   input[type=text]{width:100%;padding:12px 16px;border:1.5px solid var(--line);border-radius:999px;font-size:1rem;background:var(--bg);transition:border .2s,box-shadow .2s}
   input[type=text]:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(13,148,136,.2)}
   select{width:100%;appearance:none;-webkit-appearance:none;padding:12px 18px 12px 42px;border:1.5px solid var(--line);border-radius:999px;font-size:1rem;color:var(--navy);cursor:pointer;
@@ -295,20 +301,29 @@
 <main>
   <section id="s-home" class="screen active">
     <div class="card">
+      <div class="welcome" id="welcome" hidden>
+        <h2 class="center">أهلاً بك في سَنَد 👋</h2>
+        <p>أكمل بياناتك لتفعيل حسابك وعرض مقرراتك الدراسية. رقم الواتساب إلزامي لأننا نرسل عليه التنبيهات والإشعارات.</p>
+      </div>
       <button type="button" class="pill" id="edit-btn" aria-expanded="false">✎ تعديل بياناتي الجامعية</button>
       <form id="profile-form" hidden novalidate>
         <div class="grid">
           <div><label for="full_name">الاسم الكامل</label><input type="text" id="full_name"></div>
-          <div><label for="student_id">الرقم الجامعي <span class="opt-tag">(اختياري)</span></label><input type="text" id="student_id" dir="ltr" inputmode="numeric"></div>
+          <div><label for="student_id">الرقم الجامعي <span class="opt-tag">(اختياري)</span></label><input type="text" id="student_id" dir="ltr" inputmode="numeric" maxlength="30" autocomplete="off"></div>
           <div><label for="program_code">التخصص الأكاديمي</label><select id="program_code"></select></div>
           <div><label for="level_code">المستوى الدراسي</label><select id="level_code"></select></div>
+          <div class="span2">
+            <label for="whatsapp_phone">رقم الواتساب <span class="req-tag">(إلزامي)</span></label>
+            <input type="text" id="whatsapp_phone" dir="ltr" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="+رمز الدولة ثم الرقم" aria-describedby="wa-hint" required>
+            <div class="hint" id="wa-hint">بصيغة دولية تبدأ بـ + ثم رمز الدولة. نستخدمه لإرسال التنبيهات والإشعارات عبر واتساب.</div>
+          </div>
         </div>
         <button type="submit" class="pill emerald" id="save-btn" style="margin-top:14px">حفظ البيانات</button>
       </form>
       <div id="profile-msg" class="msg" hidden role="status"></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="courses-card">
       <h2 class="center">المقررات الدراسية</h2>
       <div class="sem-tabs">
         <button type="button" class="sem-tab" id="tab-1" aria-expanded="false">الفصل الدراسي الأول<small id="cnt-1">0 مقرر</small></button>
@@ -547,10 +562,15 @@ const termKey = (v) => {
 function parseSession(res, filter){
   const src = (res && res.active_curriculum && typeof res.active_curriculum === "object") ? res.active_curriculum : (res || {});
   const rows = (k) => arr(src[k]).filter(r => r && typeof r === "object");
-  const keep = (r) => !filter || (
+  // المقررات المشتركة: مقررات الطالب تأتي في res.courses، وتُطابَق المحاضرات معها برمز المقرر (course_code) حصراً،
+  // فلا يُنظر إلى program_code / level_code في سطر المحاضرة (قد يكون المقرر مشتركاً بين تخصصات ومستويات).
+  // الفلتر القديم (تخصص + مستوى) احتياط فقط إن لم يصل courses في الرد أصلاً (نسخة خادم قديمة).
+  const hasCourses = !!res && res.courses != null;
+  const myCodes = new Set(arr(res && res.courses).filter(c => c && typeof c === "object").map(c => ck(c.course_code)).filter(Boolean));
+  const keep = (r) => hasCourses ? myCodes.has(ck(r.course_code)) : (!filter || (
     (!r.program_code || ck(r.program_code) === ck(filter.program)) &&
     (!r.level_code || ck(r.level_code) === ck(filter.level))
-  );
+  ));
   const norm = (r) => Object.assign({}, r, {
     title: r.lesson_title || r.title || r.lesson_code || "محاضرة",
     course_name: r.course_name || r.course_code || ""
@@ -968,6 +988,31 @@ $("edit-btn").addEventListener("click", () => {
   const open = form.hidden; openForm(open);
   if (open && initData) msg.hidden = true;
 });
+/* ---------- بوابة الانضمام (Onboarding) ----------
+   عند NEW_STUDENT: يظهر نموذج ترحيبي وتُخفى المقررات وشجرة المحاضرات حتى ينجح register-student. */
+let gateOn = false;
+const saveLabel = () => gateOn ? "إتمام التسجيل" : "حفظ البيانات";
+function setGate(on){
+  gateOn = on;
+  $("welcome").hidden = !on;
+  $("courses-card").hidden = on;
+  $("tree-btn").hidden = on;
+  $("edit-btn").hidden = on;
+  $("save-btn").textContent = saveLabel();
+  if (on) openForm(true);
+}
+// رقم الواتساب: أرقام لاتينية، بلا مسافات/رموز، و 00 تتحول إلى +، والصيغة المقبولة E.164 (+ ثم 8 إلى 15 رقماً)
+const toLatinDigits = (v) => String(v || "")
+  .replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660))
+  .replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x06F0));
+function normPhone(v){
+  let t = toLatinDigits(v).replace(/[\s\-().\u200B-\u200F\u202A-\u202E]/g, "");
+  if (t.startsWith("00")) t = "+" + t.slice(2);
+  return t;
+}
+const validPhone = (t) => /^\+[1-9]\d{7,14}$/.test(t);
+$("whatsapp_phone").addEventListener("input", () => $("whatsapp_phone").classList.remove("invalid"));
+
 function cacheState(profile){
   try{
     if (profile) localStorage.setItem(KEY_PROFILE, JSON.stringify(profile));
@@ -979,40 +1024,50 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const profile = {
     full_name: $("full_name").value.trim(),
-    student_id: $("student_id").value.trim(), // يُحفظ محلياً فقط، لا يوجد له حقل في n8n
+    student_id: $("student_id").value.trim(), // اختياري
+    whatsapp_phone: normPhone($("whatsapp_phone").value), // إلزامي
     program_code: $("program_code").value.trim(),
     level_code: $("level_code").value.trim()
   };
   if (!initData){ flash(OUTSIDE_TG_MSG, "err"); return; }
   if (profile.full_name.length < 5){ flash("يرجى إدخال الاسم الكامل (5 أحرف على الأقل).", "err"); return; }
   if (!profile.program_code || !profile.level_code){ flash("يرجى اختيار التخصص الأكاديمي والمستوى الدراسي.", "err"); return; }
+  if (!profile.whatsapp_phone || !validPhone(profile.whatsapp_phone)){
+    $("whatsapp_phone").classList.add("invalid"); $("whatsapp_phone").focus();
+    flash(profile.whatsapp_phone ? "رقم الواتساب غير صحيح. اكتبه بصيغة دولية تبدأ بـ + ثم رمز الدولة." : "رقم الواتساب إلزامي لإرسال التنبيهات والإشعارات.", "err");
+    return;
+  }
+  const wasGate = gateOn;
 
   const btn = $("save-btn"); btn.disabled = true; btn.textContent = "جاري الحفظ...";
   try{
     const filter = { program: profile.program_code, level: profile.level_code };
     if (registered){
       // طالب مسجّل: تحديث الملف الشخصي فقط (لا يمس XP ولا التقدم) ثم جلب المقررات
-      let res = await api("update-profile", { full_name: profile.full_name, major: profile.program_code, level: profile.level_code });
+      let res = await api("update-profile", { full_name: profile.full_name, major: profile.program_code, level: profile.level_code, whatsapp_phone: profile.whatsapp_phone, student_id: profile.student_id });
       const ux = pickXp(res); if (ux != null) syncXp(ux, false);
       // الرد الجديد يحمل courses و active_curriculum؛ إن لم يحملهما (نسخة قديمة) نجلب المنهج بشكل منفصل
       if (!res.active_curriculum) res = Object.assign({}, await api("get-curriculum"), { courses: res.courses });
       data = parseSession(res, filter);
     } else {
       // طالب جديد: تسجيل كامل، والرد يحمل active_curriculum
-      const res = await api("register-student", { full_name: profile.full_name, program_code: profile.program_code, level_code: profile.level_code });
+      const res = await api("register-student", { full_name: profile.full_name, program_code: profile.program_code, level_code: profile.level_code, whatsapp_phone: profile.whatsapp_phone, student_id: profile.student_id });
       registered = (res.status === "REGISTERED");
+      // البوابة لا تُرفع إلا بنجاح التسجيل فعلاً
+      if (wasGate && !registered){ const e = new Error("لم يكتمل التسجيل، يرجى المحاولة مرة أخرى."); e.server = true; throw e; }
       const rx = pickXp(res); if (rx != null) syncXp(rx, false);
       data = parseSession(res, filter);
     }
-    cacheState(profile);
+    cacheState(profile); // localStorage: الاسم، الرقم الجامعي، رقم الواتساب، التخصص، المستوى
+    if (wasGate) setGate(false);
     applyData();
     openForm(false);
-    flash("تم الاعتماد وتحديث السجل الأكاديمي", "ok", 5000);
+    flash(wasGate ? "تم التسجيل بنجاح. أهلاً بك في سَنَد!" : "تم الاعتماد وتحديث السجل الأكاديمي", "ok", 5000);
   }catch(err){
     console.error("submit error:", err);
     flash(errText(err), "err");
   }finally{
-    btn.disabled = false; btn.textContent = "حفظ البيانات";
+    btn.disabled = false; btn.textContent = saveLabel();
   }
 });
 
@@ -1087,15 +1142,19 @@ mForm.addEventListener("submit", async (e) => {
 
 /* ---------- التهيئة ---------- */
 (async function init(){
+  let hadProfile = false;
   try{
     const p = JSON.parse(localStorage.getItem(KEY_PROFILE) || "null");
-    if (p) ["full_name","student_id","program_code","level_code"].forEach(k => { if (p[k]) $(k).value = p[k]; });
+    hadProfile = !!p;
+    if (p) ["full_name","student_id","whatsapp_phone","program_code","level_code"].forEach(k => { if (p[k]) $(k).value = p[k]; });
     const d = JSON.parse(localStorage.getItem(KEY_DATA) || "null");
     if (d && Array.isArray(d.lessons) && Array.isArray(d.courses)) data = d;
   }catch(_){}
   applyData();
 
   if (!initData){ flash(OUTSIDE_TG_MSG, "err"); return; }
+  // زائر لأول مرة بلا ملف محفوظ: نُخفي المقررات من البداية حتى يُعرف وضعه (يمنع وميض "0 مقرر" قبل بوابة الانضمام)
+  if (!hadProfile){ $("courses-card").hidden = true; $("tree-btn").hidden = true; }
 
   try{
     const s = await api("init-session");
@@ -1106,23 +1165,29 @@ mForm.addEventListener("submit", async (e) => {
       if (st.full_name) $("full_name").value = st.full_name;
       if (st.program_code) $("program_code").value = st.program_code;
       if (st.level_code) $("level_code").value = st.level_code;
+      if (st.student_id) $("student_id").value = st.student_id;
+      if (st.whatsapp_phone) $("whatsapp_phone").value = st.whatsapp_phone;
+      setGate(false);
       // init-session يحمل courses و active_curriculum؛ get-curriculum احتياط فقط
       const base = s.active_curriculum ? s : Object.assign({}, await api("get-curriculum"), { courses: s.courses });
       data = parseSession(base, { program: String(st.program_code || ""), level: String(st.level_code || "") });
       cacheState({
         full_name: st.full_name || "",
         student_id: $("student_id").value.trim(),
+        whatsapp_phone: $("whatsapp_phone").value.trim(),
         program_code: st.program_code || "",
         level_code: st.level_code || ""
       });
       applyData();
     } else if (s.status === "NEW_STUDENT"){
       registered = false;
-      openForm(true);
-      flash("أهلاً بك في سَنَد! أكمل بياناتك الجامعية لعرض مقرراتك.", "ok");
+      setGate(true); // نموذج ترحيبي + إخفاء المقررات حتى إتمام التسجيل
+    } else {
+      setGate(false);
     }
   }catch(err){
     console.error("init error:", err);
+    if (!gateOn) setGate(false);
     flash(errText(err), "err");
   }
 })();
