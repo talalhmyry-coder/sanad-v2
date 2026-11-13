@@ -330,6 +330,83 @@
   .gw-done p{margin:0;color:var(--gw-mute);line-height:1.8}
   @media(max-width:380px){.gw-pill,.gw-topup{font-size:.72rem;padding-inline:8px}header .gw-bar{left:8px;gap:4px}.gw-row{flex-wrap:wrap}}
   @media(prefers-reduced-motion:reduce){.gw-topup,.gw-btn{transition:none}}
+
+  /* ===== متجر خدمات سَنَد (SanadStore) — معزول بالبادئة sp- ===== */
+  :root{--sp-navy:#0B192C;--sp-navy-2:#132640;--sp-gold:#D4AF37;--sp-emerald:#0D9488;--sp-ink:#E9EEF5;--sp-mute:#9DB0C8;--sp-line:rgba(212,175,55,.30);--sp-err:#F2A0A0}
+  .sp-entry{display:flex;align-items:center;gap:12px;width:100%;margin-bottom:18px;padding:16px 18px;border:2px solid var(--sp-gold);border-radius:var(--radius);background:linear-gradient(135deg,#0B192C 0%,#132640 70%,#0f3a43 100%);color:#fff;cursor:pointer;text-align:right;box-shadow:0 8px 22px rgba(11,25,44,.22);transition:transform .15s,box-shadow .2s}
+  .sp-entry:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(11,25,44,.32)}
+  .sp-entry:active{transform:scale(.99)}
+  .sp-entry:focus-visible{outline:3px solid var(--sp-emerald);outline-offset:2px}
+  .sp-entry-txt{display:grid;gap:2px;flex:1;min-width:0}
+  .sp-entry-txt strong{font-size:1.08rem;color:var(--sp-gold);font-weight:800;line-height:1.5}
+  .sp-entry-txt small{font-size:.86rem;color:var(--sp-mute);line-height:1.6}
+  .sp-entry-arrow{font-size:1.6rem;color:var(--sp-gold);line-height:1}
+  .sp-overlay{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(5,12,22,.78)}
+  .sp-modal{width:min(560px,100%);max-height:94vh;max-height:94dvh;display:flex;flex-direction:column;background:var(--sp-navy);color:var(--sp-ink);border:1px solid var(--sp-line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden}
+  .sp-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.9rem 1.1rem;border-bottom:1px solid var(--sp-line)}
+  .sp-head h2{margin:0;font-size:1.05rem;color:var(--sp-gold);line-height:1.5}
+  .sp-x{background:none;border:0;color:var(--sp-mute);font-size:1.2rem;cursor:pointer;padding:.2rem .5rem}
+  .sp-prog{padding:.6rem 1.1rem 0;display:grid;gap:.35rem}
+  .sp-prog small{color:var(--sp-mute);font-size:.82rem}
+  .sp-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+  .sp-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sp-emerald),var(--sp-gold));transition:width .25s}
+  .sp-body{padding:1rem 1.1rem;overflow:auto;display:grid;gap:.9rem;align-content:start;flex:1}
+  .sp-body h3{margin:0;font-size:1rem;color:var(--sp-ink)}
+  .sp-hint{margin:0;color:var(--sp-mute);font-size:.88rem;line-height:1.7}
+  .sp-list{display:grid;gap:.6rem}
+  .sp-opt{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem .9rem;border-radius:12px;border:1px solid var(--sp-line);background:var(--sp-navy-2);color:var(--sp-ink);text-align:right;cursor:pointer;font:inherit}
+  .sp-opt:hover{border-color:var(--sp-gold)}
+  .sp-opt:focus-visible{outline:2px solid var(--sp-emerald);outline-offset:2px}
+  .sp-opt[aria-pressed="true"],.sp-opt.is-on{border-color:var(--sp-gold);box-shadow:0 0 0 2px rgba(212,175,55,.35)}
+  .sp-ico{font-size:1.5rem;line-height:1}
+  .sp-opt-main{display:grid;gap:.1rem;flex:1;min-width:0}
+  .sp-opt-main b{font-size:.98rem}
+  .sp-opt-main small{color:var(--sp-mute);font-size:.84rem;line-height:1.6}
+  .sp-cost{flex-shrink:0;padding:.15rem .7rem;border-radius:999px;border:1px solid var(--sp-gold);background:rgba(212,175,55,.12);color:var(--sp-gold);font-weight:800;font-size:.9rem;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+  .sp-field{display:grid;gap:.3rem}
+  .sp-field>label,.sp-field>.sp-lbl{font-size:.88rem;color:var(--sp-mute)}
+  .sp-field .sp-star{color:var(--sp-gold)}
+  .sp-field input,.sp-field textarea,.sp-field select{font:inherit;color:var(--sp-ink);background:var(--sp-navy-2);border:1px solid var(--sp-line);border-radius:10px;padding:.6rem .75rem;width:100%;box-sizing:border-box}
+  .sp-field textarea{min-height:110px;resize:vertical}
+  .sp-field select{appearance:auto;-webkit-appearance:menulist;padding-left:.75rem;background-image:none}
+  .sp-field input:focus,.sp-field textarea:focus,.sp-field select:focus{outline:2px solid var(--sp-emerald);outline-offset:1px;border-color:var(--sp-emerald)}
+  .sp-field.has-err input,.sp-field.has-err textarea,.sp-field.has-err select{border-color:var(--sp-err)}
+  .sp-count{justify-self:end;font-size:.76rem;color:var(--sp-mute)}
+  .sp-tpls{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+  .sp-tpl{display:grid;justify-items:center;gap:.35rem;padding:.6rem .3rem;border-radius:12px;border:1px solid var(--sp-line);background:var(--sp-navy-2);color:var(--sp-ink);cursor:pointer;font:inherit;font-size:.82rem;text-align:center}
+  .sp-tpl[aria-pressed="true"]{border-color:var(--sp-gold);box-shadow:0 0 0 2px rgba(212,175,55,.35)}
+  .sp-tpl:focus-visible{outline:2px solid var(--sp-emerald);outline-offset:2px}
+  .sp-sw{width:100%;height:38px;border-radius:8px;border:1px solid rgba(255,255,255,.25);display:block}
+  .sp-sw--navy{background:linear-gradient(135deg,#0B192C 0 60%,#D4AF37 60%)}
+  .sp-sw--emerald{background:linear-gradient(135deg,#0D9488 0 60%,#ECFDF5 60%)}
+  .sp-sw--gold{background:linear-gradient(135deg,#D4AF37 0 60%,#0B192C 60%)}
+  .sp-sum{display:grid;gap:.45rem;padding:.8rem .9rem;border-radius:12px;border:1px solid var(--sp-line);background:var(--sp-navy-2)}
+  .sp-sum-row{display:grid;grid-template-columns:minmax(80px,32%) 1fr;gap:.6rem;font-size:.9rem;line-height:1.7}
+  .sp-sum-row dt{color:var(--sp-mute)}
+  .sp-sum-row dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
+  .sp-price{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.8rem .9rem;border-radius:12px;border:1.5px solid var(--sp-gold);background:rgba(212,175,55,.1)}
+  .sp-price strong{color:var(--sp-gold);font-size:1.3rem;font-variant-numeric:tabular-nums}
+  .sp-balrow{display:flex;justify-content:space-between;font-size:.88rem;color:var(--sp-mute)}
+  .sp-balrow b{color:var(--sp-ink);font-variant-numeric:tabular-nums}
+  .sp-alert{padding:.75rem .9rem;border-radius:12px;border:1px solid var(--sp-err);background:rgba(242,160,160,.1);color:var(--sp-err);font-size:.92rem;line-height:1.8;display:grid;gap:.6rem}
+  .sp-alert[hidden]{display:none}
+  .sp-err{min-height:1.2em;margin:0;color:var(--sp-err);font-size:.88rem}
+  .sp-foot{display:flex;gap:.6rem;padding:.8rem 1.1rem;border-top:1px solid var(--sp-line);background:var(--sp-navy)}
+  .sp-btn{flex:1;font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#fff;background:var(--sp-emerald);padding:.7rem 1.1rem;transition:filter .15s}
+  .sp-btn:hover{filter:brightness(1.12)}
+  .sp-btn[disabled]{opacity:.55;cursor:progress}
+  .sp-btn--ghost{background:transparent;color:var(--sp-gold);border:1px solid var(--sp-gold)}
+  .sp-btn--gold{background:var(--sp-gold);color:var(--sp-navy)}
+  .sp-done{display:grid;gap:.8rem;text-align:center;justify-items:center;padding:1rem 0}
+  .sp-done .sp-tick{font-size:2.6rem;line-height:1}
+  .sp-done h3{color:var(--sp-gold);font-size:1.15rem}
+  .sp-done p{margin:0;color:var(--sp-mute);line-height:1.8}
+  .sp-oid{display:inline-block;padding:.35rem 1rem;border-radius:999px;border:1px dashed var(--sp-gold);color:var(--sp-gold);font-weight:800;direction:ltr;unicode-bidi:isolate;overflow-wrap:anywhere}
+  @media(max-width:480px){.sp-overlay{padding:0;align-items:flex-end}.sp-modal{max-height:100vh;max-height:100dvh;height:100%;border-radius:0}.sp-tpls{gap:.35rem}}
+  @media(prefers-reduced-motion:reduce){.sp-entry,.sp-btn,.sp-bar i{transition:none}}
+  .sp-prog-row{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .sp-prog-row b{color:var(--sp-gold);font-variant-numeric:tabular-nums}
+  .sp-done p{white-space:pre-line}
 </style>
 </head>
 <body>
@@ -383,6 +460,11 @@
       </div>
       <div id="sem-panel" class="sem-panel" hidden></div>
     </div>
+
+    <button type="button" class="sp-entry" id="spOpenBtn" aria-haspopup="dialog">
+      <span class="sp-entry-txt"><strong>💎 متجر خدمات سَنَد الأكاديمية والمهنية</strong><small>سيرة ذاتية · أبحاث أكاديمية · عروض تقديمية — تُدفع بالجواهر</small></span>
+      <span class="sp-entry-arrow" aria-hidden="true">‹</span>
+    </button>
 
     <button type="button" class="pill gold big" id="tree-btn">📚 شجرة المحاضرات النشطة</button>
   </section>
@@ -487,6 +569,22 @@
   </div>
 </div>
 
+<!-- نافذة متجر خدمات سَنَد (معالج متدرج) -->
+<div class="sp-overlay" id="spOverlay" hidden>
+  <div class="sp-modal" id="spModal" role="dialog" aria-modal="true" aria-labelledby="spTitle">
+    <div class="sp-head">
+      <h2 id="spTitle">💎 متجر خدمات سَنَد</h2>
+      <button type="button" class="sp-x" id="spClose" aria-label="إغلاق">✕</button>
+    </div>
+    <div class="sp-prog" id="spProg">
+      <div class="sp-prog-row"><small id="spProgTxt"></small><small>رصيدك: <b id="spBalTop">0</b> 💎</small></div>
+      <div class="sp-bar"><i id="spBar"></i></div>
+    </div>
+    <div class="sp-body" id="spBody"></div>
+    <div class="sp-foot" id="spFoot"></div>
+  </div>
+</div>
+
 <script>
 const BASE_URL = "https://sanad3-n8n.app.n8n.cloud/webhook/sanad-v1-api";
 const API_TIMEOUT_MS = 15000;
@@ -538,7 +636,7 @@ async function api(action, extra, timeoutMs){
     try { res = raw ? JSON.parse(raw) : null; } catch (_) {}
     if (!res || typeof res !== "object") throw new Error("رد غير مفهوم من الخادم (HTTP " + r.status + ")");
     if (!r.ok || res.ok === false){
-      const e = new Error(res.message || ("HTTP " + r.status)); e.server = true; e.code = res.error_code || ""; throw e;
+      const e = new Error(res.message || ("HTTP " + r.status)); e.server = true; e.code = res.error_code || res.error || ""; throw e;
     }
     return res;
   } finally { clearTimeout(timer); }
@@ -1419,6 +1517,442 @@ mForm.addEventListener("submit", async (e) => {
     if (!gateOn) setGate(false);
     flash(errText(err), "err");
   }
+})();
+</script>
+<script>
+/* ---------- متجر خدمات سَنَد (SanadStore) ----------
+   كتلة مستقلة بالكامل: لا تعدّل أي كود قائم، وتعتمد فقط على الدوال العامة الموجودة ($ / el / ck / api / errText / data / SanadGems).
+   الإرسال عبر api("create-service-order", ...) الموحّدة (initData + HMAC + طلب بلا preflight)، والرصيد يتحدّث من new_balance عبر SanadGems.refresh. */
+const SanadStore = (function(){
+  "use strict";
+  const MIN_COST = 10;
+  const TEMPLATES = [
+    { id: "navy_formal",    name: "كحلي رسمي",   sw: "sp-sw--navy" },
+    { id: "emerald_modern", name: "زمردي حديث",  sw: "sp-sw--emerald" },
+    { id: "gold_classic",   name: "ذهبي كلاسيكي", sw: "sp-sw--gold" }
+  ];
+
+  /* أنواع الحقول: text | area | number | tpl | course | lesson | scope
+     len = أقصى طول نصي، min/max/def = للأرقام، req=false لحقل اختياري، list = اقتراح مقررات الطالب، showIf = ظهور شرطي */
+  const CATALOG = [
+    { type: "cv", icon: "📄", name: "السيرة الذاتية", desc: "تكليف جامعي أو سيرة احترافية للخريجين", branches: [
+      { id: "student_assignment", name: "تكليف جامعي", desc: "سيرة ذاتية مطلوبة كتكليف في أحد المقررات", cost: 30, steps: [
+        { title: "بيانات المقرر", fields: [ { key: "course_name", label: "اسم المقرر", type: "text", len: 120, list: true } ] },
+        { title: "متطلبات الدكتور", fields: [ { key: "doctor_requirements", label: "متطلبات الدكتور", type: "area", len: 1500, ph: "اكتب ما طلبه الدكتور بالتفصيل (الشكل، الأقسام، عدد الصفحات…)" } ] },
+        { title: "البيانات الأساسية", fields: [ { key: "basic_info", label: "البيانات الأساسية", type: "area", len: 1500, ph: "الاسم، التخصص، المستوى، المهارات، الهوايات…" } ] }
+      ] },
+      { id: "graduate_pro", name: "سيرة احترافية للخريجين", desc: "سيرة ذاتية جاهزة للتقديم على الوظائف", cost: 50, steps: [
+        { title: "المؤهل والوظيفة المستهدفة", fields: [
+          { key: "qualification", label: "المؤهل", type: "text", len: 150, ph: "مثال: بكالوريوس محاسبة — جامعة العلوم والتكنولوجيا" },
+          { key: "target_job", label: "المسمى الوظيفي المستهدف", type: "text", len: 100 } ] },
+        { title: "الخبرات", fields: [ { key: "experience", label: "الخبرات", type: "area", len: 1500, req: false, ph: "الجهة، المسمى، المدة، المهام… (إن لم تكن لديك خبرات اذكر التدريب أو العمل التطوعي)" } ] },
+        { title: "المهارات واللغات", fields: [
+          { key: "skills", label: "المهارات", type: "area", len: 800 },
+          { key: "languages", label: "اللغات", type: "text", len: 200, ph: "مثال: العربية (لغة أم)، الإنجليزية (جيد)" } ] }
+      ] }
+    ] },
+    { type: "research", icon: "🔬", name: "إعداد الأبحاث الأكاديمية", desc: "خطة بحث أو بحث أكاديمي شامل", branches: [
+      { id: "research_proposal", name: "إعداد خطة بحث", desc: "خطة بحث متكاملة بإشكاليتها ومنهجها", cost: 60, steps: [
+        { title: "عنوان البحث والمقرر", fields: [
+          { key: "title", label: "عنوان البحث المقترح", type: "text", len: 200 },
+          { key: "course_name", label: "اسم المقرر", type: "text", len: 120, list: true } ] },
+        { title: "إشكالية البحث", fields: [ { key: "problem", label: "إشكالية / فكرة البحث", type: "area", len: 2000 } ] }
+      ] },
+      { id: "full_research", name: "بحث أكاديمي شامل", desc: "بحث كامل بمحاور ومراجع", cost: 120, steps: [
+        { title: "عنوان البحث والمقرر", fields: [
+          { key: "title", label: "عنوان البحث", type: "text", len: 200 },
+          { key: "course_name", label: "اسم المقرر", type: "text", len: 120, list: true } ] },
+        { title: "الحجم والمحاور", fields: [
+          { key: "pages", label: "عدد الصفحات التقريبي", type: "number", min: 5, max: 100, def: 20 },
+          { key: "axes", label: "المحاور المطلوبة", type: "area", len: 1500, ph: "اكتب كل محور في سطر" } ] }
+      ] }
+    ] },
+    { type: "presentation", icon: "🖼️", name: "استوديو العروض التقديمية الذكي", desc: "عرض عام أو عرض مبني على مقررك", branches: [
+      { id: "general_presentation", name: "عرض تقديمي عام", desc: "عرض بأي موضوع تختاره", cost: 40, steps: [
+        { title: "موضوع العرض", fields: [
+          { key: "title", label: "عنوان العرض", type: "text", len: 200 },
+          { key: "axes", label: "المحاور", type: "area", len: 1500, ph: "اكتب كل محور في سطر" } ] },
+        { title: "الشرائح والقالب", fields: [
+          { key: "slides_count", label: "عدد الشرائح", type: "number", min: 3, max: 40, def: 10 },
+          { key: "template", label: "القالب البصري", type: "tpl" } ] }
+      ] },
+      { id: "course_presentation", name: "عرض من المقرر الدراسي", desc: "عرض مبني على محاضرة أو وحدة من مقررك", cost: 50, steps: [
+        { title: "المقرر", fields: [ { key: "course", label: "المقرر", type: "course" } ] },
+        { title: "الوحدة / المحاضرة", fields: [ { key: "lesson", label: "الوحدة / المحاضرة", type: "lesson" } ] },
+        { title: "نطاق العرض", fields: [
+          { key: "scope", label: "نطاق العرض", type: "scope" },
+          { key: "scope_points", label: "النقاط المطلوبة", type: "area", len: 1200, ph: "اكتب النقاط التي تريدها في العرض، كل نقطة في سطر", showIf: (v) => v.scope === "points" } ] },
+        { title: "الشرائح والقالب", fields: [
+          { key: "slides_count", label: "عدد الشرائح", type: "number", min: 3, max: 40, def: 10 },
+          { key: "template", label: "القالب البصري", type: "tpl" } ] }
+      ] }
+    ] }
+  ];
+
+  const fresh = () => ({ i: 0, service: null, branch: null, vals: {}, busy: false, done: null });
+  let st = fresh(), lastFocus = null;
+
+  const clean = (s) => String(s == null ? "" : s).trim();
+  const fmt = (n) => Number(n).toLocaleString("en-US");
+  const readBalance = () => {
+    const n = parseInt(String(($("gwBalance") || {}).textContent || "").replace(/[^\d]/g, ""), 10);
+    return Number.isFinite(n) ? n : 0;
+  };
+  const tplById = (id) => TEMPLATES.find((t) => t.id === id);
+  const courseList = () => (typeof data !== "undefined" && data && Array.isArray(data.courses)) ? data.courses.filter((c) => c && (c.course_name || c.course_code)) : [];
+  const lessonList = (code) => (code && typeof data !== "undefined" && data && Array.isArray(data.lessons)) ? data.lessons.filter((l) => l && ck(l.course_code) === ck(code)) : [];
+  const visible = (f) => !f.showIf || f.showIf(st.vals);
+  const stepList = () => {
+    const out = [{ k: "service" }, { k: "branch" }];
+    if (st.branch) st.branch.steps.forEach((s) => out.push({ k: "fields", s }));
+    out.push({ k: "summary" });
+    return out;
+  };
+
+  /* ---------- مكوّنات الواجهة ---------- */
+  function heading(text){ const h = el("h3", "", text); h.tabIndex = -1; h.id = "spStepTitle"; return h; }
+  function costChip(c){ return el("span", "sp-cost", c + " 💎"); }
+  function optBtn(icon, name, desc, cost, on, onClick){
+    const b = el("button", "sp-opt"); b.type = "button"; b.setAttribute("aria-pressed", on ? "true" : "false");
+    if (icon) b.appendChild(el("span", "sp-ico", icon));
+    const m = el("span", "sp-opt-main"); m.append(el("b", "", name), el("small", "", desc)); b.appendChild(m);
+    if (cost) b.appendChild(costChip(cost));
+    b.addEventListener("click", onClick);
+    return b;
+  }
+  function clearErr(wrap){ if (wrap) wrap.classList.remove("has-err"); const e = $("spErr"); if (e) e.textContent = ""; }
+  function labelEl(f, forId){
+    const l = el("label", "", f.label); if (forId) l.htmlFor = forId;
+    if (f.req !== false) l.append(" ", el("span", "sp-star", "*"));
+    return l;
+  }
+  function textInput(id, value, len, ph, onInput){
+    const i = el("input"); i.type = "text"; i.id = id; i.maxLength = len; i.value = value || ""; i.autocomplete = "off";
+    if (ph) i.placeholder = ph;
+    i.addEventListener("input", () => onInput(i.value));
+    return i;
+  }
+
+  function fieldEl(f){
+    const wrap = el("div", "sp-field"); wrap.dataset.key = f.key;
+    const id = "spf-" + f.key, v = st.vals;
+
+    if (f.type === "text"){
+      wrap.appendChild(labelEl(f, id));
+      const i = textInput(id, v[f.key], f.len || 150, f.ph, (x) => { v[f.key] = x; clearErr(wrap); });
+      if (f.list){
+        const names = []; courseList().forEach((c) => { const n = c.course_name || c.course_code; if (n && names.indexOf(n) < 0) names.push(n); });
+        if (names.length){
+          const dl = el("datalist"); dl.id = "spCourseList"; names.forEach((n) => { const o = el("option"); o.value = n; dl.appendChild(o); });
+          i.setAttribute("list", "spCourseList"); wrap.appendChild(dl);
+        }
+      }
+      wrap.appendChild(i);
+    } else if (f.type === "area"){
+      wrap.appendChild(labelEl(f, id));
+      const t = el("textarea"); t.id = id; t.maxLength = f.len || 1500; t.value = v[f.key] || ""; if (f.ph) t.placeholder = f.ph;
+      const cnt = el("span", "sp-count", t.value.length + " / " + t.maxLength);
+      t.addEventListener("input", () => { v[f.key] = t.value; cnt.textContent = t.value.length + " / " + t.maxLength; clearErr(wrap); });
+      wrap.append(t, cnt);
+    } else if (f.type === "number"){
+      if (v[f.key] === undefined) v[f.key] = String(f.def || f.min);
+      wrap.appendChild(labelEl(f, id));
+      const i = el("input"); i.type = "number"; i.id = id; i.min = f.min; i.max = f.max; i.step = 1; i.inputMode = "numeric"; i.value = v[f.key];
+      i.addEventListener("input", () => { v[f.key] = i.value; clearErr(wrap); });
+      wrap.append(i, el("small", "sp-count", "من " + f.min + " إلى " + f.max));
+    } else if (f.type === "tpl"){
+      wrap.appendChild(labelEl(f, null));
+      const g = el("div", "sp-tpls"); g.setAttribute("role", "group"); g.setAttribute("aria-label", f.label);
+      TEMPLATES.forEach((t) => {
+        const b = el("button", "sp-tpl"); b.type = "button"; b.setAttribute("aria-pressed", v.template === t.id ? "true" : "false");
+        b.append(el("span", "sp-sw " + t.sw), el("span", "", t.name));
+        b.addEventListener("click", () => {
+          v.template = t.id; clearErr(wrap);
+          g.querySelectorAll(".sp-tpl").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+        });
+        g.appendChild(b);
+      });
+      wrap.appendChild(g);
+    } else if (f.type === "scope"){
+      wrap.appendChild(labelEl(f, null));
+      const g = el("div", "sp-list");
+      [["full", "المحاضرة كاملة", "يغطي العرض كل محتوى المحاضرة"], ["points", "نقاط محددة", "تحدّد النقاط التي تريدها فقط"]].forEach((o) => {
+        g.appendChild(optBtn("", o[1], o[2], 0, v.scope === o[0], () => { v.scope = o[0]; clearErr(wrap); render(); }));
+      });
+      wrap.appendChild(g);
+    } else if (f.type === "course"){
+      const courses = courseList();
+      wrap.appendChild(labelEl(f, courses.length ? "spf-course-sel" : "spf-course_name"));
+      let manual = !courses.length || v._course_sel === "__m";
+      if (courses.length){
+        const s = el("select"); s.id = "spf-course-sel";
+        const ph = el("option", "", "اختر المقرر…"); ph.value = ""; s.appendChild(ph);
+        courses.forEach((c, idx) => { const o = el("option", "", c.course_name || c.course_code); o.value = String(idx); s.appendChild(o); });
+        const m = el("option", "", "✏️ مقرر آخر (إدخال يدوي)"); m.value = "__m"; s.appendChild(m);
+        s.value = v._course_sel || "";
+        s.addEventListener("change", () => {
+          v._course_sel = s.value; v.lesson_title = ""; v.lesson_code = ""; v._lesson_sel = ""; clearErr(wrap);
+          if (s.value === "" || s.value === "__m"){ v.course_name = ""; v.course_code = ""; }
+          else { const c = courses[Number(s.value)]; v.course_name = c.course_name || c.course_code || ""; v.course_code = c.course_code || ""; }
+          render();
+        });
+        wrap.appendChild(s);
+      }
+      if (manual){
+        wrap.appendChild(textInput("spf-course_name", v.course_name, 120, "اكتب اسم المقرر", (x) => { v.course_name = x; v.course_code = ""; clearErr(wrap); }));
+      }
+    } else if (f.type === "lesson"){
+      const lessons = lessonList(v.course_code);
+      wrap.appendChild(labelEl(f, lessons.length ? "spf-lesson-sel" : "spf-lesson_title"));
+      if (v.course_name) wrap.appendChild(el("small", "sp-count", "المقرر: " + v.course_name));
+      const manual = !lessons.length || v._lesson_sel === "__m";
+      if (lessons.length){
+        const s = el("select"); s.id = "spf-lesson-sel";
+        const ph = el("option", "", "اختر الوحدة / المحاضرة…"); ph.value = ""; s.appendChild(ph);
+        lessons.forEach((l, idx) => { const o = el("option", "", l.title || l.lesson_title || l.lesson_code || "محاضرة"); o.value = String(idx); s.appendChild(o); });
+        const m = el("option", "", "✏️ وحدة أخرى (إدخال يدوي)"); m.value = "__m"; s.appendChild(m);
+        s.value = v._lesson_sel || "";
+        s.addEventListener("change", () => {
+          v._lesson_sel = s.value; clearErr(wrap);
+          if (s.value === "" || s.value === "__m"){ v.lesson_title = ""; v.lesson_code = ""; }
+          else { const l = lessons[Number(s.value)]; v.lesson_title = l.title || l.lesson_title || l.lesson_code || ""; v.lesson_code = l.lesson_code || ""; }
+          render();
+        });
+        wrap.appendChild(s);
+      }
+      if (manual){
+        wrap.appendChild(textInput("spf-lesson_title", v.lesson_title, 150, "مثال: الوحدة الثانية — المحاضرة 3", (x) => { v.lesson_title = x; v.lesson_code = ""; clearErr(wrap); }));
+      }
+    }
+    return wrap;
+  }
+
+  /* ---------- التحقق ---------- */
+  function checkField(f){
+    const v = st.vals, L = f.label;
+    if (f.type === "number"){
+      const raw = clean(v[f.key]), n = Number(raw);
+      return (raw === "" || !Number.isInteger(n) || n < f.min || n > f.max) ? "«" + L + "»: أدخل عدداً صحيحاً بين " + f.min + " و" + f.max + "." : "";
+    }
+    if (f.type === "tpl") return v.template ? "" : "اختر القالب البصري.";
+    if (f.type === "course") return clean(v.course_name) ? "" : "حدّد المقرر أو اكتب اسمه.";
+    if (f.type === "lesson") return clean(v.lesson_title) ? "" : "حدّد الوحدة / المحاضرة أو اكتبها.";
+    if (f.type === "scope") return v.scope ? "" : "اختر نطاق العرض.";
+    return (!clean(v[f.key]) && f.req !== false) ? "«" + L + "» مطلوب." : "";
+  }
+  function validateStep(fields){
+    let first = null;
+    fields.filter(visible).forEach((f) => {
+      const msg = checkField(f); if (!msg) return;
+      const w = $("spBody").querySelector('[data-key="' + f.key + '"]'); if (w) w.classList.add("has-err");
+      if (!first) first = { msg, w };
+    });
+    if (!first) return true;
+    $("spErr").textContent = first.msg;
+    const c = first.w && first.w.querySelector("input,textarea,select,button"); if (c) c.focus();
+    return false;
+  }
+
+  /* ---------- تفاصيل الطلب (order_details_json) ---------- */
+  function allFields(){ const out = []; st.branch.steps.forEach((s) => s.fields.forEach((f) => { if (visible(f)) out.push(f); })); return out; }
+  function buildDetails(){
+    const v = st.vals, d = {};
+    allFields().forEach((f) => {
+      if (f.type === "number") d[f.key] = Number(v[f.key]);
+      else if (f.type === "tpl"){ d.template = v.template; d.template_label = (tplById(v.template) || {}).name || ""; }
+      else if (f.type === "course"){ d.course_name = clean(v.course_name); if (clean(v.course_code)) d.course_code = clean(v.course_code); }
+      else if (f.type === "lesson"){ d.lesson_title = clean(v.lesson_title); if (clean(v.lesson_code)) d.lesson_code = clean(v.lesson_code); }
+      else if (f.type === "scope") d.scope = v.scope;
+      else { const t = clean(v[f.key]); if (t) d[f.key] = t; }
+    });
+    return d;
+  }
+  function displayValue(f){
+    const v = st.vals;
+    if (f.type === "tpl") return (tplById(v.template) || {}).name || "";
+    if (f.type === "course") return clean(v.course_name) + (clean(v.course_code) ? " (" + clean(v.course_code) + ")" : "");
+    if (f.type === "lesson") return clean(v.lesson_title);
+    if (f.type === "scope") return v.scope === "full" ? "المحاضرة كاملة" : "نقاط محددة";
+    return clean(v[f.key]) || "—";
+  }
+
+  /* ---------- العرض ---------- */
+  function render(){
+    const body = $("spBody"), foot = $("spFoot");
+    body.replaceChildren(); foot.replaceChildren(); foot.hidden = false;
+    $("spProg").hidden = !!st.done;
+    if (st.done){ renderDone(body, foot); return; }
+
+    const list = stepList(), cur = list[st.i] || list[0];
+    $("spProgTxt").textContent = st.branch ? "الخطوة " + (st.i + 1) + " من " + list.length : (st.i === 0 ? "ابدأ باختيار الخدمة" : "اختر نوع الخدمة");
+    $("spBar").style.width = (st.branch ? Math.round(((st.i + 1) / list.length) * 100) : (st.i === 0 ? 8 : 16)) + "%";
+    updateBalance();
+
+    const back = () => { st.i = Math.max(0, st.i - 1); render(); };
+    const backBtn = () => { const b = el("button", "sp-btn sp-btn--ghost", "→ السابق"); b.type = "button"; b.addEventListener("click", back); return b; };
+
+    if (cur.k === "service"){
+      foot.hidden = true;
+      body.append(heading("اختر الخدمة"), el("p", "sp-hint", "تُخصم تكلفة كل خدمة من رصيد جواهرك عند تأكيد الطلب."));
+      const g = el("div", "sp-list");
+      CATALOG.forEach((s) => g.appendChild(optBtn(s.icon, s.name, s.desc, 0, st.service === s, () => {
+        if (st.branch && s.branches.indexOf(st.branch) < 0){ st.branch = null; st.vals = {}; }
+        st.service = s; st.i = 1; render();
+      })));
+      body.appendChild(g);
+    } else if (cur.k === "branch"){
+      body.append(heading(st.service.name), el("p", "sp-hint", "اختر نوع الخدمة المطلوبة:"));
+      const g = el("div", "sp-list");
+      st.service.branches.forEach((b) => g.appendChild(optBtn("", b.name, b.desc, b.cost, st.branch === b, () => {
+        if (st.branch !== b){ st.branch = b; st.vals = {}; }
+        st.i = 2; render();
+      })));
+      body.appendChild(g); foot.appendChild(backBtn());
+    } else if (cur.k === "fields"){
+      body.appendChild(heading(cur.s.title));
+      cur.s.fields.filter(visible).forEach((f) => body.appendChild(fieldEl(f)));
+      const e = el("p", "sp-err"); e.id = "spErr"; e.setAttribute("role", "alert"); body.appendChild(e);
+      const next = el("button", "sp-btn", "التالي ←"); next.type = "button";
+      next.addEventListener("click", () => { if (validateStep(cur.s.fields)){ st.i++; render(); } });
+      foot.append(backBtn(), next);
+    } else {
+      renderSummary(body, foot, backBtn());
+    }
+    const h = $("spStepTitle"); if (h && !$("spOverlay").hidden) h.focus({ preventScroll: true });
+    body.scrollTop = 0;
+  }
+
+  function renderSummary(body, foot, backBtn){
+    const b = st.branch, cost = b.cost;
+    body.appendChild(heading("مراجعة الطلب والتكلفة"));
+    const dl = el("dl", "sp-sum");
+    const row = (k, val) => { const r = el("div", "sp-sum-row"); r.append(el("dt", "", k), el("dd", "", val)); dl.appendChild(r); };
+    row("الخدمة", st.service.name); row("النوع", b.name);
+    allFields().forEach((f) => row(f.type === "course" ? "المقرر" : f.type === "lesson" ? "الوحدة / المحاضرة" : f.label, displayValue(f)));
+    body.appendChild(dl);
+
+    const price = el("div", "sp-price"); price.append(el("span", "", "تكلفة الخدمة"), el("strong", "", cost + " 💎")); body.appendChild(price);
+    const bal = el("div", "sp-balrow"); const bv = el("b", "", fmt(readBalance())); bv.dataset.spBal = "1"; bal.append(el("span", "", "رصيدك الحالي"), el("span", "", ""));
+    bal.lastChild.append(bv, " 💎"); body.appendChild(bal);
+    const al = el("div", "sp-alert"); al.id = "spAlert"; al.hidden = true; al.setAttribute("role", "alert"); body.appendChild(al);
+
+    const ok = el("button", "sp-btn sp-btn--gold", "تأكيد الطلب وخصم الجواهر"); ok.type = "button"; ok.id = "spConfirm";
+    ok.addEventListener("click", confirmOrder);
+    foot.append(backBtn, ok);
+  }
+
+  function renderDone(body, foot){
+    const d = st.done, w = el("div", "sp-done");
+    w.append(el("div", "sp-tick", "✅"), el("h3", "", "تم استلام طلبك بنجاح"));
+    w.append(el("p", "", d.service + " — " + d.branch + "\nتم خصم " + d.cost + " 💎 من رصيدك."));
+    w.append(el("p", "", "رقم الطلب:"), el("span", "sp-oid", d.order_id));
+    const bal = el("p", "", "رصيدك الحالي: "); const bv = el("b", "", fmt(readBalance())); bv.dataset.spBal = "1"; bal.append(bv, " 💎"); w.appendChild(bal);
+    w.append(el("p", "", "احتفظ برقم الطلب للمتابعة مع الإدارة."));
+    body.appendChild(w);
+    const more = el("button", "sp-btn sp-btn--ghost", "طلب خدمة أخرى"); more.type = "button";
+    more.addEventListener("click", () => { st = fresh(); render(); });
+    const cl = el("button", "sp-btn", "إغلاق"); cl.type = "button"; cl.addEventListener("click", close);
+    foot.append(more, cl);
+  }
+
+  function updateBalance(){
+    const t = fmt(readBalance());
+    document.querySelectorAll("#spModal [data-sp-bal]").forEach((n) => { n.textContent = t; });
+    const pr = $("spBalTop"); if (pr) pr.textContent = t;
+  }
+
+  /* ---------- الطلب ---------- */
+  function showAlert(text, withTopup){
+    const al = $("spAlert"); if (!al) return;
+    al.replaceChildren(el("span", "", text));
+    if (withTopup){
+      const t = el("button", "sp-btn sp-btn--ghost", "➕ اشحن رصيدك"); t.type = "button";
+      t.addEventListener("click", () => SanadGems.open());
+      al.appendChild(t);
+    }
+    al.hidden = false;
+    if (al.scrollIntoView) al.scrollIntoView({ block: "nearest" });
+  }
+  const insufficientMsg = (cost, bal) => "رصيدك الحالي (" + fmt(bal) + " 💎) لا يكفي لهذه الخدمة (" + cost + " 💎). اشحن رصيدك ثم أعد تأكيد الطلب.";
+
+  async function confirmOrder(){
+    if (st.busy || !st.branch) return;
+    const cost = st.branch.cost, btn = $("spConfirm"), al = $("spAlert");
+    if (al) al.hidden = true;
+    if (!Number.isInteger(cost) || cost < MIN_COST){ showAlert("تعذّر تحديد تكلفة الخدمة. أعد المحاولة."); return; }
+    const bal = readBalance();
+    if (bal < cost){ showAlert(insufficientMsg(cost, bal), true); return; }
+
+    const payload = {
+      service_type: st.service.type,
+      service_branch: st.branch.id,
+      order_details_json: JSON.stringify(buildDetails()),
+      cost_gems: cost
+    };
+    const label = btn.textContent;
+    st.busy = true; btn.disabled = true; btn.textContent = "جارٍ إرسال الطلب…";
+    try{
+      const res = await api("create-service-order", payload, 30000);
+      if (res && res.ok === true){
+        SanadGems.refresh({ gems_balance: res.new_balance });
+        st.done = { order_id: res.order_id != null && res.order_id !== "" ? String(res.order_id) : "—", cost, service: st.service.name, branch: st.branch.name };
+        st.busy = false; render(); return;
+      }
+      showAlert("لم يصلنا تأكيد واضح للطلب. تحقق من رصيدك قبل إعادة المحاولة لتجنّب تكرار الخصم.");
+    }catch(err){
+      console.error("create-service-order error:", err);
+      const code = String((err && err.code) || ""), msg = String((err && err.message) || "");
+      if (/INSUFFICIENT_GEMS/i.test(code) || /INSUFFICIENT_GEMS/i.test(msg)) showAlert(insufficientMsg(cost, readBalance()), true);
+      else if (err && err.server) showAlert(errText(err), /رصيد|جواهر|gems/i.test(msg));
+      else if (err && err.code === "NO_TELEGRAM") showAlert(errText(err));
+      else showAlert(errText(err) + " قد يكون الطلب وصل إلى الخادم؛ تحقق من رصيدك قبل إعادة المحاولة لتجنّب تكرار الخصم.");
+    }finally{
+      st.busy = false;
+      if (btn.isConnected){ btn.disabled = false; btn.textContent = label; }
+    }
+  }
+
+  /* ---------- فتح/إغلاق النافذة ---------- */
+  function open(){
+    if (!$("spOverlay").hidden) return;
+    lastFocus = document.activeElement;
+    render();
+    $("spOverlay").hidden = false; document.body.style.overflow = "hidden";
+    $("spClose").focus();
+  }
+  function close(){
+    $("spOverlay").hidden = true; document.body.style.overflow = "";
+    if (st.done) st = fresh();
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  // مفاتيح لوحة المفاتيح: تُعالَج في مرحلة الالتقاط كي لا تُغلق نافذة المتجر مع نافذة المحفظة بضغطة Esc واحدة
+  document.addEventListener("keydown", (e) => {
+    if ($("spOverlay").hidden || !$("gwOverlay").hidden) return;
+    if (e.key === "Escape"){ close(); return; }
+    if (e.key !== "Tab") return;
+    const f = Array.from($("spModal").querySelectorAll("button:not([disabled]),input,textarea,select")).filter((x) => x.offsetParent !== null);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }, true);
+
+  $("spOpenBtn").addEventListener("click", open);
+  $("spClose").addEventListener("click", close);
+  $("spOverlay").addEventListener("mousedown", (e) => { if (e.target === $("spOverlay")) close(); });
+
+  // البطاقة تتبع ظهور شجرة المحاضرات (تُخفى أثناء بوابة الانضمام مثل بقية بطاقات الشاشة الرئيسية)
+  const tree = $("tree-btn"), entry = $("spOpenBtn");
+  if (tree){
+    const sync = () => { entry.hidden = !!tree.hidden; };
+    sync(); new MutationObserver(sync).observe(tree, { attributes: true, attributeFilter: ["hidden"] });
+  }
+  // تحديث الرصيد المعروض داخل المتجر لحظياً عند تغيّره في الهيدر، وإعادة قفل التمرير بعد إغلاق نافذة المحفظة
+  if ($("gwBalance")) new MutationObserver(updateBalance).observe($("gwBalance"), { childList: true, characterData: true, subtree: true });
+  if ($("gwOverlay")) new MutationObserver(() => { if ($("gwOverlay").hidden && !$("spOverlay").hidden) document.body.style.overflow = "hidden"; })
+    .observe($("gwOverlay"), { attributes: true, attributeFilter: ["hidden"] });
+
+  return { open, close };
 })();
 </script>
 </body>
