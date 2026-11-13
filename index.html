@@ -282,12 +282,64 @@
   .chat-input input{flex:1;min-width:0}
   .chat-input .pill{flex:none}
   footer{text-align:center;font-size:.82rem;opacity:.7;padding-bottom:26px}
+
+  /* ===== محفظة الجواهر (Gems Wallet) — معزولة بالبادئة gw- ===== */
+  :root{--gw-navy:#0B192C;--gw-navy-2:#132640;--gw-gold:#D4AF37;--gw-emerald:#0D9488;--gw-ink:#E9EEF5;--gw-mute:#9DB0C8;--gw-line:rgba(212,175,55,.30);--gw-err:#F2A0A0}
+  header .gw-bar{position:absolute;top:8px;left:12px;z-index:2;display:flex;align-items:center;gap:6px}
+  .gw-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;line-height:1.5;font-size:.8rem;border:1.5px solid var(--gw-gold);border-radius:999px;background:rgba(212,175,55,.12);color:#fff;font-weight:700;white-space:nowrap}
+  .gw-pill strong{color:var(--gw-gold);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+  .gw-topup,.gw-btn{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#fff;background:var(--gw-emerald);white-space:nowrap;transition:filter .15s}
+  .gw-topup{font-size:.8rem;padding:3px 11px;line-height:1.5}
+  .gw-btn{padding:.6rem 1.2rem}
+  .gw-topup:hover,.gw-btn:hover{filter:brightness(1.12)}
+  .gw-btn[disabled]{opacity:.55;cursor:progress}
+  .gw-btn--ghost{background:transparent;color:var(--gw-gold);border:1px solid var(--gw-gold)}
+  .gw-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(5,12,22,.74)}
+  .gw-overlay[hidden],.gw-body[hidden],.gw-done[hidden]{display:none}
+  .gw-modal{width:min(560px,100%);max-height:92vh;overflow:auto;background:var(--gw-navy);color:var(--gw-ink);border:1px solid var(--gw-line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .gw-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--gw-line)}
+  .gw-head h2{margin:0;font-size:1.15rem;color:var(--gw-gold)}
+  .gw-x{background:none;border:0;color:var(--gw-mute);font-size:1.2rem;cursor:pointer;padding:.2rem .5rem}
+  .gw-body{padding:1.1rem 1.25rem 1.4rem;display:grid;gap:1.15rem}
+  .gw-sec h3{margin:0 0 .55rem;font-size:.98rem;color:var(--gw-ink)}
+  .gw-hint{margin:0 0 .6rem;color:var(--gw-mute);font-size:.88rem;line-height:1.7}
+  .gw-packs{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+  .gw-pack,.gw-method{position:relative;display:block;cursor:pointer}
+  .gw-pack input,.gw-method input{position:absolute;opacity:0;inset:0;margin:0;width:100%;height:100%;padding:0;cursor:pointer}
+  .gw-card{display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.8rem .4rem;border-radius:12px;border:1px solid var(--gw-line);background:var(--gw-navy-2);text-align:center}
+  .gw-card b{font-size:1.25rem;color:var(--gw-gold);font-variant-numeric:tabular-nums}
+  .gw-card small{color:var(--gw-mute)}
+  .gw-pack input:checked + .gw-card,.gw-method input:checked + .gw-row{border-color:var(--gw-gold);box-shadow:0 0 0 2px rgba(212,175,55,.35)}
+  .gw-pack input:focus-visible + .gw-card,.gw-method input:focus-visible + .gw-row{outline:2px solid var(--gw-emerald);outline-offset:2px}
+  .gw-group{margin:.2rem 0 .45rem;color:var(--gw-gold);font-size:.88rem;font-weight:700}
+  .gw-methods{display:grid;gap:.5rem}
+  .gw-row{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.7rem .8rem;border-radius:12px;border:1px solid var(--gw-line);background:var(--gw-navy-2)}
+  .gw-row-main{display:grid;gap:.1rem;min-width:0}
+  .gw-acc{direction:ltr;text-align:right;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gw-ink)}
+  .gw-acc--na{color:var(--gw-mute);direction:rtl;letter-spacing:0}
+  .gw-holder{font-size:.8rem;color:var(--gw-mute)}
+  .gw-copy{position:relative;z-index:1;font:inherit;font-size:.82rem;padding:.3rem .7rem;border-radius:999px;cursor:pointer;background:transparent;color:var(--gw-gold);border:1px solid var(--gw-gold);white-space:nowrap}
+  .gw-copy[disabled]{opacity:.4;cursor:not-allowed}
+  .gw-field{display:grid;gap:.3rem;margin-bottom:.6rem}
+  .gw-field label{font-size:.88rem;color:var(--gw-mute)}
+  .gw-field input,.gw-field textarea{font:inherit;color:var(--gw-ink);background:var(--gw-navy-2);border:1px solid var(--gw-line);border-radius:10px;padding:.6rem .75rem;width:100%;box-sizing:border-box}
+  .gw-field input:focus,.gw-field textarea:focus{outline:2px solid var(--gw-emerald);outline-offset:1px;border-color:var(--gw-emerald)}
+  .gw-err{min-height:1.3em;margin:0 0 .4rem;color:var(--gw-err);font-size:.9rem}
+  .gw-done{padding:2rem 1.25rem;text-align:center;display:grid;gap:.9rem}
+  .gw-done h3{margin:0;color:var(--gw-gold)}
+  .gw-done p{margin:0;color:var(--gw-mute);line-height:1.8}
+  @media(max-width:380px){.gw-pill,.gw-topup{font-size:.72rem;padding-inline:8px}header .gw-bar{left:8px;gap:4px}.gw-row{flex-wrap:wrap}}
+  @media(prefers-reduced-motion:reduce){.gw-topup,.gw-btn{transition:none}}
 </style>
 </head>
 <body>
 
 <header>
   <div class="xp-badge" id="xp-badge" title="نقاط الخبرة" aria-live="polite"><span class="xp-star" aria-hidden="true">⭐</span><span class="xp-val" id="xp-val">0</span><span class="xp-lbl">XP</span></div>
+  <div class="gw-bar">
+    <span class="gw-pill" aria-live="polite">رصيدك: <strong id="gwBalance">0</strong> 💎</span>
+    <button type="button" class="gw-topup" id="gwOpenBtn">➕ اشحن رصيدك</button>
+  </div>
   <div class="logo-frame">
     <img class="logo" src="logo.jpg" alt="شعار منصة سند">
   </div>
@@ -394,6 +446,46 @@
     <button type="submit" class="pill emerald small" id="mentor-send">إرسال</button>
   </form>
 </section>
+
+<!-- نافذة محفظة الجواهر -->
+<div class="gw-overlay" id="gwOverlay" hidden>
+  <div class="gw-modal" id="gwModal" role="dialog" aria-modal="true" aria-labelledby="gwTitle">
+    <div class="gw-head">
+      <h2 id="gwTitle">محفظة الجواهر</h2>
+      <button type="button" class="gw-x" id="gwClose" aria-label="إغلاق">✕</button>
+    </div>
+    <div class="gw-body" id="gwFormView">
+      <p class="gw-hint" style="margin:0">رصيدك الحالي: <strong id="gwBalance2" style="color:var(--gw-gold)">0</strong> 💎 — اختر الباقة، حوّل المبلغ، ثم وثّق العملية. تُضاف الجواهر بعد اعتماد الإدارة للطلب.</p>
+      <section class="gw-sec">
+        <h3>1. اختر باقة الشحن</h3>
+        <div class="gw-packs" id="gwPackages" role="radiogroup" aria-label="باقات الشحن"></div>
+      </section>
+      <section class="gw-sec">
+        <h3>2. اختر وسيلة الدفع وحوّل المبلغ</h3>
+        <p class="gw-hint">انسخ رقم الحساب، حوّل قيمة الباقة من تطبيق البنك أو المحفظة، واحتفظ بإشعار التحويل.</p>
+        <div class="gw-methods" id="gwMethods" role="radiogroup" aria-label="وسائل الدفع"></div>
+      </section>
+      <section class="gw-sec">
+        <h3>3. وثّق عملية الدفع</h3>
+        <div class="gw-field">
+          <label for="gwReceipt">رقم العملية / رقم إشعار التحويل</label>
+          <input id="gwReceipt" type="text" maxlength="64" autocomplete="off" dir="ltr">
+        </div>
+        <div class="gw-field">
+          <label for="gwNotes">ملاحظات إضافية (اختياري)</label>
+          <textarea id="gwNotes" rows="2" maxlength="300"></textarea>
+        </div>
+        <p class="gw-err" id="gwError" role="alert"></p>
+        <button type="button" class="gw-btn" id="gwSubmit" style="width:100%;padding:.75rem">إرسال طلب الشحن للاعتماد</button>
+      </section>
+    </div>
+    <div class="gw-done" id="gwDoneView" hidden>
+      <h3>تم استلام طلب الشحن ✓</h3>
+      <p>سنراجع إشعار التحويل ونضيف الجواهر إلى رصيدك فور اعتماد الطلب.</p>
+      <button type="button" class="gw-btn gw-btn--ghost" id="gwDoneClose">إغلاق</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const BASE_URL = "https://sanad3-n8n.app.n8n.cloud/webhook/sanad-v1-api";
@@ -508,6 +600,140 @@ function setXp(n, celebrate){
 }
 $("xp-val").textContent = String(xpState.xp);
 function syncXp(n, celebrate){ xpSynced = true; setXp(n, celebrate); }
+
+/* ---------- محفظة الجواهر (Gems Wallet) ----------
+   تستخدم دالة api() الموحّدة (initData + HMAC + طلب بلا preflight). الرصيد مصدره الخادم فقط (gems_balance)،
+   والواجهة لا تعدّله محلياً أبداً: الطلب يبقى «معلّقاً» حتى تعتمده الإدارة. */
+const SanadGems = (function(){
+  const GW = {
+    packages: [
+      { gems: 50,  amount_yer: 1000 },
+      { gems: 100, amount_yer: 2000 },
+      { gems: 250, amount_yer: 4500 }
+    ],
+    // قيم تجريبية مؤقتة — استبدلها بالأرقام الحقيقية قبل الإطلاق
+    methods: [
+      { id: "kuraimi_mfloos", group: "الخيار 1", name: "بنك الكريمي أو محفظة ام فلوس (M-Floos)", account: "3000000000", holder: "منصة سند الأكاديمية" },
+      { id: "qutaibi_shilin", group: "الخيار 2", name: "بنك القطيبي أو محفظة شلن (Shilin)",      account: "4000000000", holder: "منصة سند الأكاديمية" }
+    ]
+  };
+  let balance = 0, selPack = null, selMethod = null, busy = false, lastFocus = null;
+  const setError = (m) => { $("gwError").textContent = m || ""; };
+
+  function pickGems(o){
+    for (const src of [o, o && o.student]){
+      if (!src || typeof src !== "object") continue;
+      const v = src.gems_balance;
+      if (v === "" || v == null) continue;
+      const n = Number(v);
+      if (Number.isFinite(n) && n >= 0) return Math.floor(n);
+    }
+    return null;
+  }
+  function render(){
+    const t = balance.toLocaleString("en-US");
+    $("gwBalance").textContent = t; $("gwBalance2").textContent = t;
+  }
+  // refresh(res): يقرأ gems_balance من ردّ الخادم (في الجذر أو داخل student) ويحدّث الهيدر؛ بلا وسيط يعيد العرض فقط
+  function refresh(res){
+    try{ const n = pickGems(res); if (n != null) balance = n; render(); }catch(_){}
+  }
+
+  function buildPackages(){
+    const box = $("gwPackages"); box.replaceChildren();
+    GW.packages.forEach((p) => {
+      const label = el("label", "gw-pack");
+      const input = el("input"); input.type = "radio"; input.name = "gwPack"; input.value = String(p.gems);
+      input.addEventListener("change", () => { selPack = p; setError(""); });
+      const card = el("span", "gw-card");
+      card.append(el("b", "", String(p.gems)), el("small", "", "💎 جوهرة"), el("small", "", p.amount_yer.toLocaleString("en-US") + " ر.ي"));
+      label.append(input, card); box.appendChild(label);
+    });
+  }
+  function copyText(text, btn){
+    const done = () => { const old = btn.textContent; btn.textContent = "تم النسخ ✓"; setTimeout(() => { btn.textContent = old; }, 1500); };
+    const fallback = () => {
+      const ta = document.createElement("textarea"); ta.value = text; ta.style.cssText = "position:fixed;opacity:0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); done(); }catch(_){ setError("تعذّر النسخ، انسخ الرقم يدوياً."); }
+      ta.remove();
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  }
+  function buildMethods(){
+    const box = $("gwMethods"); box.replaceChildren();
+    GW.methods.forEach((m) => {
+      box.appendChild(el("div", "gw-group", m.group));
+      const label = el("label", "gw-method");
+      const input = el("input"); input.type = "radio"; input.name = "gwMethod"; input.value = m.id;
+      input.addEventListener("change", () => { selMethod = m; setError(""); });
+      const row = el("span", "gw-row"), main = el("span", "gw-row-main");
+      main.append(el("span", "", m.name), el("span", "gw-acc" + (m.account ? "" : " gw-acc--na"), m.account || "رقم الحساب غير متاح حالياً"));
+      if (m.holder) main.appendChild(el("span", "gw-holder", "باسم: " + m.holder));
+      const copy = el("button", "gw-copy", "نسخ الرقم"); copy.type = "button"; copy.disabled = !m.account;
+      copy.addEventListener("click", (ev) => { ev.preventDefault(); ev.stopPropagation(); copyText(m.account, copy); });
+      row.append(main, copy); label.append(input, row); box.appendChild(label);
+    });
+  }
+
+  const showForm = (on) => { $("gwFormView").hidden = !on; $("gwDoneView").hidden = on; };
+  function open(){
+    lastFocus = document.activeElement;
+    render(); setError(""); showForm(true);
+    $("gwOverlay").hidden = false; document.body.style.overflow = "hidden";
+    $("gwClose").focus();
+  }
+  function close(){
+    $("gwOverlay").hidden = true; document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function resetForm(){
+    selPack = null; selMethod = null; $("gwReceipt").value = ""; $("gwNotes").value = "";
+    buildPackages(); buildMethods(); setError("");
+  }
+  function onKey(e){
+    if ($("gwOverlay").hidden) return;
+    if (e.key === "Escape"){ close(); return; }
+    if (e.key !== "Tab") return;
+    const f = Array.from($("gwModal").querySelectorAll("button:not([disabled]),input,textarea")).filter((x) => x.offsetParent !== null);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+
+  async function submit(){
+    if (busy) return;
+    const receipt = $("gwReceipt").value.trim(), notes = $("gwNotes").value.trim().slice(0, 300);
+    if (!selPack) return setError("اختر باقة الشحن أولاً.");
+    if (!selMethod) return setError("اختر وسيلة الدفع.");
+    if (receipt.length < 4 || receipt.length > 64) return setError("أدخل رقم العملية كما يظهر في إشعار التحويل (4 خانات على الأقل).");
+    const extra = { package_gems: selPack.gems, amount_yer: selPack.amount_yer, payment_method: selMethod.id, receipt_reference: receipt };
+    if (notes) extra.notes = notes;
+    busy = true; setError("");
+    const btn = $("gwSubmit"); btn.disabled = true; btn.textContent = "جارٍ الإرسال…";
+    try{
+      const res = await api("recharge-wallet", extra);
+      refresh(res);
+      resetForm(); showForm(false); $("gwDoneClose").focus();
+    }catch(err){
+      console.error("recharge-wallet error:", err);
+      setError(errText(err));
+    }finally{
+      busy = false; btn.disabled = false; btn.textContent = "إرسال طلب الشحن للاعتماد";
+    }
+  }
+
+  buildPackages(); buildMethods(); render();
+  $("gwOpenBtn").addEventListener("click", open);
+  $("gwClose").addEventListener("click", close);
+  $("gwDoneClose").addEventListener("click", close);
+  $("gwSubmit").addEventListener("click", submit);
+  $("gwOverlay").addEventListener("mousedown", (e) => { if (e.target === $("gwOverlay")) close(); });
+  document.addEventListener("keydown", onKey);
+  return { open, close, refresh };
+})();
+
 
 function showEarned(line, delta, score){
   line.replaceChildren(); line.classList.toggle("gain", delta > 0);
@@ -1046,6 +1272,7 @@ form.addEventListener("submit", async (e) => {
       // طالب مسجّل: تحديث الملف الشخصي فقط (لا يمس XP ولا التقدم) ثم جلب المقررات
       let res = await api("update-profile", { full_name: profile.full_name, major: profile.program_code, level: profile.level_code, whatsapp_phone: profile.whatsapp_phone, student_id: profile.student_id });
       const ux = pickXp(res); if (ux != null) syncXp(ux, false);
+      SanadGems.refresh(res);
       // الرد الجديد يحمل courses و active_curriculum؛ إن لم يحملهما (نسخة قديمة) نجلب المنهج بشكل منفصل
       if (!res.active_curriculum) res = Object.assign({}, await api("get-curriculum"), { courses: res.courses });
       data = parseSession(res, filter);
@@ -1056,6 +1283,7 @@ form.addEventListener("submit", async (e) => {
       // البوابة لا تُرفع إلا بنجاح التسجيل فعلاً
       if (wasGate && !registered){ const e = new Error("لم يكتمل التسجيل، يرجى المحاولة مرة أخرى."); e.server = true; throw e; }
       const rx = pickXp(res); if (rx != null) syncXp(rx, false);
+      SanadGems.refresh(res);
       data = parseSession(res, filter);
     }
     cacheState(profile); // localStorage: الاسم، الرقم الجامعي، رقم الواتساب، التخصص، المستوى
@@ -1162,6 +1390,7 @@ mForm.addEventListener("submit", async (e) => {
       registered = true;
       const st = s.student;
       const sx = pickXp(s); if (sx != null) syncXp(sx, false);
+      SanadGems.refresh(s);
       if (st.full_name) $("full_name").value = st.full_name;
       if (st.program_code) $("program_code").value = st.program_code;
       if (st.level_code) $("level_code").value = st.level_code;
