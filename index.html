@@ -6,7 +6,7 @@
 <title>سَنَد | جامعة العلوم والتكنولوجيا</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Montserrat:wght@600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#0B192C;
@@ -194,8 +194,8 @@
   .result p{font-size:1.05rem;font-weight:500;margin:10px 0 16px;line-height:1.9}
 
   /* نقاط الخبرة XP: شارة الهيدر + سطر النقاط المكتسبة في نتيجة الكويز */
-  header{position:relative;padding-top:38px}
-  .xp-badge{position:absolute;top:8px;right:12px;z-index:2;display:flex;align-items:center;gap:5px;padding:3px 11px;line-height:1.3;border-radius:999px;border:1.5px solid var(--gold);background:rgba(212,175,55,.14);color:#fff;font-weight:800;direction:ltr;box-shadow:0 2px 10px rgba(212,175,55,.25)}
+  header{position:relative;padding-top:50px}
+  .xp-badge{position:absolute;top:12px;right:12px;z-index:2;display:flex;align-items:center;gap:5px;height:32px;padding:0 12px;line-height:1.3;border-radius:999px;border:1.5px solid var(--gold);background:rgba(212,175,55,.14);color:#fff;font-weight:800;direction:ltr;box-shadow:0 2px 10px rgba(212,175,55,.25)}
   .xp-badge .xp-star{font-size:.85rem;line-height:1}
   .xp-badge .xp-val{font-family:'Montserrat','Tajawal',sans-serif;font-size:.92rem;min-width:1ch;color:#fff}
   .xp-badge .xp-lbl{font-family:'Montserrat','Tajawal',sans-serif;font-size:.68rem;color:var(--gold);letter-spacing:.06em}
@@ -285,13 +285,16 @@
 
   /* ===== محفظة الجواهر (Gems Wallet) — معزولة بالبادئة gw- ===== */
   :root{--gw-navy:#0B192C;--gw-navy-2:#132640;--gw-gold:#D4AF37;--gw-emerald:#0D9488;--gw-ink:#E9EEF5;--gw-mute:#9DB0C8;--gw-line:rgba(212,175,55,.30);--gw-err:#F2A0A0}
-  header .gw-bar{position:absolute;top:8px;left:12px;z-index:2;display:flex;align-items:center;gap:6px}
-  .gw-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;line-height:1.5;font-size:.8rem;border:1.5px solid var(--gw-gold);border-radius:999px;background:rgba(212,175,55,.12);color:#fff;font-weight:700;white-space:nowrap}
+  header .gw-bar{position:absolute;top:12px;left:12px;z-index:2;display:flex;align-items:center}
+  .gw-pill{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 13px;line-height:1.3;font-size:.84rem;border:1.5px solid var(--gw-gold);border-radius:999px;background:linear-gradient(135deg,rgba(212,175,55,.22),rgba(212,175,55,.08));color:#fff;font-weight:800;white-space:nowrap;box-shadow:0 3px 12px rgba(212,175,55,.28),inset 0 0 0 1px rgba(255,255,255,.06)}
   .gw-pill strong{color:var(--gw-gold);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
-  .gw-topup,.gw-btn{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#fff;background:var(--gw-emerald);white-space:nowrap;transition:filter .15s}
-  .gw-topup{font-size:.8rem;padding:3px 11px;line-height:1.5}
+  .gw-btn{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#fff;background:var(--gw-emerald);white-space:nowrap;transition:filter .15s}
+  .gw-topup{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;max-width:100%;font:inherit;font-size:.98rem;font-weight:800;line-height:1.5;padding:10px 24px;color:#F6E27F;text-shadow:0 1px 2px rgba(0,0,0,.5);background:linear-gradient(135deg,#1b3561 0%,#0B192C 55%,#3b2f0a 130%);border:2px solid #D4AF37;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.38),0 0 16px rgba(212,175,55,.28),inset 0 0 0 1px rgba(212,175,55,.3);cursor:pointer;transition:transform .15s,box-shadow .2s,filter .15s}
+  .gw-topup:hover{filter:brightness(1.1);box-shadow:0 10px 24px rgba(0,0,0,.42),0 0 22px rgba(212,175,55,.4),inset 0 0 0 1px rgba(212,175,55,.4)}
+  .gw-topup:active{transform:scale(.98)}
+  .gw-topup:focus-visible{outline:3px solid #F6E27F;outline-offset:3px}
   .gw-btn{padding:.6rem 1.2rem}
-  .gw-topup:hover,.gw-btn:hover{filter:brightness(1.12)}
+  .gw-btn:hover{filter:brightness(1.12)}
   .gw-btn[disabled]{opacity:.55;cursor:progress}
   .gw-btn--ghost{background:transparent;color:var(--gw-gold);border:1px solid var(--gw-gold)}
   .gw-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(5,12,22,.74)}
@@ -328,19 +331,24 @@
   .gw-done{padding:2rem 1.25rem;text-align:center;display:grid;gap:.9rem}
   .gw-done h3{margin:0;color:var(--gw-gold)}
   .gw-done p{margin:0;color:var(--gw-mute);line-height:1.8}
-  @media(max-width:380px){.gw-pill,.gw-topup{font-size:.72rem;padding-inline:8px}header .gw-bar{left:8px;gap:4px}.gw-row{flex-wrap:wrap}}
+  @media(max-width:380px){.gw-pill{font-size:.76rem;padding-inline:9px}.xp-badge{padding-inline:9px}.gw-topup{font-size:.9rem;padding:9px 16px}header .gw-bar{left:8px}.xp-badge{right:8px}.gw-row{flex-wrap:wrap}}
   @media(prefers-reduced-motion:reduce){.gw-topup,.gw-btn{transition:none}}
 
   /* ===== متجر خدمات سَنَد (SanadStore) — معزول بالبادئة sp- ===== */
   :root{--sp-navy:#0B192C;--sp-navy-2:#132640;--sp-gold:#D4AF37;--sp-emerald:#0D9488;--sp-ink:#E9EEF5;--sp-mute:#9DB0C8;--sp-line:rgba(212,175,55,.30);--sp-err:#F2A0A0}
-  .sp-entry{display:flex;align-items:center;gap:12px;width:100%;margin-bottom:18px;padding:16px 18px;border:2px solid var(--sp-gold);border-radius:var(--radius);background:linear-gradient(135deg,#0B192C 0%,#132640 70%,#0f3a43 100%);color:#fff;cursor:pointer;text-align:right;box-shadow:0 8px 22px rgba(11,25,44,.22);transition:transform .15s,box-shadow .2s}
-  .sp-entry:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(11,25,44,.32)}
+  .sp-entry{display:grid;gap:12px;width:100%;margin:16px 0 18px;padding:16px 16px 14px;border:2px solid var(--sp-gold);border-radius:20px;background:linear-gradient(145deg,#0B192C 0%,#132640 65%,#0f3a43 130%);color:#fff;cursor:pointer;text-align:right;font:inherit;box-shadow:0 10px 26px rgba(11,25,44,.28),inset 0 0 0 4px rgba(212,175,55,.1);transition:transform .15s,box-shadow .2s}
+  .sp-entry:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(11,25,44,.36),inset 0 0 0 4px rgba(212,175,55,.16)}
   .sp-entry:active{transform:scale(.99)}
   .sp-entry:focus-visible{outline:3px solid var(--sp-emerald);outline-offset:2px}
+  .sp-entry-head{display:flex;align-items:center;gap:12px}
   .sp-entry-txt{display:grid;gap:2px;flex:1;min-width:0}
   .sp-entry-txt strong{font-size:1.08rem;color:var(--sp-gold);font-weight:800;line-height:1.5}
-  .sp-entry-txt small{font-size:.86rem;color:var(--sp-mute);line-height:1.6}
+  .sp-entry-txt small{font-size:.84rem;color:var(--sp-mute);line-height:1.6}
   .sp-entry-arrow{font-size:1.6rem;color:var(--sp-gold);line-height:1}
+  .sp-mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .sp-mini{display:grid;justify-items:center;align-content:center;gap:4px;padding:10px 4px;border-radius:14px;border:1px solid rgba(212,175,55,.45);background:linear-gradient(160deg,rgba(212,175,55,.16),rgba(212,175,55,.04));text-align:center;line-height:1.35}
+  .sp-mini-ico{font-size:1.45rem;line-height:1}
+  .sp-mini b{font-size:.78rem;font-weight:700;color:#fff}
   .sp-overlay{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(5,12,22,.78)}
   .sp-modal{width:min(560px,100%);max-height:94vh;max-height:94dvh;display:flex;flex-direction:column;background:var(--sp-navy);color:var(--sp-ink);border:1px solid var(--sp-line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden}
   .sp-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.9rem 1.1rem;border-bottom:1px solid var(--sp-line)}
@@ -407,6 +415,64 @@
   .sp-prog-row{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
   .sp-prog-row b{color:var(--sp-gold);font-variant-numeric:tabular-nums}
   .sp-done p{white-space:pre-line}
+  .sp-chips{display:flex;flex-wrap:wrap;gap:.45rem}
+  .sp-chip{font:inherit;font-size:.84rem;padding:.4rem .85rem;border-radius:999px;border:1px solid var(--sp-line);background:var(--sp-navy-2);color:var(--sp-ink);cursor:pointer;line-height:1.5}
+  .sp-chip[aria-pressed="true"]{border-color:var(--sp-gold);background:rgba(212,175,55,.2);color:var(--sp-gold);font-weight:700;box-shadow:0 0 0 2px rgba(212,175,55,.25)}
+  .sp-chip:focus-visible,.sp-slide-del:focus-visible{outline:2px solid var(--sp-emerald);outline-offset:2px}
+  .sp-grid2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .sp-sub{display:grid;gap:.25rem}
+  .sp-sub>label{font-size:.82rem;color:var(--sp-mute)}
+  .sp-studio{gap:.7rem}
+  .sp-livebar{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;padding:.55rem .8rem;border-radius:12px;border:1.5px solid var(--sp-gold);background:rgba(212,175,55,.1);font-size:.88rem}
+  .sp-livebar strong{color:var(--sp-gold);font-variant-numeric:tabular-nums}
+  .sp-slides{display:grid;gap:.5rem}
+  .sp-slide{display:flex;align-items:flex-start;gap:.55rem;padding:.55rem;border-radius:12px;border:1px solid var(--sp-line);background:var(--sp-navy-2)}
+  .sp-slide.has-err{border-color:var(--sp-err)}
+  .sp-slide-n{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--sp-gold);color:var(--sp-navy);font-weight:800;font-size:.85rem;margin-top:.2rem}
+  .sp-slide-main{flex:1;min-width:0;display:grid;gap:.35rem}
+  .sp-slide-sub{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+  .sp-role{font-size:.72rem;color:var(--sp-mute);white-space:nowrap}
+  .sp-slide-sub select{width:auto!important;flex:1;min-width:120px;padding:.3rem .5rem!important;font-size:.84rem}
+  .sp-slide-del{flex:none;border:1px solid var(--sp-line);background:transparent;border-radius:10px;cursor:pointer;font-size:1.05rem;padding:.35rem .5rem;color:var(--sp-err)}
+  .sp-slide-del[disabled]{opacity:.35;cursor:not-allowed}
+  .sp-seg{display:flex;flex-wrap:wrap;gap:.4rem}
+  .sp-tpls--2{grid-template-columns:repeat(2,1fr)}
+  .sp-sw--white{background:linear-gradient(135deg,#FFFFFF 0 60%,#0B192C 60%)}
+  .sp-brk{display:grid;gap:.25rem;font-size:.86rem;color:var(--sp-mute)}
+  .sp-brk div{display:flex;justify-content:space-between;gap:.6rem}
+  .sp-brk b{color:var(--sp-ink);font-variant-numeric:tabular-nums}
+  /* المعاينة الحية للشريحة (Mini-Stage) */
+  .sp-stage{position:relative;overflow:hidden;aspect-ratio:16/9;min-height:150px;display:flex;flex-direction:column;justify-content:center;padding:12px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.2);box-shadow:0 8px 22px rgba(0,0,0,.4);background:var(--st-bg);color:var(--st-fg);font-family:var(--st-font);transition:background .35s,color .35s}
+  .sp-stage[data-tpl="navy_formal"]{--st-bg:linear-gradient(135deg,#0B192C 0%,#17325e 100%);--st-fg:#fff;--st-ac:#D4AF37;--st-font:'Tajawal',sans-serif;--st-w:800}
+  .sp-stage[data-tpl="emerald_modern"]{--st-bg:linear-gradient(135deg,#0D9488 0%,#0a5f59 100%);--st-fg:#fff;--st-ac:#FDE68A;--st-font:'Tajawal',sans-serif;--st-w:700}
+  .sp-stage[data-tpl="gold_classic"]{--st-bg:linear-gradient(135deg,#FBF4DC 0%,#F1E2B0 100%);--st-fg:#0B192C;--st-ac:#7a5e00;--st-font:'Amiri','Times New Roman',serif;--st-w:700}
+  .sp-stage[data-tpl="white_formal"]{--st-bg:#FFFFFF;--st-fg:#0B192C;--st-ac:#0B192C;--st-font:'Tajawal',sans-serif;--st-w:700}
+  .sp-st-deco{position:absolute;z-index:0;pointer-events:none}
+  .sp-stage[data-tpl="navy_formal"] .sp-st-deco{inset-block:0;inset-inline-start:0;width:9px;background:var(--st-ac)}
+  .sp-stage[data-tpl="emerald_modern"] .sp-st-deco{top:-46px;left:-34px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.14);box-shadow:150px 120px 0 -10px rgba(255,255,255,.1)}
+  .sp-stage[data-tpl="gold_classic"] .sp-st-deco{inset:6px;border:3px double #7a5e00;border-radius:6px}
+  .sp-stage[data-tpl="white_formal"] .sp-st-deco{inset-inline:0;top:0;height:10px;background:#0B192C;border-bottom:3px solid #D4AF37}
+  .sp-st-cover,.sp-st-h,.sp-st-ul,.sp-st-cols,.sp-st-flow{position:relative;z-index:1}
+  .sp-st-cover{display:grid;gap:6px;text-align:center;justify-items:center}
+  .sp-st-title{font-size:1.2rem;font-weight:var(--st-w);line-height:1.5;overflow-wrap:anywhere}
+  .sp-st-rule{width:56px;height:3px;border-radius:2px;background:var(--st-ac)}
+  .sp-st-sub{font-size:.78rem;color:var(--st-ac);font-weight:600}
+  .sp-st-h{font-size:.98rem;font-weight:var(--st-w);color:var(--st-ac);border-bottom:2px solid var(--st-ac);padding-bottom:3px;margin-bottom:6px;overflow-wrap:anywhere}
+  .sp-st-ul{margin:0;padding-inline-start:18px;display:grid;gap:3px;font-size:.74rem;line-height:1.5}
+  .sp-st-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.7rem;line-height:1.45}
+  .sp-st-col{border:1px solid var(--st-ac);border-radius:8px;padding:5px 7px;background:rgba(127,127,127,.1)}
+  .sp-st-col b{display:block;color:var(--st-ac);font-size:.74rem;margin-bottom:2px}
+  .sp-st-flow{display:flex;align-items:center;justify-content:center;gap:6px;font-size:.72rem}
+  .sp-st-box{padding:6px 10px;border:1.5px solid var(--st-ac);border-radius:10px;background:rgba(127,127,127,.12);font-weight:700}
+  .sp-st-foot{position:absolute;z-index:1;bottom:7px;inset-inline:18px;font-size:.62rem;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sp-stage.sp-anim[data-anim="fade"]{animation:spFade .9s ease both}
+  .sp-stage.sp-anim[data-anim="slide"]{animation:spSlide .7s cubic-bezier(.2,.8,.2,1) both}
+  .sp-stage.sp-anim[data-anim="zoom"]{animation:spZoom .8s cubic-bezier(.2,.9,.3,1.15) both}
+  @keyframes spFade{from{opacity:0}to{opacity:1}}
+  @keyframes spSlide{from{opacity:0;transform:translateX(-46px)}to{opacity:1;transform:none}}
+  @keyframes spZoom{from{opacity:0;transform:scale(.72)}to{opacity:1;transform:scale(1)}}
+  @media(prefers-reduced-motion:reduce){.sp-stage.sp-anim[data-anim="slide"],.sp-stage.sp-anim[data-anim="zoom"]{animation:spFade .6s ease both}}
+  @media(max-width:380px){.sp-grid2{grid-template-columns:1fr}.sp-st-title{font-size:1.05rem}}
 </style>
 </head>
 <body>
@@ -415,7 +481,6 @@
   <div class="xp-badge" id="xp-badge" title="نقاط الخبرة" aria-live="polite"><span class="xp-star" aria-hidden="true">⭐</span><span class="xp-val" id="xp-val">0</span><span class="xp-lbl">XP</span></div>
   <div class="gw-bar">
     <span class="gw-pill" aria-live="polite">رصيدك: <strong id="gwBalance">0</strong> 💎</span>
-    <button type="button" class="gw-topup" id="gwOpenBtn">➕ اشحن رصيدك</button>
   </div>
   <div class="logo-frame">
     <img class="logo" src="logo.jpg" alt="شعار منصة سند">
@@ -425,6 +490,7 @@
   <div class="slogan">معك من المحاضرة إلى الاختبار</div>
   <div class="faculty">كلية العلوم الإدارية والإنسانية</div>
   <div class="rule"></div>
+  <button type="button" class="gw-topup" id="gwOpenBtn">➕ اشحن رصيدك من الجواهر 💎</button>
 </header>
 
 <main>
@@ -461,12 +527,19 @@
       <div id="sem-panel" class="sem-panel" hidden></div>
     </div>
 
-    <button type="button" class="sp-entry" id="spOpenBtn" aria-haspopup="dialog">
-      <span class="sp-entry-txt"><strong>💎 متجر خدمات سَنَد الأكاديمية والمهنية</strong><small>سيرة ذاتية · أبحاث أكاديمية · عروض تقديمية — تُدفع بالجواهر</small></span>
-      <span class="sp-entry-arrow" aria-hidden="true">‹</span>
-    </button>
-
     <button type="button" class="pill gold big" id="tree-btn">📚 شجرة المحاضرات النشطة</button>
+
+    <button type="button" class="sp-entry" id="spOpenBtn" aria-haspopup="dialog">
+      <span class="sp-entry-head">
+        <span class="sp-entry-txt"><strong>💎 متجر خدمات سَنَد الأكاديمية والمهنية</strong><small>اطلب خدماتك الأكاديمية بالجواهر — تنفيذ احترافي ومتابعة من الإدارة</small></span>
+        <span class="sp-entry-arrow" aria-hidden="true">‹</span>
+      </span>
+      <span class="sp-mini-row">
+        <span class="sp-mini"><span class="sp-mini-ico" aria-hidden="true">📄</span><b>السيرة الذاتية</b></span>
+        <span class="sp-mini"><span class="sp-mini-ico" aria-hidden="true">📑</span><b>الأبحاث الأكاديمية</b></span>
+        <span class="sp-mini"><span class="sp-mini-ico" aria-hidden="true">📊</span><b>العروض التقديمية</b></span>
+      </span>
+    </button>
   </section>
 
   <section id="s-courses" class="screen">
@@ -1523,23 +1596,84 @@ mForm.addEventListener("submit", async (e) => {
 /* ---------- متجر خدمات سَنَد (SanadStore) ----------
    كتلة مستقلة بالكامل: لا تعدّل أي كود قائم، وتعتمد فقط على الدوال العامة الموجودة ($ / el / ck / api / errText / data / SanadGems).
    الإرسال عبر api("create-service-order", ...) الموحّدة (initData + HMAC + طلب بلا preflight)، والرصيد يتحدّث من new_balance عبر SanadGems.refresh. */
+/* ---------- فلتر النصوص العشوائية (Gibberish Filter) ----------
+   يرفض: كلمة متصلة > 15 حرفاً، تكرار نفس الحرف أكثر من 3 مرات متتالية، خلط أرقام وحروف عشوائي،
+   تتابع مفاتيح لوحة المفاتيح (خبط عشوائي)، وقلّة الكلمات المفهومة عن الحد الأدنى (minWords). */
+const ACADEMIC_MSG = "يرجى كتابة نص أكاديمي مفهوم، بكلمات واضحة مفصولة بمسافات، دون حروف عشوائية أو تكرار الحروف.";
+const AC_KEYROWS = ["ضصثقفغعهخحجد", "شسيبلاتنمكط", "ئءؤرلاىةوزظ", "qwertyuiop", "asdfghjkl", "zxcvbnm"];
+function isValidAcademicText(str, minWords){
+  const text = String(str == null ? "" : str).replace(/[\u064B-\u0652]/g, "").trim();
+  if (!text || !/\p{L}/u.test(text)) return false;
+  if (/(\p{L})\1{3,}/u.test(text)) return false;
+  let words = 0;
+  const toks = text.split(/\s+/).map((t) => t.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "")).filter(Boolean);
+  for (const t of toks){
+    if (Array.from(t).length > 15) return false;
+    const letters = t.toLowerCase().replace(/[^\p{L}]/gu, "");
+    if (letters.length >= 5){
+      for (const row of AC_KEYROWS){
+        const rev = Array.from(row).reverse().join("");
+        for (let i = 0; i + 5 <= row.length; i++){
+          if (letters.includes(row.slice(i, i + 5)) || letters.includes(rev.slice(i, i + 5))) return false;
+        }
+      }
+    }
+    let tr = 0, prev = "";
+    for (const ch of t){
+      const k = /\p{L}/u.test(ch) ? "L" : (/\p{N}/u.test(ch) ? "N" : "");
+      if (!k) continue;
+      if (prev && k !== prev) tr++;
+      prev = k;
+    }
+    if (tr >= 3) return false;
+    if (/[ةى]\p{L}{4,}/u.test(t)) return false; // التاء المربوطة/الألف المقصورة تأتي في آخر الكلمة، فوجودها وسط حروف طويلة علامة خبط عشوائي
+    if ((t.match(/\p{L}/gu) || []).length >= 2) words++;
+  }
+  return words >= (minWords || 1);
+}
+
 const SanadStore = (function(){
   "use strict";
-  const MIN_COST = 10;
+  const MIN_COST = 10, PRICE_PER_SLIDE = 5, GEM_YER = 20, ADDON_NOTES = 15, ADDON_REFS = 10, MIN_SLIDES = 3, MAX_SLIDES = 40;
   const TEMPLATES = [
-    { id: "navy_formal",    name: "كحلي رسمي",   sw: "sp-sw--navy" },
-    { id: "emerald_modern", name: "زمردي حديث",  sw: "sp-sw--emerald" },
-    { id: "gold_classic",   name: "ذهبي كلاسيكي", sw: "sp-sw--gold" }
+    { id: "navy_formal",    name: "كحلي ملكي أكاديمي",   sw: "sp-sw--navy" },
+    { id: "emerald_modern", name: "زمردي حديث",          sw: "sp-sw--emerald" },
+    { id: "gold_classic",   name: "ذهبي كلاسيكي",        sw: "sp-sw--gold" },
+    { id: "white_formal",   name: "أبيض رسمي للندوات",   sw: "sp-sw--white" }
   ];
+  const ANIMS = [
+    { id: "fade",  name: "تلاشي ناعم Fade" },
+    { id: "slide", name: "انزلاق ديناميكي Slide" },
+    { id: "zoom",  name: "تكبير سينمائي Zoom" },
+    { id: "none",  name: "رسمي ثابت بدون حركة" }
+  ];
+  const DENSITIES = [
+    { id: "brief",    name: "موجز رؤوس أقلام" },
+    { id: "medium",   name: "متوسط متوازن" },
+    { id: "detailed", name: "تفصيلي شامل" }
+  ];
+  const LAYOUTS = [
+    { id: "bullets", name: "نقاط مركزة" },
+    { id: "compare", name: "مقارنة عمودين" },
+    { id: "visual",  name: "مخطط بصري" }
+  ];
+  const TERMS = [{ code: "T1", n: 1, name: "الفصل الأول" }, { code: "T2", n: 2, name: "الفصل الثاني" }];
+  const DOCTOR_CHIPS = ["باللغة العربية", "باللغة الإنجليزية", "صفحة واحدة مركزة", "التركيز على المهارات الأكاديمية", "تنسيق رسمي ATS"];
 
-  /* أنواع الحقول: text | area | number | tpl | course | lesson | scope
-     len = أقصى طول نصي، min/max/def = للأرقام، req=false لحقل اختياري، list = اقتراح مقررات الطالب، showIf = ظهور شرطي */
+  /* أنواع الحقول: text | area | number | phone | chips | academic | scope | storyboard | studio
+     len = أقصى طول نصي، min/max/def = للأرقام، req=false لحقل اختياري، minWords = أقل عدد كلمات مفهومة، init = قيمة افتراضية، showIf = ظهور شرطي
+     branch.dyn = تسعير ديناميكي (العروض التقديمية: عدد الشرائح × 5 + الإضافات) */
   const CATALOG = [
     { type: "cv", icon: "📄", name: "السيرة الذاتية", desc: "تكليف جامعي أو سيرة احترافية للخريجين", branches: [
       { id: "student_assignment", name: "تكليف جامعي", desc: "سيرة ذاتية مطلوبة كتكليف في أحد المقررات", cost: 30, steps: [
-        { title: "بيانات المقرر", fields: [ { key: "course_name", label: "اسم المقرر", type: "text", len: 120, list: true } ] },
-        { title: "متطلبات الدكتور", fields: [ { key: "doctor_requirements", label: "متطلبات الدكتور", type: "area", len: 1500, ph: "اكتب ما طلبه الدكتور بالتفصيل (الشكل، الأقسام، عدد الصفحات…)" } ] },
-        { title: "البيانات الأساسية", fields: [ { key: "basic_info", label: "البيانات الأساسية", type: "area", len: 1500, ph: "الاسم، التخصص، المستوى، المهارات، الهوايات…" } ] }
+        { title: "بيانات المقرر", fields: [ { key: "course", label: "المقرر الدراسي", type: "academic" } ] },
+        { title: "متطلبات الدكتور", fields: [
+          { key: "doctor_chips", label: "خيارات سريعة (اختر ما ينطبق)", type: "chips", opts: DOCTOR_CHIPS, req: false },
+          { key: "doctor_requirements", label: "ملاحظات الدكتور الإضافية", type: "area", len: 1500, req: false, minWords: 2, orChips: "doctor_chips", ph: "اكتب ما طلبه الدكتور بالتفصيل (الشكل، الأقسام، عدد الصفحات…)" } ] },
+        { title: "البيانات الأساسية", fields: [
+          { key: "student_name", label: "اسم الطالب", type: "text", len: 80, init: () => clean(($("full_name") || {}).value) },
+          { key: "student_phone", label: "رقم الهاتف (واتساب)", type: "phone", init: () => normPhone(($("whatsapp_phone") || {}).value) },
+          { key: "basic_info", label: "البيانات الأساسية", type: "area", len: 1500, minWords: 2, ph: "التخصص، المستوى، المهارات، الهوايات…" } ] }
       ] },
       { id: "graduate_pro", name: "سيرة احترافية للخريجين", desc: "سيرة ذاتية جاهزة للتقديم على الوظائف", cost: 50, steps: [
         { title: "المؤهل والوظيفة المستهدفة", fields: [
@@ -1555,36 +1689,36 @@ const SanadStore = (function(){
       { id: "research_proposal", name: "إعداد خطة بحث", desc: "خطة بحث متكاملة بإشكاليتها ومنهجها", cost: 60, steps: [
         { title: "عنوان البحث والمقرر", fields: [
           { key: "title", label: "عنوان البحث المقترح", type: "text", len: 200 },
-          { key: "course_name", label: "اسم المقرر", type: "text", len: 120, list: true } ] },
-        { title: "إشكالية البحث", fields: [ { key: "problem", label: "إشكالية / فكرة البحث", type: "area", len: 2000 } ] }
+          { key: "course", label: "المقرر الدراسي", type: "academic", unitOptional: true } ] },
+        { title: "إشكالية البحث", fields: [ { key: "problem", label: "إشكالية / فكرة البحث", type: "area", len: 2000, minWords: 2 } ] }
       ] },
       { id: "full_research", name: "بحث أكاديمي شامل", desc: "بحث كامل بمحاور ومراجع", cost: 120, steps: [
         { title: "عنوان البحث والمقرر", fields: [
           { key: "title", label: "عنوان البحث", type: "text", len: 200 },
-          { key: "course_name", label: "اسم المقرر", type: "text", len: 120, list: true } ] },
+          { key: "course", label: "المقرر الدراسي", type: "academic", unitOptional: true } ] },
         { title: "الحجم والمحاور", fields: [
           { key: "pages", label: "عدد الصفحات التقريبي", type: "number", min: 5, max: 100, def: 20 },
-          { key: "axes", label: "المحاور المطلوبة", type: "area", len: 1500, ph: "اكتب كل محور في سطر" } ] }
+          { key: "axes", label: "المحاور المطلوبة", type: "area", len: 1500, minWords: 2, ph: "اكتب كل محور في سطر" } ] }
       ] }
     ] },
-    { type: "presentation", icon: "🖼️", name: "استوديو العروض التقديمية الذكي", desc: "عرض عام أو عرض مبني على مقررك", branches: [
-      { id: "general_presentation", name: "عرض تقديمي عام", desc: "عرض بأي موضوع تختاره", cost: 40, steps: [
+    { type: "presentation", icon: "🖼️", name: "استوديو العروض التقديمية الذكي", desc: "عرض عام أو عرض مبني على مقررك — 5 💎 للشريحة", branches: [
+      { id: "general_presentation", name: "عرض تقديمي عام", desc: "عرض بأي موضوع تختاره", cost: 40, dyn: true, steps: [
         { title: "موضوع العرض", fields: [
           { key: "title", label: "عنوان العرض", type: "text", len: 200 },
-          { key: "axes", label: "المحاور", type: "area", len: 1500, ph: "اكتب كل محور في سطر" } ] },
-        { title: "الشرائح والقالب", fields: [
-          { key: "slides_count", label: "عدد الشرائح", type: "number", min: 3, max: 40, def: 10 },
-          { key: "template", label: "القالب البصري", type: "tpl" } ] }
+          { key: "axes", label: "المحاور", type: "area", len: 1500, minWords: 2, ph: "اكتب كل محور في سطر" },
+          { key: "slides_count", label: "عدد الشرائح المبدئي", type: "number", min: MIN_SLIDES, max: MAX_SLIDES, def: 10 } ] },
+        { title: "مخطط الشرائح", fields: [ { key: "slides", label: "مخطط الشرائح", type: "storyboard" } ] },
+        { title: "التصميم والحركة", fields: [ { key: "studio", label: "التصميم والحركة", type: "studio" } ] }
       ] },
-      { id: "course_presentation", name: "عرض من المقرر الدراسي", desc: "عرض مبني على محاضرة أو وحدة من مقررك", cost: 50, steps: [
-        { title: "المقرر", fields: [ { key: "course", label: "المقرر", type: "course" } ] },
-        { title: "الوحدة / المحاضرة", fields: [ { key: "lesson", label: "الوحدة / المحاضرة", type: "lesson" } ] },
+      { id: "course_presentation", name: "عرض من المقرر الدراسي", desc: "عرض مبني على محاضرة أو وحدة من مقررك", cost: 50, dyn: true, steps: [
+        { title: "المقرر والوحدة", fields: [ { key: "course", label: "المقرر الدراسي", type: "academic" } ] },
         { title: "نطاق العرض", fields: [
           { key: "scope", label: "نطاق العرض", type: "scope" },
-          { key: "scope_points", label: "النقاط المطلوبة", type: "area", len: 1200, ph: "اكتب النقاط التي تريدها في العرض، كل نقطة في سطر", showIf: (v) => v.scope === "points" } ] },
-        { title: "الشرائح والقالب", fields: [
-          { key: "slides_count", label: "عدد الشرائح", type: "number", min: 3, max: 40, def: 10 },
-          { key: "template", label: "القالب البصري", type: "tpl" } ] }
+          { key: "scope_points", label: "النقاط المطلوبة", type: "area", len: 1200, minWords: 2, ph: "اكتب النقاط التي تريدها في العرض، كل نقطة في سطر", showIf: (v) => v.scope === "points" },
+          { key: "title", label: "عنوان العرض", type: "text", len: 200, init: (v) => "عرض تقديمي: " + clean(v.course_name) + (v.unit_no ? " — الوحدة " + v.unit_no : "") },
+          { key: "slides_count", label: "عدد الشرائح المبدئي", type: "number", min: MIN_SLIDES, max: MAX_SLIDES, def: 10 } ] },
+        { title: "مخطط الشرائح", fields: [ { key: "slides", label: "مخطط الشرائح", type: "storyboard" } ] },
+        { title: "التصميم والحركة", fields: [ { key: "studio", label: "التصميم والحركة", type: "studio" } ] }
       ] }
     ] }
   ];
@@ -1599,6 +1733,19 @@ const SanadStore = (function(){
     return Number.isFinite(n) ? n : 0;
   };
   const tplById = (id) => TEMPLATES.find((t) => t.id === id);
+  const sessionProfile = () => {
+    let p = null; try{ p = JSON.parse(localStorage.getItem(KEY_PROFILE) || "null"); }catch(_){}
+    p = p || {};
+    return { program: p.program_code || ($("program_code") || {}).value || "", level: p.level_code || ($("level_code") || {}).value || "" };
+  };
+  const slideCount = () => Array.isArray(st.vals.slides) ? st.vals.slides.length : (parseInt(st.vals.slides_count, 10) || 0);
+  const currentCost = () => {
+    const b = st.branch; if (!b) return 0;
+    if (!b.dyn) return b.cost;
+    return slideCount() * PRICE_PER_SLIDE + (st.vals.speaker_notes ? ADDON_NOTES : 0) + (st.vals.references ? ADDON_REFS : 0);
+  };
+  const priceText = (c) => fmt(c) + " 💎 (" + fmt(c * GEM_YER) + " ريال)";
+  const layoutName = (id) => (LAYOUTS.find((x) => x.id === id) || LAYOUTS[0]).name;
   const courseList = () => (typeof data !== "undefined" && data && Array.isArray(data.courses)) ? data.courses.filter((c) => c && (c.course_name || c.course_code)) : [];
   const lessonList = (code) => (code && typeof data !== "undefined" && data && Array.isArray(data.lessons)) ? data.lessons.filter((l) => l && ck(l.course_code) === ck(code)) : [];
   const visible = (f) => !f.showIf || f.showIf(st.vals);
@@ -1611,7 +1758,7 @@ const SanadStore = (function(){
 
   /* ---------- مكوّنات الواجهة ---------- */
   function heading(text){ const h = el("h3", "", text); h.tabIndex = -1; h.id = "spStepTitle"; return h; }
-  function costChip(c){ return el("span", "sp-cost", c + " 💎"); }
+  function costChip(c){ return el("span", "sp-cost", typeof c === "number" ? c + " 💎" : c); }
   function optBtn(icon, name, desc, cost, on, onClick){
     const b = el("button", "sp-opt"); b.type = "button"; b.setAttribute("aria-pressed", on ? "true" : "false");
     if (icon) b.appendChild(el("span", "sp-ico", icon));
@@ -1636,6 +1783,7 @@ const SanadStore = (function(){
   function fieldEl(f){
     const wrap = el("div", "sp-field"); wrap.dataset.key = f.key;
     const id = "spf-" + f.key, v = st.vals;
+    if (typeof f.init === "function" && v[f.key] === undefined) v[f.key] = f.init(v);
 
     if (f.type === "text"){
       wrap.appendChild(labelEl(f, id));
@@ -1660,19 +1808,6 @@ const SanadStore = (function(){
       const i = el("input"); i.type = "number"; i.id = id; i.min = f.min; i.max = f.max; i.step = 1; i.inputMode = "numeric"; i.value = v[f.key];
       i.addEventListener("input", () => { v[f.key] = i.value; clearErr(wrap); });
       wrap.append(i, el("small", "sp-count", "من " + f.min + " إلى " + f.max));
-    } else if (f.type === "tpl"){
-      wrap.appendChild(labelEl(f, null));
-      const g = el("div", "sp-tpls"); g.setAttribute("role", "group"); g.setAttribute("aria-label", f.label);
-      TEMPLATES.forEach((t) => {
-        const b = el("button", "sp-tpl"); b.type = "button"; b.setAttribute("aria-pressed", v.template === t.id ? "true" : "false");
-        b.append(el("span", "sp-sw " + t.sw), el("span", "", t.name));
-        b.addEventListener("click", () => {
-          v.template = t.id; clearErr(wrap);
-          g.querySelectorAll(".sp-tpl").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
-        });
-        g.appendChild(b);
-      });
-      wrap.appendChild(g);
     } else if (f.type === "scope"){
       wrap.appendChild(labelEl(f, null));
       const g = el("div", "sp-list");
@@ -1680,100 +1815,367 @@ const SanadStore = (function(){
         g.appendChild(optBtn("", o[1], o[2], 0, v.scope === o[0], () => { v.scope = o[0]; clearErr(wrap); render(); }));
       });
       wrap.appendChild(g);
-    } else if (f.type === "course"){
-      const courses = courseList();
-      wrap.appendChild(labelEl(f, courses.length ? "spf-course-sel" : "spf-course_name"));
-      let manual = !courses.length || v._course_sel === "__m";
-      if (courses.length){
-        const s = el("select"); s.id = "spf-course-sel";
-        const ph = el("option", "", "اختر المقرر…"); ph.value = ""; s.appendChild(ph);
-        courses.forEach((c, idx) => { const o = el("option", "", c.course_name || c.course_code); o.value = String(idx); s.appendChild(o); });
-        const m = el("option", "", "✏️ مقرر آخر (إدخال يدوي)"); m.value = "__m"; s.appendChild(m);
-        s.value = v._course_sel || "";
-        s.addEventListener("change", () => {
-          v._course_sel = s.value; v.lesson_title = ""; v.lesson_code = ""; v._lesson_sel = ""; clearErr(wrap);
-          if (s.value === "" || s.value === "__m"){ v.course_name = ""; v.course_code = ""; }
-          else { const c = courses[Number(s.value)]; v.course_name = c.course_name || c.course_code || ""; v.course_code = c.course_code || ""; }
-          render();
+    } else if (f.type === "phone"){
+      wrap.appendChild(labelEl(f, id));
+      const i = textInput(id, v[f.key], 20, "+رمز الدولة ثم الرقم", (x) => { v[f.key] = x; clearErr(wrap); });
+      i.dir = "ltr"; i.inputMode = "tel"; i.autocomplete = "tel"; wrap.appendChild(i);
+    } else if (f.type === "chips"){
+      wrap.appendChild(labelEl(f, null));
+      if (!Array.isArray(v[f.key])) v[f.key] = [];
+      const g = el("div", "sp-chips"); g.setAttribute("role", "group"); g.setAttribute("aria-label", f.label);
+      f.opts.forEach((o) => {
+        const on = () => v[f.key].indexOf(o) >= 0;
+        const b = el("button", "sp-chip", o); b.type = "button"; b.setAttribute("aria-pressed", String(on()));
+        b.addEventListener("click", () => {
+          const i = v[f.key].indexOf(o); if (i >= 0) v[f.key].splice(i, 1); else v[f.key].push(o);
+          b.setAttribute("aria-pressed", String(on())); clearErr(wrap);
         });
-        wrap.appendChild(s);
+        g.appendChild(b);
+      });
+      wrap.appendChild(g);
+    } else if (f.type === "academic"){
+      const sp = sessionProfile();
+      if (v.a_program === undefined) v.a_program = sp.program;
+      if (v.a_level === undefined) v.a_level = sp.level;
+      const again = (focusId) => { const nw = fieldEl(f); wrap.replaceWith(nw); const t = focusId && nw.querySelector("#" + focusId); if (t) t.focus(); };
+      const resetCourse = () => { v._course_sel = ""; v.course_name = ""; v.course_code = ""; };
+      const matches = !!clean(v.a_program) && ck(v.a_program) === ck(sp.program) && ck(v.a_level) === ck(sp.level);
+      const mkSel = (sid, lbl, items, value, ph, onChange) => {
+        const g = el("div", "sp-sub"), l = el("label", "", lbl); l.htmlFor = sid;
+        const s = el("select"); s.id = sid;
+        const o0 = el("option", "", ph); o0.value = ""; s.appendChild(o0);
+        items.forEach((it) => { const o = el("option", "", it.name); o.value = it.code; s.appendChild(o); });
+        s.value = value || ""; s.addEventListener("change", () => onChange(s.value)); g.append(l, s); return g;
+      };
+      wrap.appendChild(labelEl(f, null));
+      const row = el("div", "sp-grid2");
+      row.append(
+        mkSel("spf-a-program", "التخصص", PROGRAMS, v.a_program, "اختر التخصص", (x) => { v.a_program = x; resetCourse(); again("spf-a-program"); }),
+        mkSel("spf-a-level", "المستوى", LEVELS, v.a_level, "اختر المستوى", (x) => { v.a_level = x; resetCourse(); again("spf-a-level"); })
+      );
+      wrap.appendChild(row);
+      wrap.appendChild(el("small", "sp-count", matches ? "تم سحب تخصصك ومستواك من حسابك، ويمكنك تغييرهما عند الحاجة." : "عند اختلاف التخصص أو المستوى عن حسابك تُكتب المقررات يدوياً."));
+      // الفصل الدراسي
+      const tg = el("div", "sp-sub"); tg.appendChild(el("label", "", "الفصل الدراسي"));
+      const tc = el("div", "sp-chips"); tc.setAttribute("role", "group"); tc.setAttribute("aria-label", "الفصل الدراسي");
+      TERMS.forEach((t) => {
+        const b = el("button", "sp-chip", t.name); b.type = "button"; b.setAttribute("aria-pressed", String(v.a_term === t.code));
+        b.addEventListener("click", () => { if (v.a_term !== t.code){ v.a_term = t.code; resetCourse(); } clearErr(wrap); again(); });
+        tc.appendChild(b);
+      });
+      tg.appendChild(tc); wrap.appendChild(tg);
+      if (v.a_term){
+        const tn = v.a_term === "T1" ? 1 : 2;
+        const list = matches ? courseList().filter((c) => !c.term || c.term === tn) : [];
+        const cg = el("div", "sp-sub"), cl = el("label", "", "المقرر"); cg.appendChild(cl);
+        const manual = !list.length || v._course_sel === "__m";
+        if (list.length){
+          cl.htmlFor = "spf-course-sel";
+          const s = el("select"); s.id = "spf-course-sel";
+          const ph = el("option", "", "اختر المقرر…"); ph.value = ""; s.appendChild(ph);
+          list.forEach((c, idx) => { const o = el("option", "", c.course_name || c.course_code); o.value = String(idx); s.appendChild(o); });
+          const m = el("option", "", "✏️ مقرر آخر (كتابة يدوية)"); m.value = "__m"; s.appendChild(m);
+          s.value = v._course_sel || "";
+          s.addEventListener("change", () => {
+            v._course_sel = s.value; clearErr(wrap);
+            if (s.value === "" || s.value === "__m"){ v.course_name = ""; v.course_code = ""; }
+            else { const c = list[Number(s.value)]; v.course_name = c.course_name || c.course_code || ""; v.course_code = c.course_code || ""; }
+            again("spf-course-sel");
+          });
+          cg.appendChild(s);
+        } else {
+          cl.htmlFor = "spf-course_name";
+          cg.appendChild(el("small", "sp-count", matches ? "لا توجد مقررات مسجلة لهذا الفصل في حسابك، اكتب اسم المقرر يدوياً." : "مقررات هذا التخصص والمستوى غير محمّلة في حسابك، اكتب اسم المقرر يدوياً."));
+        }
+        if (manual) cg.appendChild(textInput("spf-course_name", v.course_name, 120, "اكتب اسم المقرر", (x) => { v.course_name = x; v.course_code = ""; clearErr(wrap); }));
+        wrap.appendChild(cg);
+        const ug = el("div", "sp-sub"), ul = el("label", "", "رقم الوحدة / المحاضرة" + (f.unitOptional ? " (اختياري)" : "")); ul.htmlFor = "spf-unit"; ug.appendChild(ul);
+        const us = el("select"); us.id = "spf-unit";
+        const u0 = el("option", "", f.unitOptional ? "غير محدد (على مستوى المقرر كاملاً)" : "اختر رقم الوحدة / المحاضرة…"); u0.value = ""; us.appendChild(u0);
+        for (let n = 1; n <= 12; n++){ const o = el("option", "", "الوحدة " + n); o.value = String(n); us.appendChild(o); }
+        us.value = v.unit_no || "";
+        us.addEventListener("change", () => { v.unit_no = us.value; clearErr(wrap); });
+        ug.appendChild(us); wrap.appendChild(ug);
       }
-      if (manual){
-        wrap.appendChild(textInput("spf-course_name", v.course_name, 120, "اكتب اسم المقرر", (x) => { v.course_name = x; v.course_code = ""; clearErr(wrap); }));
-      }
-    } else if (f.type === "lesson"){
-      const lessons = lessonList(v.course_code);
-      wrap.appendChild(labelEl(f, lessons.length ? "spf-lesson-sel" : "spf-lesson_title"));
-      if (v.course_name) wrap.appendChild(el("small", "sp-count", "المقرر: " + v.course_name));
-      const manual = !lessons.length || v._lesson_sel === "__m";
-      if (lessons.length){
-        const s = el("select"); s.id = "spf-lesson-sel";
-        const ph = el("option", "", "اختر الوحدة / المحاضرة…"); ph.value = ""; s.appendChild(ph);
-        lessons.forEach((l, idx) => { const o = el("option", "", l.title || l.lesson_title || l.lesson_code || "محاضرة"); o.value = String(idx); s.appendChild(o); });
-        const m = el("option", "", "✏️ وحدة أخرى (إدخال يدوي)"); m.value = "__m"; s.appendChild(m);
-        s.value = v._lesson_sel || "";
-        s.addEventListener("change", () => {
-          v._lesson_sel = s.value; clearErr(wrap);
-          if (s.value === "" || s.value === "__m"){ v.lesson_title = ""; v.lesson_code = ""; }
-          else { const l = lessons[Number(s.value)]; v.lesson_title = l.title || l.lesson_title || l.lesson_code || ""; v.lesson_code = l.lesson_code || ""; }
-          render();
-        });
-        wrap.appendChild(s);
-      }
-      if (manual){
-        wrap.appendChild(textInput("spf-lesson_title", v.lesson_title, 150, "مثال: الوحدة الثانية — المحاضرة 3", (x) => { v.lesson_title = x; v.lesson_code = ""; clearErr(wrap); }));
-      }
+    } else if (f.type === "storyboard"){
+      const sig = [v.title, v.axes, v.scope, v.scope_points, v.slides_count, v.course_name, v.unit_no].join("\u00A6");
+      if (!Array.isArray(v.slides) || v._sb_sig !== sig){ v.slides = genSlides(); v._sb_sig = sig; }
+      wrap.appendChild(el("p", "sp-hint", "عدّل عنوان أي شريحة وتخطيطها، واحذف أو أضف شرائح قبل الاعتماد. تتحدّث التكلفة لحظياً. (تعديل العنوان أو المحاور أو العدد المبدئي في الخطوة السابقة يعيد توليد المخطط.)"));
+      wrap.appendChild(liveBar());
+      const list = el("div", "sp-slides"); wrap.appendChild(list);
+      const add = el("button", "sp-btn sp-btn--ghost", "➕ إضافة شريحة"); add.type = "button";
+      const draw = (focusIdx) => {
+        list.replaceChildren();
+        v.slides.forEach((sl, idx) => list.appendChild(slideRow(sl, idx, draw)));
+        add.disabled = v.slides.length >= MAX_SLIDES; add.title = add.disabled ? "الحد الأقصى " + MAX_SLIDES + " شريحة" : "";
+        refreshLive();
+        if (focusIdx != null){ const t = list.querySelectorAll("input")[focusIdx]; if (t){ t.focus(); if (t.select) t.select(); } }
+      };
+      add.addEventListener("click", () => {
+        if (v.slides.length >= MAX_SLIDES) return;
+        v.slides.splice(v.slides.length - 1, 0, { t: "شريحة جديدة", l: "bullets" }); clearErr(wrap); draw(v.slides.length - 2);
+      });
+      wrap.appendChild(add); draw();
+    } else if (f.type === "studio"){
+      wrap.classList.add("sp-studio");
+      if (!v.template) v.template = "navy_formal";
+      if (!v.animation) v.animation = "fade";
+      if (!v.density) v.density = "medium";
+      let view = "cover";
+      wrap.appendChild(liveBar());
+      const stage = el("div", "sp-stage sp-anim"); stage.setAttribute("role", "img"); stage.setAttribute("aria-label", "معاينة حية لشريحة من العرض التقديمي");
+      const play = () => { stage.classList.remove("sp-anim"); void stage.offsetWidth; stage.classList.add("sp-anim"); };
+      const draw = (replay) => { drawStage(stage, view); if (replay) play(); };
+      const segBtns = {}, seg = el("div", "sp-seg"); seg.setAttribute("role", "group"); seg.setAttribute("aria-label", "الشريحة المعروضة في المعاينة");
+      const syncSeg = () => Object.keys(segBtns).forEach((k) => segBtns[k].setAttribute("aria-pressed", String(view === k)));
+      [["cover", "شريحة الغلاف"], ["content", "شريحة المحتوى"]].forEach((o) => {
+        const b = el("button", "sp-chip", o[1]); b.type = "button"; segBtns[o[0]] = b;
+        b.addEventListener("click", () => { view = o[0]; syncSeg(); draw(true); }); seg.appendChild(b);
+      });
+      const rp = el("button", "sp-chip", "▶ إعادة الحركة"); rp.type = "button"; rp.addEventListener("click", play); seg.appendChild(rp);
+      syncSeg(); wrap.append(stage, seg);
+
+      wrap.appendChild(el("div", "sp-lbl", "القالب البصري"));
+      const tg = el("div", "sp-tpls sp-tpls--2"); tg.setAttribute("role", "group"); tg.setAttribute("aria-label", "القالب البصري");
+      TEMPLATES.forEach((t) => {
+        const b = el("button", "sp-tpl"); b.type = "button"; b.setAttribute("aria-pressed", String(v.template === t.id));
+        b.append(el("span", "sp-sw " + t.sw), el("span", "", t.name));
+        b.addEventListener("click", () => { v.template = t.id; tg.querySelectorAll(".sp-tpl").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); clearErr(wrap); draw(false); });
+        tg.appendChild(b);
+      });
+      wrap.appendChild(tg);
+
+      wrap.appendChild(el("div", "sp-lbl", "حركة انتقال الشرائح (اضغط على أي حركة لمعاينتها)"));
+      const ag = el("div", "sp-tpls sp-tpls--2"); ag.setAttribute("role", "group"); ag.setAttribute("aria-label", "حركة انتقال الشرائح");
+      ANIMS.forEach((a) => {
+        const b = el("button", "sp-tpl", a.name); b.type = "button"; b.setAttribute("aria-pressed", String(v.animation === a.id));
+        b.addEventListener("click", () => { v.animation = a.id; stage.dataset.anim = a.id; ag.querySelectorAll(".sp-tpl").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); play(); });
+        ag.appendChild(b);
+      });
+      wrap.appendChild(ag);
+
+      wrap.appendChild(el("div", "sp-lbl", "كثافة المحتوى"));
+      const dg = el("div", "sp-chips"); dg.setAttribute("role", "group"); dg.setAttribute("aria-label", "كثافة المحتوى");
+      DENSITIES.forEach((d) => {
+        const b = el("button", "sp-chip", d.name); b.type = "button"; b.setAttribute("aria-pressed", String(v.density === d.id));
+        b.addEventListener("click", () => { v.density = d.id; dg.querySelectorAll(".sp-chip").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); view = "content"; syncSeg(); draw(false); });
+        dg.appendChild(b);
+      });
+      wrap.appendChild(dg);
+
+      wrap.appendChild(el("div", "sp-lbl", "إضافات اختيارية مدفوعة"));
+      const ad = el("div", "sp-list");
+      [["speaker_notes", "📝", "إضافة ملاحظات المتحدث (Speaker Notes) لكل شريحة", "نص توضيحي للمتحدث أسفل كل شريحة", "+" + ADDON_NOTES + " 💎"],
+       ["references", "📚", "إضافة شريحة المراجع العلمية الموثقة", "شريحة أخيرة بالمراجع المعتمدة للمحتوى", "+" + ADDON_REFS + " 💎"]].forEach((a) => {
+        const b = optBtn(a[1], a[2], a[3], a[4], !!v[a[0]], () => { v[a[0]] = !v[a[0]]; b.setAttribute("aria-pressed", String(!!v[a[0]])); refreshLive(); });
+        ad.appendChild(b);
+      });
+      wrap.appendChild(ad);
+      draw(false);
     }
     return wrap;
   }
 
+  /* ---------- استوديو العروض: المخطط والمعاينة الحية ---------- */
+  const AXIS_SUFFIX = ["— المفاهيم الأساسية", "— أمثلة وتطبيقات", "— تحليل ومناقشة", "— ملخص النقاط"];
+  const DEFAULT_AXES = ["المفاهيم والتعريفات الأساسية", "الأفكار والنقاط الرئيسية", "الأمثلة والتطبيقات العملية", "ملخص ونقاط المراجعة"];
+  const PH_BULLETS = ["فكرة رئيسية توضح محور الشريحة", "تفصيل مختصر يدعم الفكرة", "مثال أو تطبيق عملي", "نتيجة أو ملاحظة مهمة", "ربط بالمحور التالي"];
+
+  function axesList(){
+    const v = st.vals, raw = String(v.axes !== undefined ? v.axes : (v.scope === "points" ? v.scope_points : "") || "");
+    const lines = raw.split(/[\r\n]+/).map(clean).filter(Boolean);
+    const parts = (lines.length > 1 ? lines : raw.split(/[،,؛;]/).map(clean))
+      .map((x) => x.replace(/^[\s\-–•*]+/, "").replace(/^\d+[.)\-\s]+/, "").trim()).filter(Boolean);
+    return parts.length ? parts : DEFAULT_AXES.slice();
+  }
+  function genSlides(){
+    const v = st.vals, n = Math.min(MAX_SLIDES, Math.max(MIN_SLIDES, parseInt(v.slides_count, 10) || 10));
+    const axes = axesList(), mid = n - 3;
+    const out = [{ t: clean(v.title) || "عنوان العرض", l: "bullets" }, { t: "المقدمة والأهداف", l: "bullets" }];
+    for (let k = 0; k < mid; k++){
+      let t;
+      if (axes.length >= mid){ t = axes.slice(Math.floor(k * axes.length / mid), Math.floor((k + 1) * axes.length / mid)).join(" + "); }
+      else { const ax = axes[k % axes.length], occ = Math.floor(k / axes.length); t = occ ? ax + " " + AXIS_SUFFIX[(occ - 1) % AXIS_SUFFIX.length] : ax; }
+      out.push({ t: t.slice(0, 80), l: "bullets" });
+    }
+    out.push({ t: "الخاتمة والتوصيات", l: "bullets" });
+    return out;
+  }
+  function slideRow(sl, idx, redraw){
+    const v = st.vals, total = v.slides.length;
+    const row = el("div", "sp-slide");
+    row.appendChild(el("span", "sp-slide-n", String(idx + 1)));
+    const main = el("div", "sp-slide-main");
+    const inp = el("input"); inp.type = "text"; inp.maxLength = 80; inp.value = sl.t; inp.autocomplete = "off"; inp.setAttribute("aria-label", "عنوان الشريحة " + (idx + 1));
+    inp.addEventListener("input", () => { sl.t = inp.value; row.classList.remove("has-err"); const e = $("spErr"); if (e) e.textContent = ""; });
+    const sub = el("div", "sp-slide-sub");
+    sub.appendChild(el("span", "sp-role", idx === 0 ? "الغلاف والعنوان" : idx === 1 ? "المقدمة والأهداف" : idx === total - 1 ? "الخاتمة" : "شريحة محتوى"));
+    const sel = el("select"); sel.setAttribute("aria-label", "تخطيط الشريحة " + (idx + 1));
+    LAYOUTS.forEach((L) => { const o = el("option", "", L.name); o.value = L.id; sel.appendChild(o); });
+    sel.value = sl.l; sel.addEventListener("change", () => { sl.l = sel.value; });
+    sub.appendChild(sel); main.append(inp, sub);
+    const del = el("button", "sp-slide-del", "🗑️"); del.type = "button"; del.setAttribute("aria-label", "حذف الشريحة " + (idx + 1));
+    del.disabled = total <= MIN_SLIDES; del.title = del.disabled ? "الحد الأدنى " + MIN_SLIDES + " شرائح" : "حذف الشريحة";
+    del.addEventListener("click", () => { if (v.slides.length <= MIN_SLIDES) return; v.slides.splice(idx, 1); redraw(Math.min(idx, v.slides.length - 1)); });
+    row.append(main, del);
+    return row;
+  }
+  function fillLive(b){ b.replaceChildren(el("span", "", "عدد الشرائح: " + slideCount()), el("strong", "", priceText(currentCost()))); }
+  function liveBar(){ const b = el("div", "sp-livebar"); b.setAttribute("data-sp-live", "1"); b.setAttribute("aria-live", "polite"); fillLive(b); return b; }
+  function refreshLive(){ document.querySelectorAll("#spModal [data-sp-live]").forEach(fillLive); }
+
+  function drawStage(stage, view){
+    const v = st.vals, title = clean(v.title) || "عنوان العرض";
+    stage.dataset.tpl = v.template; stage.dataset.anim = v.animation;
+    stage.replaceChildren(el("i", "sp-st-deco"));
+    if (view === "cover"){
+      const c = el("div", "sp-st-cover");
+      c.append(el("div", "sp-st-title", title), el("div", "sp-st-rule"), el("div", "sp-st-sub", clean(v.course_name) || "جامعة العلوم والتكنولوجيا"));
+      stage.appendChild(c); return;
+    }
+    const sl = (v.slides && (v.slides[2] || v.slides[1])) || { t: "عنوان الشريحة", l: "bullets" };
+    const nb = v.density === "brief" ? 2 : v.density === "detailed" ? 5 : 3;
+    stage.appendChild(el("div", "sp-st-h", clean(sl.t) || "عنوان الشريحة"));
+    if (sl.l === "compare"){
+      const cols = el("div", "sp-st-cols");
+      ["الجانب الأول", "الجانب الثاني"].forEach((h) => {
+        const col = el("div", "sp-st-col"); col.appendChild(el("b", "", h));
+        for (let i = 0; i < Math.min(nb, 3); i++) col.appendChild(el("div", "", "• " + PH_BULLETS[i]));
+        cols.appendChild(col);
+      });
+      stage.appendChild(cols);
+    } else if (sl.l === "visual"){
+      const fl = el("div", "sp-st-flow");
+      ["المدخلات", "المعالجة", "المخرجات"].forEach((x, i) => { if (i) fl.appendChild(el("span", "", "←")); fl.appendChild(el("span", "sp-st-box", x)); });
+      stage.appendChild(fl);
+    } else {
+      const ul = el("ul", "sp-st-ul");
+      for (let i = 0; i < nb; i++) ul.appendChild(el("li", "", PH_BULLETS[i]));
+      stage.appendChild(ul);
+    }
+    stage.appendChild(el("div", "sp-st-foot", title));
+  }
+
   /* ---------- التحقق ---------- */
+  function textBad(f, val){
+    const t = clean(val); if (!t) return "";
+    const mw = f.minWords || 1;
+    if (isValidAcademicText(t, mw)) return "";
+    return "«" + f.label + "»: " + ((mw > 1 && isValidAcademicText(t, 1)) ? "اكتب ما لا يقل عن كلمتين مفهومتين." : ACADEMIC_MSG);
+  }
+  function checkAcademic(f){
+    const v = st.vals;
+    if (!clean(v.a_program) || !clean(v.a_level)) return "اختر التخصص والمستوى الدراسي.";
+    if (!v.a_term) return "اختر الفصل الدراسي.";
+    if (!clean(v.course_name)) return "حدّد المقرر من القائمة أو اكتب اسمه.";
+    if (v._course_sel === "__m" || !clean(v.course_code)){ const m = textBad({ label: "اسم المقرر" }, v.course_name); if (m) return m; }
+    if (!f.unitOptional && !v.unit_no) return "اختر رقم الوحدة / المحاضرة.";
+    return "";
+  }
+  function checkSlides(){
+    const sl = st.vals.slides || [];
+    if (sl.length < MIN_SLIDES || sl.length > MAX_SLIDES) return "عدد الشرائح يجب أن يكون بين " + MIN_SLIDES + " و" + MAX_SLIDES + ".";
+    const rows = $("spBody").querySelectorAll(".sp-slide");
+    for (let i = 0; i < sl.length; i++){
+      const t = clean(sl[i].t);
+      if (!t || !isValidAcademicText(t, 1)){
+        if (rows[i]){ rows[i].classList.add("has-err"); st._errFocus = rows[i].querySelector("input"); }
+        return "عنوان الشريحة " + (i + 1) + ": " + (t ? ACADEMIC_MSG : "اكتب عنواناً للشريحة.");
+      }
+    }
+    return "";
+  }
   function checkField(f){
     const v = st.vals, L = f.label;
     if (f.type === "number"){
       const raw = clean(v[f.key]), n = Number(raw);
       return (raw === "" || !Number.isInteger(n) || n < f.min || n > f.max) ? "«" + L + "»: أدخل عدداً صحيحاً بين " + f.min + " و" + f.max + "." : "";
     }
-    if (f.type === "tpl") return v.template ? "" : "اختر القالب البصري.";
-    if (f.type === "course") return clean(v.course_name) ? "" : "حدّد المقرر أو اكتب اسمه.";
-    if (f.type === "lesson") return clean(v.lesson_title) ? "" : "حدّد الوحدة / المحاضرة أو اكتبها.";
+    if (f.type === "academic") return checkAcademic(f);
+    if (f.type === "chips") return "";
+    if (f.type === "storyboard") return checkSlides();
+    if (f.type === "studio") return (v.template && v.animation && v.density) ? "" : "اختر القالب وحركة الانتقال وكثافة المحتوى.";
     if (f.type === "scope") return v.scope ? "" : "اختر نطاق العرض.";
-    return (!clean(v[f.key]) && f.req !== false) ? "«" + L + "» مطلوب." : "";
+    if (f.type === "phone") return validPhone(normPhone(v[f.key])) ? "" : "«" + L + "»: اكتبه بصيغة دولية تبدأ بـ + ثم رمز الدولة.";
+    if (!clean(v[f.key])){
+      if (f.orChips && Array.isArray(v[f.orChips]) && v[f.orChips].length) return "";
+      if (f.orChips) return "اختر خياراً واحداً على الأقل من الخيارات السريعة أو اكتب ملاحظات الدكتور.";
+      return f.req !== false ? "«" + L + "» مطلوب." : "";
+    }
+    return textBad(f, v[f.key]);
   }
   function validateStep(fields){
-    let first = null;
+    let first = null; st._errFocus = null;
     fields.filter(visible).forEach((f) => {
       const msg = checkField(f); if (!msg) return;
-      const w = $("spBody").querySelector('[data-key="' + f.key + '"]'); if (w) w.classList.add("has-err");
+      const w = $("spBody").querySelector('[data-key="' + f.key + '"]'); if (w && f.type !== "storyboard") w.classList.add("has-err");
       if (!first) first = { msg, w };
     });
     if (!first) return true;
     $("spErr").textContent = first.msg;
-    const c = first.w && first.w.querySelector("input,textarea,select,button"); if (c) c.focus();
+    const c = st._errFocus || (first.w && first.w.querySelector("input,textarea,select,button")); if (c) c.focus();
     return false;
   }
 
   /* ---------- تفاصيل الطلب (order_details_json) ---------- */
   function allFields(){ const out = []; st.branch.steps.forEach((s) => s.fields.forEach((f) => { if (visible(f)) out.push(f); })); return out; }
+  function academicDetails(){
+    const v = st.vals, t = TERMS.find((x) => x.code === v.a_term) || {}, d = {};
+    d.program_code = clean(v.a_program); d.level_code = clean(v.a_level); d.term_code = t.code || ""; d.term_label = t.name || "";
+    d.course_name = clean(v.course_name); if (clean(v.course_code)) d.course_code = clean(v.course_code);
+    if (v.unit_no){ d.unit_no = Number(v.unit_no); d.lesson_title = "الوحدة " + v.unit_no; }
+    return d;
+  }
+  function studioDetails(){
+    const v = st.vals, n = slideCount(), cost = currentCost();
+    const t = tplById(v.template) || {}, a = ANIMS.find((x) => x.id === v.animation) || {}, dn = DENSITIES.find((x) => x.id === v.density) || {};
+    return {
+      template: v.template, template_label: t.name || "", animation: v.animation, animation_label: a.name || "",
+      density: v.density, density_label: dn.name || "", speaker_notes: !!v.speaker_notes, include_references: !!v.references,
+      price_per_slide: PRICE_PER_SLIDE, addons_gems: (v.speaker_notes ? ADDON_NOTES : 0) + (v.references ? ADDON_REFS : 0),
+      gem_to_yer: GEM_YER, total_gems: cost, total_yer: cost * GEM_YER, slides_total: n
+    };
+  }
   function buildDetails(){
     const v = st.vals, d = {};
     allFields().forEach((f) => {
-      if (f.type === "number") d[f.key] = Number(v[f.key]);
-      else if (f.type === "tpl"){ d.template = v.template; d.template_label = (tplById(v.template) || {}).name || ""; }
-      else if (f.type === "course"){ d.course_name = clean(v.course_name); if (clean(v.course_code)) d.course_code = clean(v.course_code); }
-      else if (f.type === "lesson"){ d.lesson_title = clean(v.lesson_title); if (clean(v.lesson_code)) d.lesson_code = clean(v.lesson_code); }
+      if (f.type === "number"){ if (!(f.key === "slides_count" && st.branch.dyn)) d[f.key] = Number(v[f.key]); }
+      else if (f.type === "academic") Object.assign(d, academicDetails());
+      else if (f.type === "chips"){ if (v[f.key] && v[f.key].length) d.doctor_options = v[f.key].slice(); }
+      else if (f.type === "phone") d[f.key] = normPhone(v[f.key]);
+      else if (f.type === "storyboard"){ d.slides = v.slides.map((s, i) => ({ n: i + 1, title: clean(s.t), layout: s.l, layout_label: layoutName(s.l) })); d.slides_count = v.slides.length; }
+      else if (f.type === "studio") Object.assign(d, studioDetails());
       else if (f.type === "scope") d.scope = v.scope;
       else { const t = clean(v[f.key]); if (t) d[f.key] = t; }
     });
+    if (st.branch.id === "student_assignment"){
+      const notes = d.doctor_requirements || "";
+      if (notes) d.doctor_notes = notes;
+      d.doctor_requirements = [(d.doctor_options || []).join("، "), notes].filter(Boolean).join(" — ");
+    }
     return d;
   }
   function displayValue(f){
     const v = st.vals;
-    if (f.type === "tpl") return (tplById(v.template) || {}).name || "";
-    if (f.type === "course") return clean(v.course_name) + (clean(v.course_code) ? " (" + clean(v.course_code) + ")" : "");
-    if (f.type === "lesson") return clean(v.lesson_title);
     if (f.type === "scope") return v.scope === "full" ? "المحاضرة كاملة" : "نقاط محددة";
+    if (f.type === "phone") return normPhone(v[f.key]) || "—";
     return clean(v[f.key]) || "—";
+  }
+  function summaryRows(f){
+    const v = st.vals;
+    if (f.type === "academic"){
+      const pn = (PROGRAMS.find((p) => ck(p.code) === ck(v.a_program)) || {}).name || v.a_program, ln = (LEVELS.find((l) => ck(l.code) === ck(v.a_level)) || {}).name || v.a_level;
+      return [["التخصص والمستوى", pn + " — " + ln], ["الفصل الدراسي", (TERMS.find((x) => x.code === v.a_term) || {}).name || "—"],
+        ["المقرر", clean(v.course_name) + (clean(v.course_code) ? " (" + clean(v.course_code) + ")" : "")], ["الوحدة / المحاضرة", v.unit_no ? "الوحدة " + v.unit_no : "غير محدد"]];
+    }
+    if (f.type === "chips") return [["خيارات الدكتور", (v[f.key] || []).join("، ") || "—"]];
+    if (f.type === "storyboard") return [["الشرائح (" + v.slides.length + ")", v.slides.map((s, i) => (i + 1) + ". " + clean(s.t) + " — " + layoutName(s.l)).join("\n")]];
+    if (f.type === "studio"){
+      const add = []; if (v.speaker_notes) add.push("ملاحظات المتحدث"); if (v.references) add.push("شريحة المراجع");
+      return [["القالب", (tplById(v.template) || {}).name || "—"], ["حركة الانتقال", (ANIMS.find((x) => x.id === v.animation) || {}).name || "—"],
+        ["كثافة المحتوى", (DENSITIES.find((x) => x.id === v.density) || {}).name || "—"], ["الإضافات", add.length ? add.join("، ") : "بدون"]];
+    }
+    return [[f.label, displayValue(f)]];
   }
 
   /* ---------- العرض ---------- */
@@ -1803,7 +2205,7 @@ const SanadStore = (function(){
     } else if (cur.k === "branch"){
       body.append(heading(st.service.name), el("p", "sp-hint", "اختر نوع الخدمة المطلوبة:"));
       const g = el("div", "sp-list");
-      st.service.branches.forEach((b) => g.appendChild(optBtn("", b.name, b.desc, b.cost, st.branch === b, () => {
+      st.service.branches.forEach((b) => g.appendChild(optBtn("", b.name, b.desc, b.dyn ? PRICE_PER_SLIDE + " 💎 / شريحة" : b.cost, st.branch === b, () => {
         if (st.branch !== b){ st.branch = b; st.vals = {}; }
         st.i = 2; render();
       })));
@@ -1823,15 +2225,23 @@ const SanadStore = (function(){
   }
 
   function renderSummary(body, foot, backBtn){
-    const b = st.branch, cost = b.cost;
+    const b = st.branch, v = st.vals, cost = currentCost();
     body.appendChild(heading("مراجعة الطلب والتكلفة"));
     const dl = el("dl", "sp-sum");
     const row = (k, val) => { const r = el("div", "sp-sum-row"); r.append(el("dt", "", k), el("dd", "", val)); dl.appendChild(r); };
     row("الخدمة", st.service.name); row("النوع", b.name);
-    allFields().forEach((f) => row(f.type === "course" ? "المقرر" : f.type === "lesson" ? "الوحدة / المحاضرة" : f.label, displayValue(f)));
+    allFields().forEach((f) => summaryRows(f).forEach((r) => row(r[0], r[1])));
     body.appendChild(dl);
 
-    const price = el("div", "sp-price"); price.append(el("span", "", "تكلفة الخدمة"), el("strong", "", cost + " 💎")); body.appendChild(price);
+    if (b.dyn){
+      const n = slideCount(), brk = el("div", "sp-brk");
+      const line = (k, val) => { const r = el("div"); r.append(el("span", "", k), el("b", "", val)); brk.appendChild(r); };
+      line("الشرائح: " + n + " × " + PRICE_PER_SLIDE + " 💎", fmt(n * PRICE_PER_SLIDE) + " 💎");
+      if (v.speaker_notes) line("ملاحظات المتحدث", "+" + ADDON_NOTES + " 💎");
+      if (v.references) line("شريحة المراجع العلمية", "+" + ADDON_REFS + " 💎");
+      body.appendChild(brk);
+    }
+    const price = el("div", "sp-price"); price.append(el("span", "", "تكلفة الخدمة"), el("strong", "", b.dyn ? priceText(cost) : cost + " 💎")); body.appendChild(price);
     const bal = el("div", "sp-balrow"); const bv = el("b", "", fmt(readBalance())); bv.dataset.spBal = "1"; bal.append(el("span", "", "رصيدك الحالي"), el("span", "", ""));
     bal.lastChild.append(bv, " 💎"); body.appendChild(bal);
     const al = el("div", "sp-alert"); al.id = "spAlert"; al.hidden = true; al.setAttribute("role", "alert"); body.appendChild(al);
@@ -1877,9 +2287,10 @@ const SanadStore = (function(){
 
   async function confirmOrder(){
     if (st.busy || !st.branch) return;
-    const cost = st.branch.cost, btn = $("spConfirm"), al = $("spAlert");
+    const cost = currentCost(), btn = $("spConfirm"), al = $("spAlert");
     if (al) al.hidden = true;
     if (!Number.isInteger(cost) || cost < MIN_COST){ showAlert("تعذّر تحديد تكلفة الخدمة. أعد المحاولة."); return; }
+    if (st.branch.dyn){ const n = slideCount(); if (n < MIN_SLIDES || n > MAX_SLIDES){ showAlert("عدد الشرائح يجب أن يكون بين " + MIN_SLIDES + " و" + MAX_SLIDES + "."); return; } }
     const bal = readBalance();
     if (bal < cost){ showAlert(insufficientMsg(cost, bal), true); return; }
 
