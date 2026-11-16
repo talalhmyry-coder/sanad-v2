@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>سَنَد | جامعة العلوم والتكنولوجيا</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dexie@3.2.4/dist/dexie.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Montserrat:wght@600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -473,6 +475,36 @@
   @keyframes spZoom{from{opacity:0;transform:scale(.72)}to{opacity:1;transform:scale(1)}}
   @media(prefers-reduced-motion:reduce){.sp-stage.sp-anim[data-anim="slide"],.sp-stage.sp-anim[data-anim="zoom"]{animation:spFade .6s ease both}}
   @media(max-width:380px){.sp-grid2{grid-template-columns:1fr}.sp-st-title{font-size:1.05rem}}
+  /* ===== استوديو العروض: المسودات + التحرير المهيكل + شاشة النجاح ===== */
+  .sp-modal{position:relative}
+  .sp-draftbar{display:grid;gap:.55rem;padding:.8rem .9rem;border-radius:14px;border:1px solid var(--sp-gold);background:rgba(212,175,55,.12);color:var(--sp-ink);margin-bottom:.9rem;line-height:1.7}
+  .sp-draftbar b{color:var(--sp-gold)}
+  .sp-draftbar .sp-row2{display:flex;gap:.5rem;flex-wrap:wrap}
+  .sp-draftbar .sp-btn{min-height:44px;padding:.55rem .9rem;font-size:.9rem}
+  .sp-edit{font:inherit;font-size:.84rem;min-height:44px;padding:.4rem .8rem;border-radius:999px;border:1px solid var(--sp-gold);background:transparent;color:var(--sp-gold);cursor:pointer;white-space:nowrap}
+  .sp-slide-meta{font-size:.78rem;opacity:.75}
+  .sp-sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:20}
+  .sp-sheet{position:absolute;left:0;right:0;bottom:0;max-height:82%;overflow:auto;z-index:21;background:var(--sp-navy-2);border-top:2px solid var(--sp-gold);border-radius:18px 18px 0 0;padding:.9rem 1rem 1.1rem;display:grid;gap:.7rem;box-shadow:0 -12px 40px rgba(0,0,0,.55);-webkit-overflow-scrolling:touch}
+  .sp-sheet-h{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+  .sp-sheet-h b{color:var(--sp-gold)}
+  .sp-sheet input,.sp-sheet textarea{width:100%;font:inherit;font-size:1rem;color:var(--sp-ink);background:var(--sp-navy);border:1px solid var(--sp-line);border-radius:12px;padding:.65rem .8rem}
+  .sp-sheet textarea{min-height:140px;line-height:1.8;resize:vertical}
+  .sp-lay{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .sp-lay button{font:inherit;min-height:48px;border-radius:12px;border:1px solid var(--sp-line);background:var(--sp-navy);color:var(--sp-ink);cursor:pointer;padding:.5rem}
+  .sp-lay button[aria-pressed="true"]{border-color:var(--sp-gold);background:rgba(212,175,55,.2);color:var(--sp-gold);font-weight:700;box-shadow:0 0 0 2px rgba(212,175,55,.25)}
+  .sp-sheet-acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .sp-sheet-acts button,.sp-sheet .sp-btn{min-height:46px;font:inherit}
+  .sp-sheet-acts button:not(.sp-btn){border-radius:12px;border:1px solid var(--sp-line);background:var(--sp-navy);color:var(--sp-ink);cursor:pointer}
+  .sp-sheet-acts button[disabled]{opacity:.45;cursor:not-allowed}
+  .sp-src-file{display:block;width:100%;font:inherit;padding:.6rem;border:1px dashed var(--sp-gold);border-radius:12px;background:var(--sp-navy-2);color:var(--sp-ink)}
+  .sp-st-tbl{width:100%;border-collapse:collapse;font-size:.72rem}
+  .sp-st-tbl th,.sp-st-tbl td{border:1px solid rgba(255,255,255,.25);padding:.2rem .35rem;text-align:right}
+  .sp-st-tbl th{background:rgba(212,175,55,.3)}
+  .sp-st-ev{display:grid;gap:.1rem;text-align:center;font-size:.7rem}
+  .sp-st-ev b{color:var(--sp-gold)}
+  .sp-done-acts{display:grid;gap:.6rem;margin:.9rem 0 .2rem}
+  .sp-done-acts .sp-btn{min-height:50px;flex:none}
+  .sp-done-note{font-size:.8rem;opacity:.8;line-height:1.7}
 </style>
 </head>
 <body>
@@ -1632,6 +1664,128 @@ function isValidAcademicText(str, minWords){
   return words >= (minWords || 1);
 }
 
+/* ---------- محرك توليد وتنزيل ملف العرض (SanadPptxEngine) ---------- */
+const SanadPptxEngine = (function(){
+  "use strict";
+  const MIME = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+  const FONT = "Arial";
+  const THEMES = {
+    navy_formal:    { bg: "0B192C", title: "D4AF37", text: "FFFFFF", accent: "D4AF37", card: "13294B", head: "0B192C" },
+    emerald_modern: { bg: "0F3D33", title: "FFFFFF", text: "E8F5F0", accent: "2ECC9A", card: "15594A", head: "0F3D33" },
+    gold_classic:   { bg: "F7F1DC", title: "7A5C10", text: "2B2410", accent: "D4AF37", card: "FFFFFF", head: "2B2410" },
+    white_formal:   { bg: "FFFFFF", title: "0B192C", text: "1F2937", accent: "0B192C", card: "EEF2F7", head: "FFFFFF" }
+  };
+  const clean = (s) => String(s == null ? "" : s).trim();
+  const cells = (line) => {
+    const t = String(line); let i = t.indexOf("|"); if (i < 0) i = t.search(/[:：]/);
+    return i < 0 ? [t.trim(), ""] : [t.slice(0, i).trim(), t.slice(i + 1).trim()];
+  };
+  const safeName = (t) => {
+    const n = clean(t).replace(/[\\/:*?"<>|\u0000-\u001f]/g, " ").replace(/\s+/g, "_").replace(/^_+|_+$/g, "").slice(0, 60);
+    return (n || "Sanad_Presentation") + ".pptx";
+  };
+  // خيارات نص عربية: يمين + اتجاه RTL
+  const R = (o) => Object.assign({ fontFace: FONT, align: "right", rtlMode: true, lang: "ar-SA" }, o || {});
+
+  function heading(pptx, slide, T, text){
+    slide.addText(text, R({ x: 0.5, y: 0.3, w: 9, h: 0.9, fontSize: text.length > 45 ? 22 : 28, bold: true, color: T.title, valign: "middle", fit: "shrink" }));
+    slide.addShape(pptx.ShapeType.rect, { x: 6.5, y: 1.2, w: 3, h: 0.05, fill: { color: T.accent }, line: { color: T.accent, width: 0 } });
+  }
+  function bullets(slide, items, x, y, w, h, color){
+    const n = items.length, fs = n > 7 ? 14 : n > 5 ? 16 : 20;
+    slide.addText(items.map((t) => ({ text: t, options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } })),
+      R({ x, y, w, h, fontSize: fs, color, valign: "top", fit: "shrink" }));
+  }
+  function compare(pptx, slide, T, sl){
+    const items = sl.items || [], k = Math.ceil(items.length / 2);
+    const cols = [{ h: clean(sl.h0) || "الجانب الأول", it: items.slice(0, k) }, { h: clean(sl.h1) || "الجانب الثاني", it: items.slice(k) }];
+    cols.forEach((c, i) => {
+      const x = i === 0 ? 5.2 : 0.5; // الجانب الأول على اليمين
+      slide.addShape(pptx.ShapeType.roundRect, { x, y: 1.5, w: 4.3, h: 3.6, fill: { color: T.card }, line: { color: T.accent, width: 1.5 }, rectRadius: 0.12 });
+      slide.addText(c.h, R({ x: x + 0.15, y: 1.6, w: 4.0, h: 0.6, fontSize: 20, bold: true, color: T.accent, valign: "middle" }));
+      bullets(slide, c.it.length ? c.it : ["—"], x + 0.15, 2.25, 4.0, 2.7, T.text);
+    });
+  }
+  function table(pptx, slide, T, sl){
+    const h0 = clean(sl.h0) || "البند", h1 = clean(sl.h1) || "التفاصيل";
+    const rows = (sl.items || []).slice(0, 9).map(cells);
+    const hdr = [h0, h1].map((t) => ({ text: t, options: R({ bold: true, color: T.head, fill: { color: T.accent }, fontSize: 16 }) }));
+    const body = rows.map((r) => r.map((t) => ({ text: t, options: R({ color: T.text, fill: { color: T.card }, fontSize: 14 }) })));
+    // عكس مصفوفات الصفوف ليظهر العمود الأول على اليمين (اتجاه عربي)
+    const data = [hdr.slice().reverse()].concat(body.map((r) => r.slice().reverse()));
+    slide.addTable(data, { x: 0.5, y: 1.5, w: 9, colW: [6.2, 2.8], fontFace: FONT, border: { type: "solid", pt: 1, color: T.accent }, valign: "middle" });
+  }
+  function timeline(pptx, slide, T, sl){
+    const ev = (sl.items || []).slice(0, 8).map(cells); if (!ev.length) return;
+    const n = ev.length, W = 8.8, x0 = 0.6, cw = W / n, big = n <= 5;
+    slide.addShape(pptx.ShapeType.line, { x: x0, y: 3.0, w: W, h: 0, line: { color: T.accent, width: 2 } });
+    ev.forEach((e, i) => {
+      const cx = x0 + W - (i + 0.5) * cw; // من اليمين إلى اليسار
+      const year = e[1] ? e[0] : "", text = e[1] ? e[1] : e[0];
+      slide.addShape(pptx.ShapeType.ellipse, { x: cx - 0.15, y: 2.85, w: 0.3, h: 0.3, fill: { color: T.accent }, line: { color: T.bg, width: 2 } });
+      if (year) slide.addText(year, R({ x: cx - cw / 2, y: 2.0, w: cw, h: 0.65, fontSize: big ? 18 : 14, bold: true, color: T.accent, align: "center", valign: "bottom" }));
+      slide.addText(text, R({ x: cx - cw / 2 + 0.05, y: 3.3, w: cw - 0.1, h: 1.9, fontSize: big ? 13 : 11, color: T.text, align: "center", valign: "top", fit: "shrink" }));
+    });
+  }
+  function noteText(sl){ return clean(sl.t) + "\n" + (sl.items || []).map((x) => "- " + x).join("\n"); }
+
+  async function build(spec){
+    if (typeof PptxGenJS === "undefined") throw new Error("PPTX_LIB_MISSING");
+    const T = THEMES[spec.template] || THEMES.navy_formal;
+    const pptx = new PptxGenJS();
+    pptx.layout = "LAYOUT_16x9";
+    pptx.rtlMode = true;
+    pptx.title = clean(spec.title) || "عرض تقديمي"; pptx.author = "Sanad"; pptx.company = "Sanad";
+    const slides = Array.isArray(spec.slides) ? spec.slides : [];
+    slides.forEach((sl, idx) => {
+      const s = pptx.addSlide(); s.background = { color: T.bg };
+      if (idx === 0){
+        s.addText(clean(sl.t) || clean(spec.title) || "عنوان العرض", R({ x: 0.7, y: 1.4, w: 8.6, h: 1.6, fontSize: 38, bold: true, color: T.title, align: "center", valign: "middle", fit: "shrink" }));
+        s.addShape(pptx.ShapeType.rect, { x: 4, y: 3.15, w: 2, h: 0.06, fill: { color: T.accent }, line: { color: T.accent, width: 0 } });
+        const sub = [clean(spec.subtitle), clean(spec.audience)].filter(Boolean).join(" — ");
+        if (sub) s.addText(sub, R({ x: 0.7, y: 3.4, w: 8.6, h: 0.9, fontSize: 18, color: T.text, align: "center", valign: "top", fit: "shrink" }));
+      } else {
+        heading(pptx, s, T, clean(sl.t) || ("شريحة " + (idx + 1)));
+        const layout = sl.l;
+        if (layout === "compare") compare(pptx, s, T, sl);
+        else if (layout === "table") table(pptx, s, T, sl);
+        else if (layout === "timeline") timeline(pptx, s, T, sl);
+        else bullets(s, (sl.items && sl.items.length ? sl.items : [""]), 0.6, 1.5, 8.8, 3.7, T.text);
+        s.addText(String(idx + 1), R({ x: 0.3, y: 5.15, w: 0.8, h: 0.35, fontSize: 11, color: T.accent, align: "left" }));
+      }
+      if (spec.speaker_notes) s.addNotes(noteText(sl));
+    });
+    if (spec.references){
+      const s = pptx.addSlide(); s.background = { color: T.bg };
+      heading(pptx, s, T, "المراجع العلمية");
+      const refs = [clean(spec.course_name) && ("محتوى مقرر: " + clean(spec.course_name)), clean(spec.source_name) && ("المصدر: " + clean(spec.source_name))].filter(Boolean);
+      bullets(s, refs.length ? refs : ["المرجع الأساسي للموضوع"], 0.6, 1.5, 8.8, 3.7, T.text);
+      if (spec.speaker_notes) s.addNotes("المراجع العلمية");
+    }
+    let buf;
+    try{ buf = await pptx.write({ outputType: "arraybuffer" }); }
+    catch(_){ buf = await pptx.write("arraybuffer"); }
+    const blob = new Blob([buf], { type: MIME });
+    const name = safeName(spec.title);
+    let file = null; try{ file = new File([blob], name, { type: MIME }); }catch(_){ file = null; }
+    return { blob, file, name, url: URL.createObjectURL(blob), size: blob.size };
+  }
+  function download(res){
+    const a = document.createElement("a");
+    a.href = res.url; a.download = res.name; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); setTimeout(() => a.remove(), 1500);
+  }
+  function canShare(res){
+    try{ return !!(res && res.file && navigator.share && navigator.canShare && navigator.canShare({ files: [res.file] })); }catch(_){ return false; }
+  }
+  async function share(res){
+    if (!canShare(res)) return { ok: false, reason: "unsupported" };
+    try{ await navigator.share({ files: [res.file], title: res.name }); return { ok: true }; }
+    catch(e){ return { ok: false, reason: (e && e.name === "AbortError") ? "abort" : "error" }; }
+  }
+  return { build, download, share, canShare, MIME };
+})();
+
 const SanadStore = (function(){
   "use strict";
   const MIN_COST = 10, PRICE_PER_SLIDE = 5, GEM_YER = 20, ADDON_NOTES = 15, ADDON_REFS = 10, MIN_SLIDES = 3, MAX_SLIDES = 40;
@@ -1653,10 +1807,17 @@ const SanadStore = (function(){
     { id: "detailed", name: "تفصيلي شامل" }
   ];
   const LAYOUTS = [
-    { id: "bullets", name: "نقاط مركزة" },
-    { id: "compare", name: "مقارنة عمودين" },
-    { id: "visual",  name: "مخطط بصري" }
+    { id: "bullets",  name: "نقاط تعدادية", hint: "اكتب كل نقطة في سطر مستقل." },
+    { id: "compare",  name: "بطاقات مقارنة", hint: "النصف الأول من السطور يذهب للبطاقة الأولى والباقي للثانية. يمكنك تسمية البطاقتين أعلاه." },
+    { id: "table",    name: "جدول", hint: "اكتب كل صف في سطر بصيغة: البند | التفاصيل. ويمكنك تسمية العمودين أعلاه." },
+    { id: "timeline", name: "خط زمني", hint: "اكتب كل محطة في سطر بصيغة: السنة | الحدث (حتى 8 محطات)." }
   ];
+  const PROCESSES = [
+    { id: "original", icon: "📄", name: "النص الأصلي دون إعادة صياغة", desc: "يُوزَّع نص المحاضرة كما هو على الشرائح" },
+    { id: "academic", icon: "🎓", name: "التكييف الأكاديمي الرصين", desc: "تنقية الجمل وتوحيدها واختصارها بأسلوب أكاديمي مركّز" },
+    { id: "smart",    icon: "✨", name: "المعالجة الذكية (عناصر بصرية)", desc: "تحويل النص إلى جداول وخطوط زمنية وبطاقات مقارنة عند الإمكان" }
+  ];
+  const MAX_ITEMS = 12, SRC_MAX = 60000;
   const TERMS = [{ code: "T1", n: 1, name: "الفصل الأول" }, { code: "T2", n: 2, name: "الفصل الثاني" }];
   const DOCTOR_CHIPS = ["باللغة العربية", "باللغة الإنجليزية", "صفحة واحدة مركزة", "التركيز على المهارات الأكاديمية", "تنسيق رسمي ATS"];
 
@@ -1704,19 +1865,24 @@ const SanadStore = (function(){
     { type: "presentation", icon: "🖼️", name: "استوديو العروض التقديمية الذكي", desc: "عرض عام أو عرض مبني على مقررك — 5 💎 للشريحة", branches: [
       { id: "general_presentation", name: "عرض تقديمي عام", desc: "عرض بأي موضوع تختاره", cost: 40, dyn: true, steps: [
         { title: "موضوع العرض", fields: [
-          { key: "title", label: "عنوان العرض", type: "text", len: 200 },
+          { key: "title", label: "موضوع العرض", type: "text", len: 200 },
+          { key: "goal", label: "الهدف من العرض", type: "text", len: 200 },
+          { key: "audience", label: "الجمهور المستهدف", type: "text", len: 150 },
           { key: "axes", label: "المحاور", type: "area", len: 1500, minWords: 2, ph: "اكتب كل محور في سطر" },
-          { key: "slides_count", label: "عدد الشرائح المبدئي", type: "number", min: MIN_SLIDES, max: MAX_SLIDES, def: 10 } ] },
+          { key: "slides_count", label: "عدد الشرائح (3 إلى 40)", type: "number", min: MIN_SLIDES, max: MAX_SLIDES, def: 10 } ] },
         { title: "مخطط الشرائح", fields: [ { key: "slides", label: "مخطط الشرائح", type: "storyboard" } ] },
         { title: "التصميم والحركة", fields: [ { key: "studio", label: "التصميم والحركة", type: "studio" } ] }
       ] },
       { id: "course_presentation", name: "عرض من المقرر الدراسي", desc: "عرض مبني على محاضرة أو وحدة من مقررك", cost: 50, dyn: true, steps: [
-        { title: "المقرر والوحدة", fields: [ { key: "course", label: "المقرر الدراسي", type: "academic" } ] },
+        { title: "المقرر والوحدة", fields: [ { key: "course", label: "التخصص ← المستوى ← الفصل ← المقرر ← الوحدة", type: "academic" } ] },
         { title: "نطاق العرض", fields: [
           { key: "scope", label: "نطاق العرض", type: "scope" },
           { key: "scope_points", label: "النقاط المطلوبة", type: "area", len: 1200, minWords: 2, ph: "اكتب النقاط التي تريدها في العرض، كل نقطة في سطر", showIf: (v) => v.scope === "points" },
           { key: "title", label: "عنوان العرض", type: "text", len: 200, init: (v) => "عرض تقديمي: " + clean(v.course_name) + (v.unit_no ? " — الوحدة " + v.unit_no : "") },
-          { key: "slides_count", label: "عدد الشرائح المبدئي", type: "number", min: MIN_SLIDES, max: MAX_SLIDES, def: 10 } ] },
+          { key: "slides_count", label: "عدد الشرائح (3 إلى 40)", type: "number", min: MIN_SLIDES, max: MAX_SLIDES, def: 10 } ] },
+        { title: "محتوى المحاضرة", fields: [
+          { key: "source", label: "ملف المحاضرة أو الملخص", type: "source" },
+          { key: "process", label: "طريقة معالجة المحتوى", type: "process" } ] },
         { title: "مخطط الشرائح", fields: [ { key: "slides", label: "مخطط الشرائح", type: "storyboard" } ] },
         { title: "التصميم والحركة", fields: [ { key: "studio", label: "التصميم والحركة", type: "studio" } ] }
       ] }
@@ -1780,6 +1946,32 @@ const SanadStore = (function(){
     return i;
   }
 
+  function readAsText(file){
+    return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result || "")); r.onerror = () => rej(r.error || new Error("READ")); r.readAsText(file, "utf-8"); });
+  }
+  function loadPdfJs(){
+    if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+    return new Promise((res, rej) => {
+      const sc = document.createElement("script");
+      sc.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
+      sc.onload = () => { try{ window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"; res(window.pdfjsLib); }catch(e){ rej(e); } };
+      sc.onerror = () => rej(new Error("PDFJS_LOAD")); document.head.appendChild(sc);
+    });
+  }
+  async function extractFileText(file){
+    if (/\.pdf$/i.test(file.name) || file.type === "application/pdf"){
+      const lib = await loadPdfJs();
+      const doc = await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+      const parts = [], pages = Math.min(doc.numPages, 80);
+      for (let i = 1; i <= pages; i++){
+        const c = await (await doc.getPage(i)).getTextContent();
+        parts.push(c.items.map((q) => q.str).join(" "));
+        if (parts.join("\n").length > SRC_MAX) break;
+      }
+      return parts.join("\n");
+    }
+    return readAsText(file);
+  }
   function fieldEl(f){
     const wrap = el("div", "sp-field"); wrap.dataset.key = f.key;
     const id = "spf-" + f.key, v = st.vals;
@@ -1897,10 +2089,39 @@ const SanadStore = (function(){
         us.addEventListener("change", () => { v.unit_no = us.value; clearErr(wrap); });
         ug.appendChild(us); wrap.appendChild(ug);
       }
+    } else if (f.type === "process"){
+      if (!v.process) v.process = "smart";
+      wrap.appendChild(labelEl(f, null));
+      const g = el("div", "sp-list");
+      const drawP = () => { g.replaceChildren(); PROCESSES.forEach((q) => g.appendChild(optBtn(q.icon, q.name, q.desc, 0, v.process === q.id, () => { v.process = q.id; clearErr(wrap); drawP(); }))); };
+      drawP(); wrap.appendChild(g);
+    } else if (f.type === "source"){
+      wrap.appendChild(labelEl(f, "spf-src-text"));
+      const fi = el("input", "sp-src-file"); fi.type = "file"; fi.accept = ".pdf,.txt,application/pdf,text/plain"; fi.setAttribute("aria-label", "رفع ملف المحاضرة (PDF أو TXT)");
+      const stt = el("small", "sp-count", v.source_name ? "الملف الحالي: " + v.source_name : "ارفع ملف PDF أو TXT، أو الصق نص المحاضرة / الملخص في الحقل أدناه.");
+      const ta = el("textarea"); ta.id = "spf-src-text"; ta.maxLength = SRC_MAX; ta.value = v.source_text || ""; ta.placeholder = "الصق نص المحاضرة أو الملخص هنا (30 كلمة على الأقل)";
+      const cnt = el("span", "sp-count", wordsOf(ta.value).length + " كلمة");
+      ta.addEventListener("input", () => { v.source_text = ta.value; if (!ta.value) v.source_name = ""; cnt.textContent = wordsOf(ta.value).length + " كلمة"; clearErr(wrap); });
+      fi.addEventListener("change", async () => {
+        const file = fi.files && fi.files[0]; if (!file) return;
+        if (file.size > 15 * 1024 * 1024){ stt.textContent = "حجم الملف أكبر من 15 ميغابايت."; fi.value = ""; return; }
+        stt.textContent = "جارٍ استخراج النص من الملف…";
+        try{
+          const text = await extractFileText(file);
+          if (wordsOf(text).length < 5) throw new Error("EMPTY");
+          v.source_text = text.slice(0, SRC_MAX); v.source_name = file.name; ta.value = v.source_text; cnt.textContent = wordsOf(ta.value).length + " كلمة";
+          stt.textContent = "تم استخراج النص من: " + file.name + (/\.pdf$/i.test(file.name) ? " — راجع النص لأن ترتيب العربية في بعض ملفات PDF قد يختلف." : ""); clearErr(wrap);
+        }catch(e){
+          console.error("extract error:", e);
+          stt.textContent = "تعذّر استخراج نص من الملف (قد يكون صورة ممسوحة ضوئياً). الصق النص يدوياً في الحقل أدناه.";
+        }
+        fi.value = "";
+      });
+      wrap.append(fi, stt, ta, cnt);
     } else if (f.type === "storyboard"){
-      const sig = [v.title, v.axes, v.scope, v.scope_points, v.slides_count, v.course_name, v.unit_no].join("\u00A6");
+      const sig = [v.title, v.axes, v.scope, v.scope_points, v.slides_count, v.course_name, v.unit_no, v.process, v.goal, v.audience, clean(v.source_text).length].join("\u00A6");
       if (!Array.isArray(v.slides) || v._sb_sig !== sig){ v.slides = genSlides(); v._sb_sig = sig; }
-      wrap.appendChild(el("p", "sp-hint", "عدّل عنوان أي شريحة وتخطيطها، واحذف أو أضف شرائح قبل الاعتماد. تتحدّث التكلفة لحظياً. (تعديل العنوان أو المحاور أو العدد المبدئي في الخطوة السابقة يعيد توليد المخطط.)"));
+      wrap.appendChild(el("p", "sp-hint", "اضغط «تحرير» على أي شريحة لتبديل تخطيطها (نقاط / بطاقات / جدول / خط زمني) وتعديل نصها، واحذف أو أضف شرائح قبل الاعتماد. تتحدّث التكلفة لحظياً. (تعديل العنوان أو المحاور أو العدد المبدئي في الخطوة السابقة يعيد توليد المخطط.)"));
       wrap.appendChild(liveBar());
       const list = el("div", "sp-slides"); wrap.appendChild(list);
       const add = el("button", "sp-btn sp-btn--ghost", "➕ إضافة شريحة"); add.type = "button";
@@ -1988,18 +2209,107 @@ const SanadStore = (function(){
       .map((x) => x.replace(/^[\s\-–•*]+/, "").replace(/^\d+[.)\-\s]+/, "").trim()).filter(Boolean);
     return parts.length ? parts : DEFAULT_AXES.slice();
   }
+  const cells = (line) => {
+    const t = String(line); let i = t.indexOf("|"); if (i < 0) i = t.search(/[:：]/);
+    return i < 0 ? [t.trim(), ""] : [t.slice(0, i).trim(), t.slice(i + 1).trim()];
+  };
+  const wordsOf = (t) => clean(t).split(/\s+/).filter(Boolean);
+  function sentencesOf(text){
+    return String(text || "").replace(/\r/g, "\n").replace(/([.!؟?؛])\s+/g, "$1\n").split("\n")
+      .map((x) => x.replace(/^[\s\-–•*·●▪■◦]+/, "").replace(/^\d+[.)\-]\s+/, "").replace(/\s+/g, " ").trim()).filter((x) => x.length >= 8);
+  }
+  function cutWords(t, max){
+    if (t.length <= max) return t;
+    const c = t.slice(0, max), i = c.lastIndexOf(" ");
+    return (i > 20 ? c.slice(0, i) : c).trim() + "…";
+  }
+  const shortTitle = (t) => cutWords(wordsOf(t).slice(0, 7).join(" ").replace(/[.:؛،,!؟?\-–]+$/, ""), 80) || "شريحة محتوى";
+  const YEAR_RE = /(?:^|[^\d])(1[0-9]{3}|20[0-9]{2})(?:[^\d]|$)/;
+  function arrangeChunk(chunk, mode){
+    const norm = (x) => x.replace(/[.؛!]+$/, "").trim();
+    if (mode === "original") return { l: "bullets", items: chunk.slice(0, MAX_ITEMS) };
+    if (mode === "academic"){
+      const seen = {}, out = [];
+      chunk.forEach((x) => { const y = cutWords(norm(x), 150); if (!seen[y]){ seen[y] = 1; out.push(y); } });
+      return { l: "bullets", items: out.slice(0, 6) };
+    }
+    const yrs = chunk.filter((x) => YEAR_RE.test(x));
+    if (yrs.length >= 2) return { l: "timeline", items: yrs.slice(0, 8).map((x) => { const y = x.match(YEAR_RE)[1]; return y + " | " + cutWords(norm(x.replace(y, " ").replace(/\s+/g, " ").replace(/^[\s\-–:،,]+/, "")) || norm(x), 90); }) };
+    const defs = chunk.filter((x) => /^[^:：]{2,40}[:：]\s*\S/.test(x) || /\s(هو|هي|تعني|يعني)\s/.test(x));
+    if (defs.length >= 2) return { l: "table", items: defs.slice(0, 9).map((x) => {
+      let m = x.match(/^([^:：]{2,40})[:：]\s*(.+)$/) || x.match(/^(.{2,40}?)\s(?:هو|هي|تعني|يعني)\s(.+)$/);
+      return m ? norm(m[1]) + " | " + cutWords(norm(m[2]), 110) : norm(x);
+    }), h0: "المفهوم", h1: "التعريف" };
+    if (chunk.length >= 3 && chunk.some((x) => /(بينما|في المقابل|بخلاف|الفرق بين|مقارنة|أما\s)/.test(x))) return { l: "compare", items: chunk.slice(0, 8).map((x) => cutWords(norm(x), 110)) };
+    return { l: "bullets", items: chunk.slice(0, 6).map((x) => cutWords(norm(x), 130)) };
+  }
+  function starter(t){ return ["تعريف " + t, "أهم عناصر " + t, "مثال تطبيقي"]; }
   function genSlides(){
     const v = st.vals, n = Math.min(MAX_SLIDES, Math.max(MIN_SLIDES, parseInt(v.slides_count, 10) || 10));
-    const axes = axesList(), mid = n - 3;
-    const out = [{ t: clean(v.title) || "عنوان العرض", l: "bullets" }, { t: "المقدمة والأهداف", l: "bullets" }];
+    const axes = axesList(), mid = n - 3, mode = v.process || "smart", src = clean(v.source_text);
+    const intro = [];
+    if (clean(v.goal)) intro.push("الهدف: " + clean(v.goal));
+    if (clean(v.audience)) intro.push("الجمهور: " + clean(v.audience));
+    if (clean(v.course_name)) intro.push("المقرر: " + clean(v.course_name) + (v.unit_no ? " — الوحدة " + v.unit_no : ""));
+    const out = [{ t: clean(v.title) || "عنوان العرض", l: "bullets", items: [] },
+                 { t: "المقدمة والأهداف", l: "bullets", items: intro.length ? intro : ["التعريف بموضوع العرض", "أهداف العرض ومحاوره"] }];
+    const S = src ? sentencesOf(src) : [], useAxes = v.scope === "points" || !src;
     for (let k = 0; k < mid; k++){
       let t;
-      if (axes.length >= mid){ t = axes.slice(Math.floor(k * axes.length / mid), Math.floor((k + 1) * axes.length / mid)).join(" + "); }
-      else { const ax = axes[k % axes.length], occ = Math.floor(k / axes.length); t = occ ? ax + " " + AXIS_SUFFIX[(occ - 1) % AXIS_SUFFIX.length] : ax; }
-      out.push({ t: t.slice(0, 80), l: "bullets" });
+      if (useAxes){
+        if (axes.length >= mid){ t = axes.slice(Math.floor(k * axes.length / mid), Math.floor((k + 1) * axes.length / mid)).join(" + "); }
+        else { const ax = axes[k % axes.length], occ = Math.floor(k / axes.length); t = occ ? ax + " " + AXIS_SUFFIX[(occ - 1) % AXIS_SUFFIX.length] : ax; }
+      }
+      if (S.length){
+        const per = Math.ceil(S.length / mid), chunk = S.slice(k * per, (k + 1) * per);
+        if (chunk.length){ const a = arrangeChunk(chunk, mode); out.push(Object.assign({ t: (t || shortTitle(chunk[0])).slice(0, 80) }, a)); continue; }
+      }
+      t = (t || "محور " + (k + 1)).slice(0, 80);
+      out.push({ t, l: "bullets", items: starter(t) });
     }
-    out.push({ t: "الخاتمة والتوصيات", l: "bullets" });
+    out.push({ t: "الخاتمة والتوصيات", l: "bullets", items: ["ملخص أبرز النقاط", "التوصيات والخطوات التالية"] });
     return out;
+  }
+  function closeSheet(){ ["spSheet", "spSheetBg"].forEach((i) => { const n = $(i); if (n) n.remove(); }); }
+  function openSheet(idx, redraw){
+    const v = st.vals, sl = v.slides[idx], total = v.slides.length;
+    closeSheet();
+    const bg = el("div", "sp-sheet-bg"); bg.id = "spSheetBg";
+    const sh = el("div", "sp-sheet"); sh.id = "spSheet"; sh.setAttribute("role", "dialog"); sh.setAttribute("aria-label", "تحرير الشريحة " + (idx + 1));
+    const hd = el("div", "sp-sheet-h"); hd.append(el("b", "", "الشريحة " + (idx + 1) + " من " + total));
+    const x = el("button", "sp-edit", "✕ إغلاق"); x.type = "button"; hd.appendChild(x);
+    const close = () => { closeSheet(); redraw(idx); };
+    x.addEventListener("click", close); bg.addEventListener("click", close);
+    const ti = el("input"); ti.type = "text"; ti.maxLength = 80; ti.value = sl.t; ti.autocomplete = "off"; ti.setAttribute("aria-label", "عنوان الشريحة");
+    ti.addEventListener("input", () => { sl.t = ti.value; });
+    const lay = el("div", "sp-lay"); lay.setAttribute("role", "group"); lay.setAttribute("aria-label", "تخطيط الشريحة");
+    LAYOUTS.forEach((L) => {
+      const b = el("button", "", L.name); b.type = "button"; b.setAttribute("aria-pressed", String(sl.l === L.id));
+      b.addEventListener("click", () => { sl.l = L.id; openSheet(idx, redraw); }); lay.appendChild(b);
+    });
+    sh.append(hd, ti, lay);
+    if (sl.l === "compare" || sl.l === "table"){
+      const g = el("div", "sp-grid2");
+      [["h0", sl.l === "table" ? "البند" : "الجانب الأول"], ["h1", sl.l === "table" ? "التفاصيل" : "الجانب الثاني"]].forEach((o) => {
+        const i = el("input"); i.type = "text"; i.maxLength = 40; i.value = sl[o[0]] || ""; i.placeholder = o[1]; i.setAttribute("aria-label", o[1]);
+        i.addEventListener("input", () => { sl[o[0]] = i.value; }); g.appendChild(i);
+      });
+      sh.appendChild(g);
+    }
+    const L0 = LAYOUTS.find((q) => q.id === sl.l) || LAYOUTS[0];
+    sh.appendChild(el("small", "sp-count", L0.hint));
+    const ta = el("textarea"); ta.value = (sl.items || []).join("\n"); ta.setAttribute("aria-label", "محتوى الشريحة"); ta.dir = "auto";
+    ta.addEventListener("input", () => { sl.items = ta.value.split("\n").map((q) => q.trim()).filter(Boolean).slice(0, MAX_ITEMS).map((q) => q.slice(0, 220)); });
+    sh.appendChild(ta);
+    const acts = el("div", "sp-sheet-acts");
+    const mk = (txt, fn, dis) => { const b = el("button", "", txt); b.type = "button"; b.disabled = !!dis; b.addEventListener("click", fn); acts.appendChild(b); return b; };
+    mk("→ السابقة", () => openSheet(idx - 1, redraw), idx === 0);
+    mk("التالية ←", () => openSheet(idx + 1, redraw), idx >= total - 1);
+    mk("➕ إضافة شريحة بعدها", () => { const at = idx >= total - 1 ? idx : idx + 1; v.slides.splice(at, 0, { t: "شريحة جديدة", l: "bullets", items: ["نقطة أولى"] }); closeSheet(); redraw(at); openSheet(at, redraw); }, total >= MAX_SLIDES);
+    mk("🗑️ حذف الشريحة", () => { v.slides.splice(idx, 1); closeSheet(); redraw(Math.min(idx, v.slides.length - 1)); }, total <= MIN_SLIDES);
+    const done = el("button", "sp-btn sp-btn--gold", "تم"); done.type = "button"; done.addEventListener("click", close);
+    sh.append(acts, done);
+    $("spModal").append(bg, sh); ti.focus();
   }
   function slideRow(sl, idx, redraw){
     const v = st.vals, total = v.slides.length;
@@ -2010,14 +2320,11 @@ const SanadStore = (function(){
     inp.addEventListener("input", () => { sl.t = inp.value; row.classList.remove("has-err"); const e = $("spErr"); if (e) e.textContent = ""; });
     const sub = el("div", "sp-slide-sub");
     sub.appendChild(el("span", "sp-role", idx === 0 ? "الغلاف والعنوان" : idx === 1 ? "المقدمة والأهداف" : idx === total - 1 ? "الخاتمة" : "شريحة محتوى"));
-    const sel = el("select"); sel.setAttribute("aria-label", "تخطيط الشريحة " + (idx + 1));
-    LAYOUTS.forEach((L) => { const o = el("option", "", L.name); o.value = L.id; sel.appendChild(o); });
-    sel.value = sl.l; sel.addEventListener("change", () => { sl.l = sel.value; });
-    sub.appendChild(sel); main.append(inp, sub);
-    const del = el("button", "sp-slide-del", "🗑️"); del.type = "button"; del.setAttribute("aria-label", "حذف الشريحة " + (idx + 1));
-    del.disabled = total <= MIN_SLIDES; del.title = del.disabled ? "الحد الأدنى " + MIN_SLIDES + " شرائح" : "حذف الشريحة";
-    del.addEventListener("click", () => { if (v.slides.length <= MIN_SLIDES) return; v.slides.splice(idx, 1); redraw(Math.min(idx, v.slides.length - 1)); });
-    row.append(main, del);
+    sub.appendChild(el("span", "sp-slide-meta", layoutName(sl.l) + " · " + (sl.items || []).length + " عناصر"));
+    main.append(inp, sub);
+    const ed = el("button", "sp-edit", idx === 0 ? "العنوان" : "✏️ تحرير"); ed.type = "button"; ed.setAttribute("aria-label", "تحرير الشريحة " + (idx + 1));
+    ed.addEventListener("click", () => { if (idx === 0){ inp.focus(); } else { openSheet(idx, redraw); } });
+    row.append(main, ed);
     return row;
   }
   function fillLive(b){ b.replaceChildren(el("span", "", "عدد الشرائح: " + slideCount()), el("strong", "", priceText(currentCost()))); }
@@ -2035,22 +2342,28 @@ const SanadStore = (function(){
     }
     const sl = (v.slides && (v.slides[2] || v.slides[1])) || { t: "عنوان الشريحة", l: "bullets" };
     const nb = v.density === "brief" ? 2 : v.density === "detailed" ? 5 : 3;
+    const its = (sl.items && sl.items.length) ? sl.items : PH_BULLETS;
     stage.appendChild(el("div", "sp-st-h", clean(sl.t) || "عنوان الشريحة"));
     if (sl.l === "compare"){
-      const cols = el("div", "sp-st-cols");
-      ["الجانب الأول", "الجانب الثاني"].forEach((h) => {
-        const col = el("div", "sp-st-col"); col.appendChild(el("b", "", h));
-        for (let i = 0; i < Math.min(nb, 3); i++) col.appendChild(el("div", "", "• " + PH_BULLETS[i]));
+      const cols = el("div", "sp-st-cols"), k = Math.ceil(its.length / 2);
+      [[clean(sl.h0) || "الجانب الأول", its.slice(0, k)], [clean(sl.h1) || "الجانب الثاني", its.slice(k)]].forEach((c) => {
+        const col = el("div", "sp-st-col"); col.appendChild(el("b", "", c[0]));
+        c[1].slice(0, 3).forEach((x) => col.appendChild(el("div", "", "• " + x)));
         cols.appendChild(col);
       });
       stage.appendChild(cols);
-    } else if (sl.l === "visual"){
+    } else if (sl.l === "table"){
+      const tb = el("table", "sp-st-tbl"), tr = el("tr");
+      tr.append(el("th", "", clean(sl.h0) || "البند"), el("th", "", clean(sl.h1) || "التفاصيل")); tb.appendChild(tr);
+      its.slice(0, 3).forEach((x) => { const c = cells(x), r = el("tr"); r.append(el("td", "", c[0]), el("td", "", c[1])); tb.appendChild(r); });
+      stage.appendChild(tb);
+    } else if (sl.l === "timeline"){
       const fl = el("div", "sp-st-flow");
-      ["المدخلات", "المعالجة", "المخرجات"].forEach((x, i) => { if (i) fl.appendChild(el("span", "", "←")); fl.appendChild(el("span", "sp-st-box", x)); });
+      its.slice(0, 4).forEach((x, i) => { const c = cells(x), bx = el("span", "sp-st-box sp-st-ev"); if (i) fl.appendChild(el("span", "", "←")); if (c[1]){ bx.append(el("b", "", c[0]), el("span", "", c[1])); } else { bx.appendChild(el("span", "", c[0])); } fl.appendChild(bx); });
       stage.appendChild(fl);
     } else {
       const ul = el("ul", "sp-st-ul");
-      for (let i = 0; i < nb; i++) ul.appendChild(el("li", "", PH_BULLETS[i]));
+      for (let i = 0; i < Math.min(nb, its.length); i++) ul.appendChild(el("li", "", its[i]));
       stage.appendChild(ul);
     }
     stage.appendChild(el("div", "sp-st-foot", title));
@@ -2082,6 +2395,10 @@ const SanadStore = (function(){
         if (rows[i]){ rows[i].classList.add("has-err"); st._errFocus = rows[i].querySelector("input"); }
         return "عنوان الشريحة " + (i + 1) + ": " + (t ? ACADEMIC_MSG : "اكتب عنواناً للشريحة.");
       }
+      if (i > 0 && !(sl[i].items && sl[i].items.length)){
+        if (rows[i]){ rows[i].classList.add("has-err"); st._errFocus = rows[i].querySelector("button"); }
+        return "الشريحة " + (i + 1) + " بلا محتوى. اضغط «تحرير» واكتب نصها.";
+      }
     }
     return "";
   }
@@ -2094,6 +2411,8 @@ const SanadStore = (function(){
     if (f.type === "academic") return checkAcademic(f);
     if (f.type === "chips") return "";
     if (f.type === "storyboard") return checkSlides();
+    if (f.type === "process") return v.process ? "" : "اختر طريقة معالجة المحتوى.";
+    if (f.type === "source") return wordsOf(v.source_text).length >= 30 ? "" : "ارفع ملف المحاضرة أو الصق نصاً لا يقل عن 30 كلمة.";
     if (f.type === "studio") return (v.template && v.animation && v.density) ? "" : "اختر القالب وحركة الانتقال وكثافة المحتوى.";
     if (f.type === "scope") return v.scope ? "" : "اختر نطاق العرض.";
     if (f.type === "phone") return validPhone(normPhone(v[f.key])) ? "" : "«" + L + "»: اكتبه بصيغة دولية تبدأ بـ + ثم رمز الدولة.";
@@ -2143,7 +2462,9 @@ const SanadStore = (function(){
       else if (f.type === "academic") Object.assign(d, academicDetails());
       else if (f.type === "chips"){ if (v[f.key] && v[f.key].length) d.doctor_options = v[f.key].slice(); }
       else if (f.type === "phone") d[f.key] = normPhone(v[f.key]);
-      else if (f.type === "storyboard"){ d.slides = v.slides.map((s, i) => ({ n: i + 1, title: clean(s.t), layout: s.l, layout_label: layoutName(s.l) })); d.slides_count = v.slides.length; }
+      else if (f.type === "storyboard"){ d.slides = v.slides.map((s, i) => ({ n: i + 1, title: clean(s.t), layout: s.l, layout_label: layoutName(s.l), items_count: (s.items || []).length })); d.slides_count = v.slides.length; }
+      else if (f.type === "source"){ d.source_chars = clean(v.source_text).length; if (clean(v.source_name)) d.source_name = clean(v.source_name); }
+      else if (f.type === "process"){ d.process = v.process; d.process_label = (PROCESSES.find((q) => q.id === v.process) || {}).name || ""; }
       else if (f.type === "studio") Object.assign(d, studioDetails());
       else if (f.type === "scope") d.scope = v.scope;
       else { const t = clean(v[f.key]); if (t) d[f.key] = t; }
@@ -2168,6 +2489,8 @@ const SanadStore = (function(){
       return [["التخصص والمستوى", pn + " — " + ln], ["الفصل الدراسي", (TERMS.find((x) => x.code === v.a_term) || {}).name || "—"],
         ["المقرر", clean(v.course_name) + (clean(v.course_code) ? " (" + clean(v.course_code) + ")" : "")], ["الوحدة / المحاضرة", v.unit_no ? "الوحدة " + v.unit_no : "غير محدد"]];
     }
+    if (f.type === "source") return [["مصدر المحتوى", (clean(v.source_name) ? v.source_name + " — " : "نص مُدخل — ") + wordsOf(v.source_text).length + " كلمة"]];
+    if (f.type === "process") return [["طريقة معالجة المحتوى", (PROCESSES.find((q) => q.id === v.process) || {}).name || "—"]];
     if (f.type === "chips") return [["خيارات الدكتور", (v[f.key] || []).join("، ") || "—"]];
     if (f.type === "storyboard") return [["الشرائح (" + v.slides.length + ")", v.slides.map((s, i) => (i + 1) + ". " + clean(s.t) + " — " + layoutName(s.l)).join("\n")]];
     if (f.type === "studio"){
@@ -2179,7 +2502,79 @@ const SanadStore = (function(){
   }
 
   /* ---------- العرض ---------- */
+  /* ---------- المسودات (Dexie · SanadDraftsDB) ---------- */
+  const DRAFT_ID = "current";
+  let draftDb = null, draftRec = null, draftTimer = 0;
+  function draftDB(){
+    if (draftDb !== null) return draftDb || null;
+    try{
+      if (typeof Dexie === "undefined"){ draftDb = false; return null; }
+      const d = new Dexie("SanadDraftsDB"); d.version(1).stores({ drafts: "id,updatedAt" }); draftDb = d; return d;
+    }catch(e){ console.warn("Dexie init:", e); draftDb = false; return null; }
+  }
+  const draftWorthy = () => {
+    if (st.done || !st.service || !st.branch || st.service.type !== "presentation") return false;
+    const v = st.vals; return !!(clean(v.title) || clean(v.axes) || clean(v.source_text) || clean(v.course_name) || clean(v.scope_points));
+  };
+  function draftSnapshot(){
+    const v = st.vals, vals = JSON.parse(JSON.stringify(v)); delete vals.slides;
+    return {
+      id: DRAFT_ID, updatedAt: Date.now(), service_type: st.service.type, branch_id: st.branch.id,
+      path: st.branch.id === "course_presentation" ? "course" : "general",
+      title: clean(v.title), slides_count: slideCount(), slides: JSON.parse(JSON.stringify(v.slides || [])),
+      template: v.template || "", process: v.process || "", step: st.i, vals
+    };
+  }
+  function scheduleDraft(){
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(async () => {
+      if (!draftWorthy()) return;
+      const d = draftDB(); if (!d) return;
+      try{ await d.drafts.put(draftSnapshot()); }catch(e){ console.warn("draft save:", e); }
+    }, 600);
+  }
+  async function loadDraft(){
+    draftRec = null; const d = draftDB(); if (!d) return;
+    try{
+      const r = await d.drafts.get(DRAFT_ID);
+      if (r && r.vals && r.branch_id){ draftRec = r; if (!$("spOverlay").hidden && !st.done && st.i <= 1) render(); }
+    }catch(e){ console.warn("draft load:", e); }
+  }
+  async function clearDraft(){
+    clearTimeout(draftTimer); draftRec = null; const d = draftDB();
+    if (d){ try{ await d.drafts.delete(DRAFT_ID); }catch(e){ console.warn("draft clear:", e); } }
+  }
+  function resumeDraft(){
+    const r = draftRec, svc = r && CATALOG.find((x) => x.type === r.service_type), br = svc && svc.branches.find((b) => b.id === r.branch_id);
+    if (!br){ clearDraft().then(render); return; }
+    st = fresh(); st.service = svc; st.branch = br;
+    st.vals = Object.assign({}, r.vals); if (Array.isArray(r.slides) && r.slides.length) st.vals.slides = r.slides;
+    st.i = Math.min(Math.max(2, r.step || 2), stepList().length - 1);
+    render();
+  }
+  function draftBar(){
+    const r = draftRec, w = el("div", "sp-draftbar"); w.setAttribute("role", "status");
+    const when = r.updatedAt ? new Date(r.updatedAt).toLocaleString("ar", { dateStyle: "medium", timeStyle: "short" }) : "";
+    const t = el("div", ""); t.append(el("b", "", "لديك مسودة عرض محفوظة"), " — " + (clean(r.title) ? "«" + clean(r.title) + "»" : "بدون عنوان") + (when ? " (" + when + ")" : ""));
+    const row = el("div", "sp-row2");
+    const go = el("button", "sp-btn sp-btn--gold", "استكمال العمل"); go.type = "button"; go.addEventListener("click", resumeDraft);
+    const nw = el("button", "sp-btn sp-btn--ghost", "بدء عرض جديد"); nw.type = "button"; nw.addEventListener("click", () => { clearDraft().then(render); });
+    row.append(go, nw); w.append(t, row); return w;
+  }
+  function pptSpec(){
+    const v = st.vals;
+    return { title: clean(v.title), subtitle: clean(v.course_name) || clean(v.goal), audience: clean(v.audience),
+      slides: JSON.parse(JSON.stringify(v.slides)), template: v.template, speaker_notes: !!v.speaker_notes, references: !!v.references,
+      course_name: clean(v.course_name), source_name: clean(v.source_name) };
+  }
+  async function buildFile(d){
+    d.genErr = false;
+    try{ d.gen = await SanadPptxEngine.build(d.spec); await clearDraft(); }
+    catch(e){ console.error("pptx build error:", e); d.gen = null; d.genErr = true; }
+  }
+
   function render(){
+    closeSheet();
     const body = $("spBody"), foot = $("spFoot");
     body.replaceChildren(); foot.replaceChildren(); foot.hidden = false;
     $("spProg").hidden = !!st.done;
@@ -2203,7 +2598,9 @@ const SanadStore = (function(){
       })));
       body.appendChild(g);
     } else if (cur.k === "branch"){
-      body.append(heading(st.service.name), el("p", "sp-hint", "اختر نوع الخدمة المطلوبة:"));
+      body.appendChild(heading(st.service.name));
+      if (st.service.type === "presentation" && draftRec) body.appendChild(draftBar());
+      body.appendChild(el("p", "sp-hint", "اختر نوع الخدمة المطلوبة:"));
       const g = el("div", "sp-list");
       st.service.branches.forEach((b) => g.appendChild(optBtn("", b.name, b.desc, b.dyn ? PRICE_PER_SLIDE + " 💎 / شريحة" : b.cost, st.branch === b, () => {
         if (st.branch !== b){ st.branch = b; st.vals = {}; }
@@ -2222,6 +2619,7 @@ const SanadStore = (function(){
     }
     const h = $("spStepTitle"); if (h && !$("spOverlay").hidden) h.focus({ preventScroll: true });
     body.scrollTop = 0;
+    scheduleDraft();
   }
 
   function renderSummary(body, foot, backBtn){
@@ -2253,17 +2651,43 @@ const SanadStore = (function(){
 
   function renderDone(body, foot){
     const d = st.done, w = el("div", "sp-done");
-    w.append(el("div", "sp-tick", "✅"), el("h3", "", "تم استلام طلبك بنجاح"));
+    const isPpt = !!d.spec;
+    w.append(el("div", "sp-tick", "✅"), el("h3", "", isPpt ? (d.gen ? "ملف العرض جاهز" : "تم استلام طلبك") : "تم استلام طلبك بنجاح"));
     w.append(el("p", "", d.service + " — " + d.branch + "\nتم خصم " + d.cost + " 💎 من رصيدك."));
     w.append(el("p", "", "رقم الطلب:"), el("span", "sp-oid", d.order_id));
     const bal = el("p", "", "رصيدك الحالي: "); const bv = el("b", "", fmt(readBalance())); bv.dataset.spBal = "1"; bal.append(bv, " 💎"); w.appendChild(bal);
-    w.append(el("p", "", "احتفظ برقم الطلب للمتابعة مع الإدارة."));
+    if (isPpt){
+      const acts = el("div", "sp-done-acts");
+      if (d.gen){
+        const dl = el("button", "sp-btn sp-btn--gold", "📥 تنزيل ملف العرض مباشرة (.pptx)"); dl.type = "button";
+        dl.addEventListener("click", () => SanadPptxEngine.download(d.gen));
+        const sh = el("button", "sp-btn", "📲 فتح / مشاركة مباشرة في تطبيقات الهاتف"); sh.type = "button";
+        const ok = SanadPptxEngine.canShare(d.gen); if (!ok) sh.setAttribute("aria-disabled", "true");
+        const msg = el("p", "sp-done-note", ok ? "" : "مشاركة الملفات غير مدعومة في هذا المتصفح؛ استخدم زر التنزيل ثم افتح الملف من مدير الملفات.");
+        sh.addEventListener("click", async () => {
+          const r = await SanadPptxEngine.share(d.gen);
+          if (r.ok) msg.textContent = "";
+          else if (r.reason === "unsupported") msg.textContent = "مشاركة الملفات غير مدعومة في هذا المتصفح؛ استخدم زر التنزيل ثم افتح الملف من مدير الملفات.";
+          else if (r.reason === "error") msg.textContent = "تعذّرت المشاركة. جرّب زر التنزيل.";
+        });
+        acts.append(dl, sh, msg, el("p", "sp-done-note", d.gen.name + " — " + Math.max(1, Math.round(d.gen.size / 1024)) + " ك.ب. إن لم يبدأ التنزيل داخل تطبيق تلغرام فاستخدم المشاركة أو افتح الصفحة في المتصفح."));
+      } else {
+        acts.append(el("p", "sp-done-note", "خُصمت الجواهر بنجاح لكن تعذّر توليد الملف على هذا الجهاز. لن يُخصم منك شيء عند إعادة المحاولة."));
+        const rt = el("button", "sp-btn sp-btn--gold", "🔄 إعادة توليد الملف"); rt.type = "button";
+        rt.addEventListener("click", async () => { rt.disabled = true; rt.textContent = "جارٍ التوليد…"; await buildFile(d); render(); });
+        acts.appendChild(rt);
+      }
+      w.appendChild(acts);
+    } else {
+      w.append(el("p", "", "احتفظ برقم الطلب للمتابعة مع الإدارة."));
+    }
     body.appendChild(w);
     const more = el("button", "sp-btn sp-btn--ghost", "طلب خدمة أخرى"); more.type = "button";
-    more.addEventListener("click", () => { st = fresh(); render(); });
+    more.addEventListener("click", () => { releaseFile(); st = fresh(); render(); });
     const cl = el("button", "sp-btn", "إغلاق"); cl.type = "button"; cl.addEventListener("click", close);
     foot.append(more, cl);
   }
+  function releaseFile(){ if (st.done && st.done.gen){ try{ URL.revokeObjectURL(st.done.gen.url); }catch(_){} } }
 
   function updateBalance(){
     const t = fmt(readBalance());
@@ -2307,6 +2731,11 @@ const SanadStore = (function(){
       if (res && res.ok === true){
         SanadGems.refresh({ gems_balance: res.new_balance });
         st.done = { order_id: res.order_id != null && res.order_id !== "" ? String(res.order_id) : "—", cost, service: st.service.name, branch: st.branch.name };
+        if (st.branch.dyn){
+          st.done.spec = pptSpec();
+          if (btn.isConnected) btn.textContent = "جارٍ توليد ملف العرض…";
+          await buildFile(st.done);
+        }
         st.busy = false; render(); return;
       }
       showAlert("لم يصلنا تأكيد واضح للطلب. تحقق من رصيدك قبل إعادة المحاولة لتجنّب تكرار الخصم.");
@@ -2327,19 +2756,21 @@ const SanadStore = (function(){
   function open(){
     if (!$("spOverlay").hidden) return;
     lastFocus = document.activeElement;
+    loadDraft();
     render();
     $("spOverlay").hidden = false; document.body.style.overflow = "hidden";
     $("spClose").focus();
   }
   function close(){
+    closeSheet();
     $("spOverlay").hidden = true; document.body.style.overflow = "";
-    if (st.done) st = fresh();
+    if (st.done){ releaseFile(); st = fresh(); }
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
   // مفاتيح لوحة المفاتيح: تُعالَج في مرحلة الالتقاط كي لا تُغلق نافذة المتجر مع نافذة المحفظة بضغطة Esc واحدة
   document.addEventListener("keydown", (e) => {
     if ($("spOverlay").hidden || !$("gwOverlay").hidden) return;
-    if (e.key === "Escape"){ close(); return; }
+    if (e.key === "Escape"){ if ($("spSheet")){ closeSheet(); return; } close(); return; }
     if (e.key !== "Tab") return;
     const f = Array.from($("spModal").querySelectorAll("button:not([disabled]),input,textarea,select")).filter((x) => x.offsetParent !== null);
     if (!f.length) return;
@@ -2348,6 +2779,7 @@ const SanadStore = (function(){
     else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
   }, true);
 
+  ["input", "change", "click"].forEach((t) => $("spModal").addEventListener(t, scheduleDraft, true));
   $("spOpenBtn").addEventListener("click", open);
   $("spClose").addEventListener("click", close);
   $("spOverlay").addEventListener("mousedown", (e) => { if (e.target === $("spOverlay")) close(); });
