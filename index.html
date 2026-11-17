@@ -504,7 +504,14 @@
   .sp-st-ev b{color:var(--sp-gold)}
   .sp-done-acts{display:grid;gap:.6rem;margin:.9rem 0 .2rem}
   .sp-done-acts .sp-btn{min-height:50px;flex:none}
-  .sp-done-note{font-size:.8rem;opacity:.8;line-height:1.7}
+  .sp-done-note{font-size:.8rem;opacity:.85;line-height:1.7;margin:0}
+  .sp-home{font:inherit;font-size:.85rem;font-weight:700;min-height:40px;padding:.35rem .85rem;border-radius:999px;border:1px solid var(--sp-gold);background:rgba(212,175,55,.12);color:var(--sp-gold);cursor:pointer;white-space:nowrap}
+  .sp-head h2{flex:1}
+  .sp-foot{flex-wrap:wrap}
+  .sp-foot .sp-menu-btn{flex:1 1 100%;min-height:44px}
+  .sp-undo{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;padding:.7rem .9rem;border-radius:12px;border:1px solid var(--sp-gold);background:rgba(212,175,55,.12);color:var(--sp-ink);font-size:.9rem;margin:.4rem 0}
+  .sp-undo[hidden]{display:none}
+  .sp-undo .sp-btn{flex:none;min-height:44px;font-size:.88rem}
 </style>
 </head>
 <body>
@@ -678,6 +685,7 @@
 <div class="sp-overlay" id="spOverlay" hidden>
   <div class="sp-modal" id="spModal" role="dialog" aria-modal="true" aria-labelledby="spTitle">
     <div class="sp-head">
+      <button type="button" class="sp-home" id="spHome">→ رجوع للمنصة</button>
       <h2 id="spTitle">💎 متجر خدمات سَنَد</h2>
       <button type="button" class="sp-x" id="spClose" aria-label="إغلاق">✕</button>
     </div>
@@ -1768,7 +1776,7 @@ const SanadPptxEngine = (function(){
     const blob = new Blob([buf], { type: MIME });
     const name = safeName(spec.title);
     let file = null; try{ file = new File([blob], name, { type: MIME }); }catch(_){ file = null; }
-    return { blob, file, name, url: URL.createObjectURL(blob), size: blob.size };
+    return { blob, file, name, url: URL.createObjectURL(blob), size: blob.size, buffer: buf, pptx, mime: MIME };
   }
   function download(res){
     const a = document.createElement("a");
@@ -1783,7 +1791,37 @@ const SanadPptxEngine = (function(){
     try{ await navigator.share({ files: [res.file], title: res.name }); return { ok: true }; }
     catch(e){ return { ok: false, reason: (e && e.name === "AbortError") ? "abort" : "error" }; }
   }
-  return { build, download, share, canShare, MIME };
+  function toBase64(buf){
+    const u = new Uint8Array(buf); let b = ""; const C = 0x8000;
+    for (let i = 0; i < u.length; i += C) b += String.fromCharCode.apply(null, u.subarray(i, i + C));
+    return btoa(b);
+  }
+  const b64Of = (res) => res.base64 || (res.base64 = toBase64(res.buffer));
+  function isTG(){
+    try{ const t = window.Telegram && window.Telegram.WebApp; return !!(t && (t.initData || (t.platform && t.platform !== "unknown"))); }catch(_){ return false; }
+  }
+  // تنزيل متين: داخل WebView تيليجرام نجرّب writeFile + رابط data: بالتوازي، وخارجه رابط Blob
+  async function downloadRobust(res){
+    if (!isTG()){ download(res); return { tg: false }; }
+    try{ if (res.pptx && res.pptx.writeFile){ const pr = res.pptx.writeFile({ fileName: res.name }); if (pr && pr.catch) pr.catch(() => {}); } }catch(_){}
+    try{
+      const a = document.createElement("a");
+      a.href = "data:" + MIME + ";base64," + b64Of(res); a.download = res.name; a.rel = "noopener"; a.style.display = "none";
+      document.body.appendChild(a); a.click(); setTimeout(() => a.remove(), 1500);
+    }catch(_){}
+    return { tg: true };
+  }
+  // رابط صفحة المنصة مع الملف في الـ hash (لا يُرسل للخادم) ليُنزَّل من متصفح خارجي
+  function externalUrl(res){
+    const b = b64Of(res); if (b.length > 450000) return "";
+    return location.origin + location.pathname + "#sanad-dl=" + b.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "") + "&n=" + encodeURIComponent(res.name);
+  }
+  function openExternal(res){
+    const u = externalUrl(res); if (!u) return false;
+    try{ const t = window.Telegram && window.Telegram.WebApp; if (t && t.openLink){ t.openLink(u); return true; } }catch(_){}
+    window.open(u, "_blank"); return true;
+  }
+  return { build, download, downloadRobust, share, canShare, openExternal, externalUrl, isTG, toBase64, MIME };
 })();
 
 const SanadStore = (function(){
@@ -2120,16 +2158,30 @@ const SanadStore = (function(){
       wrap.append(fi, stt, ta, cnt);
     } else if (f.type === "storyboard"){
       const sig = [v.title, v.axes, v.scope, v.scope_points, v.slides_count, v.course_name, v.unit_no, v.process, v.goal, v.audience, clean(v.source_text).length].join("\u00A6");
-      if (!Array.isArray(v.slides) || v._sb_sig !== sig){ v.slides = genSlides(); v._sb_sig = sig; }
+      if (!Array.isArray(v.slides) || v._sb_sig !== sig){ v.slides = genSlides(); v._sb_sig = sig; deletedSlidesStack.length = 0; }
       wrap.appendChild(el("p", "sp-hint", "اضغط «تحرير» على أي شريحة لتبديل تخطيطها (نقاط / بطاقات / جدول / خط زمني) وتعديل نصها، واحذف أو أضف شرائح قبل الاعتماد. تتحدّث التكلفة لحظياً. (تعديل العنوان أو المحاور أو العدد المبدئي في الخطوة السابقة يعيد توليد المخطط.)"));
       wrap.appendChild(liveBar());
+      const ub = el("div", "sp-undo"); ub.hidden = true; ub.setAttribute("role", "status"); wrap.appendChild(ub);
       const list = el("div", "sp-slides"); wrap.appendChild(list);
+      const drawUndo = () => {
+        ub.replaceChildren(); const n = deletedSlidesStack.length; ub.hidden = !n; if (!n) return;
+        const last = deletedSlidesStack[n - 1];
+        ub.appendChild(el("span", "", "تم حذف الشريحة «" + cutWords(clean(last.slide.t), 30) + "»" + (n > 1 ? " (+" + (n - 1) + " محذوفة أخرى)" : "")));
+        const b = el("button", "sp-btn sp-btn--gold", "↩️ تراجع عن الحذف (استعادة الشريحة)"); b.type = "button"; b.disabled = v.slides.length >= MAX_SLIDES;
+        b.title = b.disabled ? "الحد الأقصى " + MAX_SLIDES + " شريحة" : "";
+        b.addEventListener("click", () => {
+          if (v.slides.length >= MAX_SLIDES) return;
+          const r = deletedSlidesStack.pop(); if (!r) return;
+          const at = Math.min(r.index, v.slides.length); v.slides.splice(at, 0, r.slide); clearErr(wrap); draw(at); scheduleDraft();
+        });
+        ub.appendChild(b);
+      };
       const add = el("button", "sp-btn sp-btn--ghost", "➕ إضافة شريحة"); add.type = "button";
       const draw = (focusIdx) => {
         list.replaceChildren();
         v.slides.forEach((sl, idx) => list.appendChild(slideRow(sl, idx, draw)));
         add.disabled = v.slides.length >= MAX_SLIDES; add.title = add.disabled ? "الحد الأقصى " + MAX_SLIDES + " شريحة" : "";
-        refreshLive();
+        refreshLive(); drawUndo();
         if (focusIdx != null){ const t = list.querySelectorAll("input")[focusIdx]; if (t){ t.focus(); if (t.select) t.select(); } }
       };
       add.addEventListener("click", () => {
@@ -2306,7 +2358,7 @@ const SanadStore = (function(){
     mk("→ السابقة", () => openSheet(idx - 1, redraw), idx === 0);
     mk("التالية ←", () => openSheet(idx + 1, redraw), idx >= total - 1);
     mk("➕ إضافة شريحة بعدها", () => { const at = idx >= total - 1 ? idx : idx + 1; v.slides.splice(at, 0, { t: "شريحة جديدة", l: "bullets", items: ["نقطة أولى"] }); closeSheet(); redraw(at); openSheet(at, redraw); }, total >= MAX_SLIDES);
-    mk("🗑️ حذف الشريحة", () => { v.slides.splice(idx, 1); closeSheet(); redraw(Math.min(idx, v.slides.length - 1)); }, total <= MIN_SLIDES);
+    mk("🗑️ حذف الشريحة", () => { deletedSlidesStack.push({ index: idx, slide: JSON.parse(JSON.stringify(sl)) }); if (deletedSlidesStack.length > 20) deletedSlidesStack.shift(); v.slides.splice(idx, 1); closeSheet(); redraw(Math.min(idx, v.slides.length - 1)); scheduleDraft(); }, total <= MIN_SLIDES);
     const done = el("button", "sp-btn sp-btn--gold", "تم"); done.type = "button"; done.addEventListener("click", close);
     sh.append(acts, done);
     $("spModal").append(bg, sh); ti.focus();
@@ -2504,12 +2556,13 @@ const SanadStore = (function(){
   /* ---------- العرض ---------- */
   /* ---------- المسودات (Dexie · SanadDraftsDB) ---------- */
   const DRAFT_ID = "current";
-  let draftDb = null, draftRec = null, draftTimer = 0;
+  let draftDb = null, draftRec = null, draftTimer = 0, readyRec = null;
+  const deletedSlidesStack = [];
   function draftDB(){
     if (draftDb !== null) return draftDb || null;
     try{
       if (typeof Dexie === "undefined"){ draftDb = false; return null; }
-      const d = new Dexie("SanadDraftsDB"); d.version(1).stores({ drafts: "id,updatedAt" }); draftDb = d; return d;
+      const d = new Dexie("SanadDraftsDB"); d.version(1).stores({ drafts: "id,updatedAt" }); d.version(2).stores({ drafts: "id,updatedAt", files: "id" }); draftDb = d; return d;
     }catch(e){ console.warn("Dexie init:", e); draftDb = false; return null; }
   }
   const draftWorthy = () => {
@@ -2561,6 +2614,84 @@ const SanadStore = (function(){
     const nw = el("button", "sp-btn sp-btn--ghost", "بدء عرض جديد"); nw.type = "button"; nw.addEventListener("click", () => { clearDraft().then(render); });
     row.append(go, nw); w.append(t, row); return w;
   }
+  /* ---------- آخر عرض جاهز (IndexedDB) + أزرار التنزيل والمشاركة ---------- */
+  function inflate(rec){
+    const blob = new Blob([rec.buffer], { type: SanadPptxEngine.MIME });
+    let file = null; try{ file = new File([blob], rec.name, { type: SanadPptxEngine.MIME }); }catch(_){}
+    return { blob, file, name: rec.name, url: URL.createObjectURL(blob), size: rec.size || blob.size, buffer: rec.buffer, base64: rec.base64, title: rec.title || "", createdAt: rec.createdAt };
+  }
+  function setReady(rec){
+    if (readyRec){ try{ URL.revokeObjectURL(readyRec.url); }catch(_){} }
+    readyRec = rec ? inflate(rec) : null;
+  }
+  async function saveReady(gen, title){
+    const d = draftDB(); if (!d) return;
+    const rec = { id: "last", name: gen.name, mime: SanadPptxEngine.MIME, size: gen.size, title: title || "", createdAt: Date.now(), buffer: gen.buffer, base64: SanadPptxEngine.toBase64(gen.buffer) };
+    try{ await d.files.put(rec); setReady(rec); }catch(e){ console.warn("ready save:", e); }
+  }
+  async function loadReady(){
+    const d = draftDB(); if (!d) return;
+    try{
+      const r = await d.files.get("last");
+      if (r && r.buffer){ setReady(r); if (!$("spOverlay").hidden && !st.done && st.i <= 1) render(); }
+    }catch(e){ console.warn("ready load:", e); }
+  }
+  function readyBar(){
+    const w = el("div", "sp-draftbar"); w.setAttribute("role", "status");
+    const t = el("div", ""); t.append(el("b", "", "📥 لديك عرض تقديمي جاهز للتنزيل (بدون خصم جواهر)"), " — " + readyRec.name);
+    const go = el("button", "sp-btn sp-btn--gold", "فتح التنزيل"); go.type = "button";
+    go.onclick = () => { st.showReady = true; render(); };
+    w.append(t, go); return w;
+  }
+  function fileActions(gen){
+    const acts = el("div", "sp-done-acts"), msg = el("p", "sp-done-note", ""), say = (t) => { msg.textContent = t; };
+    const guide = el("div", "sp-draftbar"); guide.hidden = !SanadPptxEngine.isTG();
+    guide.append(el("div", "", "إن لم يظهر الملف في هاتفك بعد الضغط (قيود WebView تيليجرام على أندرويد)، افتح الصفحة في متصفح خارجي وسيبدأ تنزيل نفس الملف هناك بلا خصم جديد."));
+    const ext = el("button", "sp-btn sp-btn--ghost", "🌐 فتح الصفحة في متصفح Chrome الخارجي لتنزيل الملف فوراً"); ext.type = "button";
+    ext.onclick = () => { if (!SanadPptxEngine.openExternal(gen)) say("حجم الملف أكبر من أن يُنقل عبر الرابط؛ جرّب زر المشاركة."); };
+    guide.appendChild(ext);
+    const dl = el("button", "sp-btn sp-btn--gold", "📥 تنزيل ملف العرض (.pptx)"); dl.type = "button";
+    dl.onclick = async () => {
+      say("جاري تجهيز الملف...");
+      try{
+        const r = await SanadPptxEngine.downloadRobust(gen);
+        if (r.tg){ guide.hidden = false; say("تم إرسال الملف للتنزيل. إن لم يظهر خلال ثوانٍ فاستخدم زر Chrome أدناه."); }
+        else say("بدأ تنزيل «" + gen.name + "».");
+      }catch(e){ console.error(e); guide.hidden = false; say("تعذّر التنزيل المباشر. استخدم زر Chrome أدناه."); }
+    };
+    const sh = el("button", "sp-btn", "📲 فتح / مشاركة في تطبيقات الهاتف"); sh.type = "button";
+    sh.onclick = async () => {
+      say("جاري تجهيز الملف...");
+      if (!SanadPptxEngine.canShare(gen)){ guide.hidden = false; say("هذا المتصفح لا يدعم مشاركة الملفات. استخدم زر Chrome الخارجي أدناه."); return; }
+      const r = await SanadPptxEngine.share(gen);
+      if (r.ok || r.reason === "abort") say("");
+      else { guide.hidden = false; say("رفض WebView المشاركة. استخدم زر Chrome الخارجي أدناه."); }
+    };
+    acts.append(dl, sh, msg, guide, el("p", "sp-done-note", gen.name + " — " + Math.max(1, Math.round(gen.size / 1024)) + " ك.ب"));
+    return acts;
+  }
+  const menuBtn = () => {
+    const b = el("button", "sp-btn sp-btn--ghost sp-menu-btn", "🏪 العودة إلى قائمة خدمات المتجر (اختر الخدمة)"); b.type = "button";
+    b.addEventListener("click", () => { closeSheet(); st.showReady = false; st.i = 0; render(); });
+    return b;
+  };
+  function renderReady(body, foot){
+    body.append(heading("عرضك الجاهز"), el("p", "sp-hint", "هذا آخر عرض ولّدته بعد الدفع، وتنزيله مجاني."), fileActions(readyRec));
+    const b = el("button", "sp-btn sp-btn--ghost", "→ رجوع"); b.type = "button"; b.onclick = () => { st.showReady = false; render(); };
+    foot.append(b, menuBtn());
+  }
+  function onTgBack(){
+    if ($("spOverlay").hidden || !$("gwOverlay").hidden) return;
+    if ($("spSheet")){ closeSheet(); return; }
+    if (st.showReady){ st.showReady = false; render(); return; }
+    if (st.done){ releaseFile(); st = fresh(); render(); return; }
+    if (st.i > 0){ st.i--; render(); return; }
+    close();
+  }
+  function tgBack(show){
+    try{ const b = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.BackButton; if (b){ if (show) b.show(); else b.hide(); } }catch(_){}
+  }
+
   function pptSpec(){
     const v = st.vals;
     return { title: clean(v.title), subtitle: clean(v.course_name) || clean(v.goal), audience: clean(v.audience),
@@ -2569,7 +2700,7 @@ const SanadStore = (function(){
   }
   async function buildFile(d){
     d.genErr = false;
-    try{ d.gen = await SanadPptxEngine.build(d.spec); await clearDraft(); }
+    try{ d.gen = await SanadPptxEngine.build(d.spec); await saveReady(d.gen, d.spec.title); await clearDraft(); }
     catch(e){ console.error("pptx build error:", e); d.gen = null; d.genErr = true; }
   }
 
@@ -2579,6 +2710,7 @@ const SanadStore = (function(){
     body.replaceChildren(); foot.replaceChildren(); foot.hidden = false;
     $("spProg").hidden = !!st.done;
     if (st.done){ renderDone(body, foot); return; }
+    if (st.showReady && readyRec){ $("spProgTxt").textContent = "عرض جاهز للتنزيل"; renderReady(body, foot); return; }
 
     const list = stepList(), cur = list[st.i] || list[0];
     $("spProgTxt").textContent = st.branch ? "الخطوة " + (st.i + 1) + " من " + list.length : (st.i === 0 ? "ابدأ باختيار الخدمة" : "اختر نوع الخدمة");
@@ -2589,8 +2721,10 @@ const SanadStore = (function(){
     const backBtn = () => { const b = el("button", "sp-btn sp-btn--ghost", "→ السابق"); b.type = "button"; b.addEventListener("click", back); return b; };
 
     if (cur.k === "service"){
-      foot.hidden = true;
-      body.append(heading("اختر الخدمة"), el("p", "sp-hint", "تُخصم تكلفة كل خدمة من رصيد جواهرك عند تأكيد الطلب."));
+      const home = el("button", "sp-btn sp-btn--ghost", "→ رجوع للمنصة"); home.type = "button"; home.addEventListener("click", close); foot.appendChild(home);
+      body.appendChild(heading("اختر الخدمة"));
+      if (readyRec) body.appendChild(readyBar());
+      body.appendChild(el("p", "sp-hint", "تُخصم تكلفة كل خدمة من رصيد جواهرك عند تأكيد الطلب."));
       const g = el("div", "sp-list");
       CATALOG.forEach((s) => g.appendChild(optBtn(s.icon, s.name, s.desc, 0, st.service === s, () => {
         if (st.branch && s.branches.indexOf(st.branch) < 0){ st.branch = null; st.vals = {}; }
@@ -2599,6 +2733,7 @@ const SanadStore = (function(){
       body.appendChild(g);
     } else if (cur.k === "branch"){
       body.appendChild(heading(st.service.name));
+      if (st.service.type === "presentation" && readyRec) body.appendChild(readyBar());
       if (st.service.type === "presentation" && draftRec) body.appendChild(draftBar());
       body.appendChild(el("p", "sp-hint", "اختر نوع الخدمة المطلوبة:"));
       const g = el("div", "sp-list");
@@ -2613,9 +2748,9 @@ const SanadStore = (function(){
       const e = el("p", "sp-err"); e.id = "spErr"; e.setAttribute("role", "alert"); body.appendChild(e);
       const next = el("button", "sp-btn", "التالي ←"); next.type = "button";
       next.addEventListener("click", () => { if (validateStep(cur.s.fields)){ st.i++; render(); } });
-      foot.append(backBtn(), next);
+      foot.append(backBtn(), next, menuBtn());
     } else {
-      renderSummary(body, foot, backBtn());
+      renderSummary(body, foot, backBtn()); foot.appendChild(menuBtn());
     }
     const h = $("spStepTitle"); if (h && !$("spOverlay").hidden) h.focus({ preventScroll: true });
     body.scrollTop = 0;
@@ -2657,32 +2792,19 @@ const SanadStore = (function(){
     w.append(el("p", "", "رقم الطلب:"), el("span", "sp-oid", d.order_id));
     const bal = el("p", "", "رصيدك الحالي: "); const bv = el("b", "", fmt(readBalance())); bv.dataset.spBal = "1"; bal.append(bv, " 💎"); w.appendChild(bal);
     if (isPpt){
-      const acts = el("div", "sp-done-acts");
-      if (d.gen){
-        const dl = el("button", "sp-btn sp-btn--gold", "📥 تنزيل ملف العرض مباشرة (.pptx)"); dl.type = "button";
-        dl.addEventListener("click", () => SanadPptxEngine.download(d.gen));
-        const sh = el("button", "sp-btn", "📲 فتح / مشاركة مباشرة في تطبيقات الهاتف"); sh.type = "button";
-        const ok = SanadPptxEngine.canShare(d.gen); if (!ok) sh.setAttribute("aria-disabled", "true");
-        const msg = el("p", "sp-done-note", ok ? "" : "مشاركة الملفات غير مدعومة في هذا المتصفح؛ استخدم زر التنزيل ثم افتح الملف من مدير الملفات.");
-        sh.addEventListener("click", async () => {
-          const r = await SanadPptxEngine.share(d.gen);
-          if (r.ok) msg.textContent = "";
-          else if (r.reason === "unsupported") msg.textContent = "مشاركة الملفات غير مدعومة في هذا المتصفح؛ استخدم زر التنزيل ثم افتح الملف من مدير الملفات.";
-          else if (r.reason === "error") msg.textContent = "تعذّرت المشاركة. جرّب زر التنزيل.";
-        });
-        acts.append(dl, sh, msg, el("p", "sp-done-note", d.gen.name + " — " + Math.max(1, Math.round(d.gen.size / 1024)) + " ك.ب. إن لم يبدأ التنزيل داخل تطبيق تلغرام فاستخدم المشاركة أو افتح الصفحة في المتصفح."));
-      } else {
+      if (d.gen){ w.appendChild(fileActions(d.gen)); }
+      else {
+        const acts = el("div", "sp-done-acts");
         acts.append(el("p", "sp-done-note", "خُصمت الجواهر بنجاح لكن تعذّر توليد الملف على هذا الجهاز. لن يُخصم منك شيء عند إعادة المحاولة."));
         const rt = el("button", "sp-btn sp-btn--gold", "🔄 إعادة توليد الملف"); rt.type = "button";
         rt.addEventListener("click", async () => { rt.disabled = true; rt.textContent = "جارٍ التوليد…"; await buildFile(d); render(); });
-        acts.appendChild(rt);
+        acts.appendChild(rt); w.appendChild(acts);
       }
-      w.appendChild(acts);
     } else {
       w.append(el("p", "", "احتفظ برقم الطلب للمتابعة مع الإدارة."));
     }
     body.appendChild(w);
-    const more = el("button", "sp-btn sp-btn--ghost", "طلب خدمة أخرى"); more.type = "button";
+    const more = el("button", "sp-btn sp-btn--ghost sp-menu-btn", "🏪 العودة إلى قائمة خدمات المتجر (اختر الخدمة)"); more.type = "button";
     more.addEventListener("click", () => { releaseFile(); st = fresh(); render(); });
     const cl = el("button", "sp-btn", "إغلاق"); cl.type = "button"; cl.addEventListener("click", close);
     foot.append(more, cl);
@@ -2756,13 +2878,13 @@ const SanadStore = (function(){
   function open(){
     if (!$("spOverlay").hidden) return;
     lastFocus = document.activeElement;
-    loadDraft();
-    render();
+    loadDraft(); loadReady(); st.showReady = false; deletedSlidesStack.length = 0;
+    render(); tgBack(true);
     $("spOverlay").hidden = false; document.body.style.overflow = "hidden";
     $("spClose").focus();
   }
   function close(){
-    closeSheet();
+    closeSheet(); tgBack(false); st.showReady = false;
     $("spOverlay").hidden = true; document.body.style.overflow = "";
     if (st.done){ releaseFile(); st = fresh(); }
     if (lastFocus && lastFocus.focus) lastFocus.focus();
@@ -2782,6 +2904,8 @@ const SanadStore = (function(){
   ["input", "change", "click"].forEach((t) => $("spModal").addEventListener(t, scheduleDraft, true));
   $("spOpenBtn").addEventListener("click", open);
   $("spClose").addEventListener("click", close);
+  $("spHome").addEventListener("click", close);
+  try{ const tb = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.BackButton; if (tb) tb.onClick(onTgBack); }catch(_){}
   $("spOverlay").addEventListener("mousedown", (e) => { if (e.target === $("spOverlay")) close(); });
 
   // البطاقة تتبع ظهور شجرة المحاضرات (تُخفى أثناء بوابة الانضمام مثل بقية بطاقات الشاشة الرئيسية)
@@ -2796,6 +2920,30 @@ const SanadStore = (function(){
     .observe($("gwOverlay"), { attributes: true, attributeFilter: ["hidden"] });
 
   return { open, close };
+})();
+</script>
+<script>
+/* عارض تنزيل مستقل: يعمل عند فتح الصفحة من متصفح خارجي برابط #sanad-dl= (الملف داخل الـ hash ولا يُرسل للخادم) */
+(function(){
+  var h = location.hash || ""; if (h.indexOf("#sanad-dl=") !== 0) return;
+  function boot(){
+    var o = document.createElement("div"); o.setAttribute("dir", "rtl");
+    o.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:#0B192C;color:#fff;display:grid;place-content:center;gap:14px;text-align:center;padding:24px;font-family:Tajawal,system-ui,sans-serif;line-height:1.8";
+    function line(t, st){ var p = document.createElement("p"); p.textContent = t; p.style.cssText = st || "margin:0"; o.appendChild(p); }
+    try{
+      var m = h.match(/^#sanad-dl=([^&]+)(?:&n=(.*))?$/); if (!m) throw new Error("bad");
+      var b = m[1].replace(/-/g, "+").replace(/_/g, "/"); while (b.length % 4) b += "=";
+      var bin = atob(b), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+      var name = m[2] ? decodeURIComponent(m[2]) : "Sanad_Presentation.pptx";
+      var blob = new Blob([u], { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" });
+      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.textContent = "📥 تنزيل العرض (.pptx)";
+      a.style.cssText = "display:inline-block;background:#D4AF37;color:#0B192C;font-weight:700;padding:14px 22px;border-radius:999px;text-decoration:none;font-size:1.1rem";
+      line("📊 عرضك التقديمي جاهز", "margin:0;font-size:1.3rem;color:#D4AF37;font-weight:700"); line(name, "margin:0;opacity:.85;direction:ltr");
+      o.appendChild(a); line("بعد التنزيل افتحه بـ PowerPoint أو WPS. لن يُخصم منك أي رصيد.", "margin:0;font-size:.85rem;opacity:.8");
+    }catch(e){ line("تعذّر قراءة الملف من الرابط. ارجع إلى المنصة داخل تيليجرام وأعد المحاولة."); }
+    document.body.appendChild(o); document.body.style.overflow = "hidden";
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 })();
 </script>
 </body>
