@@ -512,6 +512,69 @@
   .sp-undo{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;padding:.7rem .9rem;border-radius:12px;border:1px solid var(--sp-gold);background:rgba(212,175,55,.12);color:var(--sp-ink);font-size:.9rem;margin:.4rem 0}
   .sp-undo[hidden]{display:none}
   .sp-undo .sp-btn{flex:none;min-height:44px;font-size:.88rem}
+  /* ===== SANAD Visual Studio Pro: معاينة الشرائح الثمانية + القوالب ===== */
+  .sp-stage.sp-v2{display:block;padding:0;background:var(--m-bg);color:var(--m-tx);font-family:Tajawal,Arial,sans-serif;direction:rtl;container-type:inline-size;min-height:0}
+  .sp-v2 .sp-st-deco{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .sp-v2 .sp-st-deco[data-d="sidebar"]{inset:0 0 0 auto;width:3%;background:var(--m-pri);box-shadow:inset 0 14cqw 0 var(--m-ac)}
+  .sp-v2 .sp-st-deco[data-d="circles"]{background:radial-gradient(circle 15cqw at 0 0,var(--m-soft1) 0 99%,transparent 100%),radial-gradient(circle 14cqw at 100% 100%,var(--m-soft2) 0 99%,transparent 100%)}
+  .sp-v2 .sp-st-deco[data-d="headerbar"]{inset:0 0 auto 0;height:21%;background:var(--m-pri);border-bottom:.6cqw solid var(--m-ac)}
+  .sp-v2 .sp-st-deco[data-d="headerbar"][data-c="1"]{inset:auto 0 0 0;height:14%;background:var(--m-sec);border-top:.5cqw solid var(--m-ac);border-bottom:0}
+  .sp-v2 .sp-st-deco[data-d="corner"]{background:radial-gradient(circle 24cqw at 0 0,var(--m-soft1) 0 99%,transparent 100%),linear-gradient(to top,var(--m-pri) 0 2.4%,transparent 2.4%)}
+  .sp-v2 .sp-st-deco[data-d="blobs"]{background:radial-gradient(circle 22cqw at 100% 0,var(--m-soft2) 0 99%,transparent 100%),radial-gradient(circle 20cqw at 0 100%,var(--m-soft1) 0 99%,transparent 100%)}
+  .sp-v2 .sp-st-deco[data-d="frame"]{inset:2.4%;border:.5cqw solid var(--m-ac);box-shadow:inset 0 0 0 1.2cqw transparent,0 0 0 .2cqw var(--m-pri) inset}
+  .sp-v2 .sp-st-deco[data-d="diagonal"]{background:linear-gradient(145deg,var(--m-ac) 0 9%,transparent 9.3%),linear-gradient(145deg,transparent 0 11%,var(--m-sec) 11% 13%,transparent 13.3%)}
+  .sp-v2 .sp-st-deco[data-d="grid"]{background:linear-gradient(var(--m-ac),var(--m-ac)) top 4% center/90% .7cqw no-repeat,linear-gradient(var(--m-sec),var(--m-sec)) bottom 5% center/90% .25cqw no-repeat}
+  .sp-m-cover{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:2.2cqw;text-align:center;padding:0 10%;z-index:2}
+  .sp-m-ct{font-size:11px;font-size:7cqw;font-weight:800;color:var(--m-oncover);line-height:1.4;overflow-wrap:anywhere}
+  .sp-m-rule{width:14cqw;height:.9cqw;background:var(--m-ac)}
+  .sp-m-cs{font-size:10px;font-size:3.4cqw;color:var(--m-oncover);opacity:.85}
+  .sp-m-h{position:absolute;z-index:2;top:3%;right:6%;left:5%;height:15%;display:flex;align-items:center;font-size:12px;font-size:5.2cqw;font-weight:800;color:var(--m-head);overflow-wrap:anywhere;line-height:1.3}
+  .sp-stage[data-decor="headerbar"] .sp-m-h::after{display:none}
+  .sp-m-h::after{content:"";position:absolute;right:0;bottom:-2%;width:30%;height:.6cqw;background:var(--m-ac)}
+  .sp-m-body{position:absolute;z-index:2;top:24%;right:6%;left:5%;bottom:12%;display:flex;flex-direction:column;gap:2%;min-height:0}
+  .sp-m-foot{position:absolute;z-index:2;left:3%;right:6%;bottom:2.5%;display:flex;justify-content:space-between;align-items:center;font-size:8px;font-size:2.2cqw;color:var(--m-muted)}
+  .sp-m-n{width:5cqw;height:5cqw;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:2.4cqw}
+  .sp-m-row{flex:1;min-height:0;display:flex;align-items:center;gap:2cqw;background:var(--m-card);border:1px solid var(--m-line);border-right:1.3cqw solid var(--m-pri);border-radius:1.5cqw;padding:.8cqw 2cqw;font-size:10px;font-size:3.3cqw;overflow:hidden}
+  .sp-m-bn{flex:none;width:6cqw;height:6cqw;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:3cqw}
+  .sp-m-cols,.sp-m-swot{display:grid;grid-template-columns:1fr 1fr;gap:2.6cqw;flex:1;min-height:0}
+  .sp-m-swot{grid-template-rows:1fr 1fr}
+  .sp-m-card{background:var(--m-card);border:1px solid var(--m-line);border-radius:1.5cqw;overflow:hidden;display:flex;flex-direction:column;font-size:9px;font-size:3cqw;min-height:0}
+  .sp-m-ch{padding:1.2cqw 2cqw;font-weight:800;font-size:10px;font-size:3.4cqw}
+  .sp-m-cb{padding:1.3cqw 2cqw;display:grid;gap:.8cqw;line-height:1.5;color:var(--m-tx);align-content:center;flex:1}
+  .sp-m-tbl{width:100%;border-collapse:collapse;font-size:9px;font-size:3cqw;background:var(--m-card)}
+  .sp-m-tbl th{background:var(--m-pri);color:var(--m-onpri)}
+  .sp-m-tbl td,.sp-m-tbl th{border:1px solid var(--m-line);padding:1.1cqw 1.8cqw;text-align:right}
+  .sp-m-tbl tr:nth-child(even) td{background:var(--m-zebra)}
+  .sp-m-tl{position:relative;display:flex;gap:1.5cqw;flex:1;align-items:flex-start;min-height:0}
+  .sp-m-tl::before{content:"";position:absolute;right:3%;left:3%;top:9.3cqw;height:1cqw;background:var(--m-sec);z-index:0}
+  .sp-m-st{flex:1;display:grid;justify-items:center;gap:1cqw;position:relative;z-index:1;min-width:0}
+  .sp-m-st>b{font-size:8px;font-size:2.9cqw;color:var(--m-head);text-align:center;overflow-wrap:anywhere}
+  .sp-m-node{width:7cqw;height:7cqw;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:3.4cqw;border:.6cqw solid var(--m-bg)}
+  .sp-m-st .sp-m-card{width:100%;padding:1.2cqw;font-size:8px;font-size:2.6cqw;text-align:center;flex:none;line-height:1.5}
+  .sp-m-kpis{display:flex;gap:3cqw;flex:1;min-height:0}
+  .sp-m-kpi{flex:1;background:var(--m-card);border:1px solid var(--m-line);border-top:1.4cqw solid var(--m-pri);border-radius:1.5cqw;display:grid;place-content:center;justify-items:center;gap:1cqw;padding:1cqw;text-align:center;min-width:0}
+  .sp-m-kn{font-size:16px;font-size:8cqw;font-weight:800;line-height:1.2;overflow-wrap:anywhere}
+  .sp-m-kd{font-size:8px;font-size:2.8cqw}
+  .sp-m-quote{flex:1;position:relative;background:var(--m-qbg);color:var(--m-qfg);border:.6cqw solid var(--m-ac);display:grid;place-content:center;justify-items:center;gap:1.4cqw;text-align:center;padding:2cqw 9cqw;min-height:0}
+  .sp-m-ql{position:absolute;top:2cqw;right:4cqw;color:var(--m-ac);font-weight:800;font-size:2.8cqw}
+  .sp-m-qm{font-size:11px;font-size:4cqw;font-weight:800;line-height:1.6}
+  .sp-m-qx{font-size:8px;font-size:2.6cqw;opacity:.8}
+  .sp-m-qg{position:absolute;top:-1cqw;left:3cqw;font-style:normal;font-size:14cqw;line-height:1;color:var(--m-ac);font-family:Georgia,serif}
+  .sp-m-pyr{display:grid;gap:1cqw;justify-items:center;flex:1;min-height:0;grid-auto-rows:1fr}
+  .sp-m-ly{display:grid;place-items:center;font-weight:800;font-size:10px;font-size:3.2cqw;padding:0 2cqw;text-align:center}
+  .sp-mnav{display:flex;align-items:center;justify-content:space-between;gap:.4rem}
+  .sp-mnav .sp-chip{min-height:44px;font-size:.76rem;padding:.35rem .6rem}
+  .sp-mnav .sp-chip[disabled]{opacity:.4}
+  .sp-mlab{font-size:.82rem;font-weight:700;color:var(--sp-gold);text-align:center;flex:1}
+  .sp-tcat{font-size:.82rem;font-weight:800;color:var(--sp-gold);margin:.5rem 0 .25rem}
+  .sp-tcard{display:grid;gap:.4rem;padding:.55rem;border-radius:12px;border:1px solid var(--sp-line);background:var(--sp-navy-2);color:var(--sp-ink);cursor:pointer;font:inherit;font-size:.8rem;text-align:center;min-height:44px}
+  .sp-tcard[aria-pressed="true"]{border-color:var(--sp-gold);box-shadow:0 0 0 2px rgba(212,175,55,.4)}
+  .sp-tprev{display:block;height:40px;border-radius:8px;border:1px solid transparent}
+  .sp-custom{display:grid;gap:.6rem;padding:.8rem;border-radius:14px;border:1px dashed var(--sp-gold);background:rgba(212,175,55,.07)}
+  .sp-swrow{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+  .sp-swc{position:relative;width:64px;height:64px;border-radius:50%;border:2px solid #fff;display:grid;place-items:end center;cursor:pointer;overflow:hidden}
+  .sp-swc input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+  .sp-swc small{position:relative;font-size:.62rem;background:rgba(0,0,0,.55);color:#fff;width:100%;text-align:center;padding:1px 0;pointer-events:none}
 </style>
 </head>
 <body>
@@ -1672,22 +1735,142 @@ function isValidAcademicText(str, minWords){
   return words >= (minWords || 1);
 }
 
+/* ---------- SANAD Visual Studio Pro: الثيمات + الألوان + التجميل التلقائي (مشتركة بين المعاينة والمحرك) ---------- */
+const SanadVisual = (function(){
+  "use strict";
+  const LAYOUT_IDS = ["bullets", "comparison", "table", "timeline", "swot", "kpi_stats", "quote_concept", "process_pyramid"];
+  const normLayout = (l) => l === "compare" ? "comparison" : l === "visual" ? "timeline" : (LAYOUT_IDS.indexOf(l) >= 0 ? l : "bullets");
+  const THEMES = [
+    { id: "royal",    name: "كحلي سَنَد الملكي",        cat: "أكاديمي", primary: "0F172A", secondary: "1E293B", accent: "D4AF37", bg: "F8FAFC", cardBg: "FFFFFF", text: "0F172A", decorStyle: "sidebar" },
+    { id: "ust",      name: "أكاديمي جامعة العلوم",     cat: "أكاديمي", primary: "1E40AF", secondary: "3B82F6", accent: "0EA5E9", bg: "F1F5F9", cardBg: "FFFFFF", text: "1E293B", decorStyle: "headerbar" },
+    { id: "burgundy", name: "العنابي للأبحاث",          cat: "أكاديمي", primary: "7F1D1D", secondary: "991B1B", accent: "C9A227", bg: "FEFDFB", cardBg: "FFFFFF", text: "292524", decorStyle: "frame" },
+    { id: "emerald",  name: "زمردي المحاسبة والمالية",  cat: "أعمال",   primary: "065F46", secondary: "047857", accent: "F59E0B", bg: "F4F6F5", cardBg: "FFFFFF", text: "1F2937", decorStyle: "circles" },
+    { id: "swiss",    name: "البساطة السويسرية",        cat: "أعمال",   primary: "18181B", secondary: "71717A", accent: "2563EB", bg: "FFFFFF", cardBg: "F4F4F5", text: "18181B", decorStyle: "grid" },
+    { id: "coral",    name: "مرجاني وتيفاني عصري",      cat: "إبداعي",  primary: "0D9488", secondary: "14B8A6", accent: "F43F5E", bg: "F0FDFA", cardBg: "FFFFFF", text: "134E4A", decorStyle: "blobs" },
+    { id: "indigo",   name: "البنفسجي الإبداعي",        cat: "إبداعي",  primary: "4338CA", secondary: "A855F7", accent: "EC4899", bg: "F5F3FF", cardBg: "FFFFFF", text: "1E1B4B", decorStyle: "diagonal" },
+    { id: "exec",     name: "الإدارة التنفيذية الداكن", cat: "داكن",    primary: "8B5CF6", secondary: "6D28D9", accent: "F59E0B", bg: "111827", cardBg: "1F2937", text: "F9FAFB", decorStyle: "corner", dark: true, coverBg: "0B1020" }
+  ];
+  const LEGACY = { navy_formal: "royal", emerald_modern: "emerald", gold_classic: "burgundy", white_formal: "swiss" };
+  const hex2rgb = (h) => { h = String(h).replace("#", ""); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; };
+  const rgb2hex = (r, g, b) => [r, g, b].map((x) => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, "0")).join("").toUpperCase();
+  const mix = (a, b, t) => { const A = hex2rgb(a), B = hex2rgb(b); return rgb2hex(A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t, A[2] + (B[2] - A[2]) * t); };
+  const lum = (h) => { const c = hex2rgb(h).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+  const on = (h) => lum(h) > 0.4 ? "0F172A" : "FFFFFF";
+  function rgb2hsl(r, g, b){
+    r /= 255; g /= 255; b /= 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b); let h = 0, s = 0; const l = (mx + mn) / 2;
+    if (mx !== mn){ const d = mx - mn; s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+      h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+    return [h, s, l];
+  }
+  function hsl2hex(h, s, l){
+    h = ((h % 360) + 360) % 360; const c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2; let r = 0, g = 0, b = 0;
+    if (h < 60){ r = c; g = x; } else if (h < 120){ r = x; g = c; } else if (h < 180){ g = c; b = x; } else if (h < 240){ g = x; b = c; } else if (h < 300){ r = x; b = c; } else { r = c; b = x; }
+    return rgb2hex((r + m) * 255, (g + m) * 255, (b + m) * 255);
+  }
+  function resolve(id, custom){
+    let base;
+    if (id === "custom" && custom && custom.primary){
+      const p = custom.primary, sec = custom.secondary || mix(p, "FFFFFF", 0.3), ac = custom.accent || sec;
+      base = { id: "custom", name: "قالب مخصص من صورة", cat: "مخصص", primary: p, secondary: sec, accent: ac, bg: mix(p, "FFFFFF", 0.94), cardBg: "FFFFFF", text: mix(p, "000000", 0.72), decorStyle: "sidebar" };
+    } else {
+      const k = LEGACY[id] || id; base = THEMES.find((t) => t.id === k) || THEMES[0];
+    }
+    const T = Object.assign({}, base);
+    T.coverBg = base.coverBg || base.primary;
+    T.onCover = on(T.coverBg); T.onPrimary = on(T.primary); T.onAccent = on(T.accent); T.onSecondary = on(T.secondary);
+    T.head = T.decorStyle === "headerbar" ? T.onPrimary : (T.dark ? "FFFFFF" : T.primary);
+    T.line = T.dark ? mix(T.cardBg, "FFFFFF", 0.15) : mix(T.primary, T.bg, 0.8);
+    T.zebra = T.dark ? mix(T.cardBg, "FFFFFF", 0.07) : mix(T.primary, "FFFFFF", 0.92);
+    T.muted = mix(T.text, T.bg, 0.45);
+    T.soft1 = mix(T.primary, T.bg, 0.86); T.soft2 = mix(T.accent, T.bg, 0.8);
+    return T;
+  }
+  // استخراج لوحة ألوان من بكسلات RGBA (canvas) — محلياً بالكامل
+  function palette(data){
+    const B = {};
+    for (let i = 0; i + 3 < data.length; i += 4){
+      if (data[i + 3] < 128) continue;
+      const r = data[i], g = data[i + 1], b = data[i + 2], mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+      if (mn > 238 || mx < 22) continue; // أبيض/أسود خالص
+      const k = (r >> 4) + "," + (g >> 4) + "," + (b >> 4), o = B[k] || (B[k] = { n: 0, r: 0, g: 0, b: 0 });
+      o.n++; o.r += r; o.g += g; o.b += b;
+    }
+    const arr = Object.keys(B).map((k) => { const o = B[k], r = o.r / o.n, g = o.g / o.n, b = o.b / o.n, hsl = rgb2hsl(r, g, b); return { n: o.n, hex: rgb2hex(r, g, b), h: hsl[0], s: hsl[1], l: hsl[2], r, g, b }; });
+    if (!arr.length) return null;
+    const dist = (a, b) => Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
+    const hd = (a, b) => { const d = Math.abs(a.h - b.h); return Math.min(d, 360 - d); };
+    const byW = arr.slice().sort((a, b) => b.n * (0.35 + b.s) - a.n * (0.35 + a.s));
+    const pri = byW.find((c) => c.s > 0.18 && c.l > 0.1 && c.l < 0.72) || byW[0];
+    const sec = byW.find((c) => c !== pri && dist(c, pri) > 70 && (hd(c, pri) > 20 || Math.abs(c.l - pri.l) > 0.18)) || null;
+    const byS = arr.slice().sort((a, b) => (b.s * Math.sqrt(b.n)) - (a.s * Math.sqrt(a.n)));
+    const acc = byS.find((c) => c !== pri && c !== sec && dist(c, pri) > 70 && (!sec || dist(c, sec) > 60) && c.s > 0.3) || null;
+    const ph = pri.h, ps = Math.max(pri.s, 0.45);
+    return {
+      primary: pri.hex,
+      secondary: sec ? sec.hex : hsl2hex(ph + 25, Math.min(0.8, ps), Math.min(0.62, pri.l + 0.15)),
+      accent: acc ? acc.hex : hsl2hex(ph + 150, 0.75, 0.52)
+    };
+  }
+  /* ---- التجميل التلقائي لتخطيطات الشرائح ---- */
+  const NUMRE = /[\d٠-٩]/, PCTRE = /[%٪]/;
+  const cellsOf = (line) => { const t = String(line); let i = t.indexOf("|"); if (i < 0) i = t.search(/[:：]/); return i < 0 ? [t.trim(), ""] : [t.slice(0, i).trim(), t.slice(i + 1).trim()]; };
+  function kpiLine(x){
+    if (x.indexOf("|") >= 0) return x;
+    const m = x.match(/[+\-]?[\d٠-٩][\d٠-٩.,٬]*\s*[%٪]?/);
+    if (m){ const rest = x.replace(m[0], " ").replace(/\s+/g, " ").replace(/^[\s:،,\-–]+|[\s:،,\-–]+$/g, ""); return m[0].trim() + " | " + (rest || x); }
+    return x.split(/\s+/).slice(0, 2).join(" ") + " | " + x;
+  }
+  function candidates(items){
+    const n = items.length, c = [];
+    const nums = items.filter((x) => NUMRE.test(x) && (PCTRE.test(x) || /[\d٠-٩]{2,}/.test(x))).length;
+    const pairs = items.filter((x) => x.indexOf("|") >= 0 || /[:：]/.test(x)).length;
+    const contrast = items.some((x) => /(بينما|في المقابل|بخلاف|الفرق بين|مقارنة|مقابل)/.test(x));
+    const hier = items.some((x) => /(مستوى|الإدارة العليا|الإدارة الوسطى|الإدارة الدنيا|أولوية|هرم|طبقة)/.test(x));
+    if (n >= 2 && n <= 4 && nums >= 2) c.push("kpi_stats");
+    if (n <= 2 && n >= 1 && (n === 1 || /\s(هو|هي|تعني|يعني|يُعرَّف)\s|[:：]/.test(items[0])) && items[0].length <= 240) c.push("quote_concept");
+    if (n >= 3 && n <= 4 && hier) c.push("process_pyramid");
+    if (pairs >= 2 && n >= 2 && n <= 9) c.push("table");
+    if (n === 4) c.push("swot", "timeline");
+    if (contrast && n >= 2) c.push("comparison");
+    if (n >= 3 && n <= 4) c.push("timeline", "process_pyramid");
+    if (n === 5) c.push("timeline");
+    if (n >= 2 && n <= 8) c.push("comparison");
+    return c.filter((v, i, a) => a.indexOf(v) === i);
+  }
+  function reshape(sl, to){
+    const it = sl.items || [];
+    if (to === "kpi_stats") sl.items = it.map(kpiLine);
+    else if (to === "swot") sl.items = it.slice(0, 4);
+    else if (to === "process_pyramid") sl.items = it.slice(0, 4);
+    else if (to === "timeline") sl.items = it.slice(0, 5);
+    else if (to === "quote_concept") sl.items = it.slice(0, 2);
+    sl.l = to;
+  }
+  function beautify(slides){
+    let changed = 0; const last = slides.length - 1;
+    for (let i = 1; i <= last; i++){
+      const sl = slides[i], items = (sl.items || []).filter(Boolean), prev = slides[i - 1].l = normLayout(slides[i - 1].l);
+      sl.l = normLayout(sl.l);
+      if (i === 1 || i === last){ if (sl.l === prev){ /* المقدمة والخاتمة ثابتتان */ } continue; }
+      const nextFixed = i + 1 === last ? "bullets" : null, cands = candidates(items), before = sl.l;
+      let pick = null;
+      if (sl.l !== "bullets" && cands.indexOf(sl.l) >= 0 && sl.l !== prev && sl.l !== nextFixed) pick = sl.l;
+      if (!pick) pick = cands.find((x) => x !== prev && x !== nextFixed) || null;
+      if (!pick) pick = ["bullets", "comparison", "timeline", "table"].find((x) => x !== prev && x !== nextFixed && (x === "bullets" || items.length >= 2)) || sl.l;
+      if (pick !== before || pick === "kpi_stats"){ reshape(sl, pick); if (pick !== before) changed++; } else sl.l = pick;
+    }
+    return changed;
+  }
+  return { THEMES, LAYOUT_IDS, normLayout, resolve, palette, beautify, mix, lum, on, hsl2hex, rgb2hsl, hex2rgb, cellsOf, kpiLine };
+})();
+
 /* ---------- محرك توليد وتنزيل ملف العرض (SanadPptxEngine) ---------- */
 const SanadPptxEngine = (function(){
   "use strict";
   const MIME = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-  const FONT = "Arial";
-  const THEMES = {
-    navy_formal:    { bg: "0B192C", title: "D4AF37", text: "FFFFFF", accent: "D4AF37", card: "13294B", head: "0B192C" },
-    emerald_modern: { bg: "0F3D33", title: "FFFFFF", text: "E8F5F0", accent: "2ECC9A", card: "15594A", head: "0F3D33" },
-    gold_classic:   { bg: "F7F1DC", title: "7A5C10", text: "2B2410", accent: "D4AF37", card: "FFFFFF", head: "2B2410" },
-    white_formal:   { bg: "FFFFFF", title: "0B192C", text: "1F2937", accent: "0B192C", card: "EEF2F7", head: "FFFFFF" }
-  };
+  const FONT = "Arial", V = SanadVisual, mix = V.mix, on = V.on;
   const clean = (s) => String(s == null ? "" : s).trim();
-  const cells = (line) => {
-    const t = String(line); let i = t.indexOf("|"); if (i < 0) i = t.search(/[:：]/);
-    return i < 0 ? [t.trim(), ""] : [t.slice(0, i).trim(), t.slice(i + 1).trim()];
-  };
+  const cells = V.cellsOf;
   const safeName = (t) => {
     const n = clean(t).replace(/[\\/:*?"<>|\u0000-\u001f]/g, " ").replace(/\s+/g, "_").replace(/^_+|_+$/g, "").slice(0, 60);
     return (n || "Sanad_Presentation") + ".pptx";
@@ -1695,79 +1878,162 @@ const SanadPptxEngine = (function(){
   // خيارات نص عربية: يمين + اتجاه RTL
   const R = (o) => Object.assign({ fontFace: FONT, align: "right", rtlMode: true, lang: "ar-SA" }, o || {});
 
-  function heading(pptx, slide, T, text){
-    slide.addText(text, R({ x: 0.5, y: 0.3, w: 9, h: 0.9, fontSize: text.length > 45 ? 22 : 28, bold: true, color: T.title, valign: "middle", fit: "shrink" }));
-    slide.addShape(pptx.ShapeType.rect, { x: 6.5, y: 1.2, w: 3, h: 0.05, fill: { color: T.accent }, line: { color: T.accent, width: 0 } });
+  /* ---- زخارف القالب الهندسية ---- */
+  function decor(pptx, s, T, cover){
+    const ST = pptx.ShapeType;
+    const rect = (x, y, w, h, c, tr, extra) => s.addShape(ST.rect, Object.assign({ x, y, w, h, fill: { color: c, transparency: tr || 0 }, line: { color: c, width: 0 } }, extra || {}));
+    const circ = (x, y, d, c, tr) => s.addShape(ST.ellipse, { x, y, w: d, h: d, fill: { color: c, transparency: tr }, line: { color: c, width: 0 } });
+    switch (T.decorStyle){
+      case "sidebar": rect(9.72, 0, 0.28, 5.625, cover ? T.accent : T.primary); if (!cover) rect(9.72, 0, 0.28, 1.2, T.accent); break;
+      case "circles": circ(-0.9, -0.9, 2.5, cover ? T.accent : T.primary, cover ? 78 : 90); circ(8.3, 4.1, 2.4, T.accent, cover ? 70 : 82); break;
+      case "headerbar":
+        if (cover){ rect(0, 4.85, 10, 0.775, T.secondary); rect(0, 4.8, 10, 0.05, T.accent); }
+        else { rect(0, 0, 10, 1.25, T.primary); rect(0, 1.25, 10, 0.06, T.accent); }
+        break;
+      case "corner": circ(-1.3, -1.3, 3.4, T.primary, cover ? 55 : 78); rect(0, 5.5, 10, 0.125, T.primary); break;
+      case "blobs": circ(7.9, -1.1, 3.1, T.accent, cover ? 62 : 84); circ(-1.0, 3.9, 2.7, cover ? T.secondary : T.primary, cover ? 60 : 88); break;
+      case "frame": s.addShape(ST.rect, { x: 0.15, y: 0.15, w: 9.7, h: 5.325, fill: { color: "FFFFFF", transparency: 100 }, line: { color: T.accent, width: 1.5 } });
+                    s.addShape(ST.rect, { x: 0.25, y: 0.25, w: 9.5, h: 5.125, fill: { color: "FFFFFF", transparency: 100 }, line: { color: cover ? T.accent : T.primary, width: 0.5 } }); break;
+      case "diagonal": rect(-1.2, 0.5, 4.2, 0.32, T.accent, cover ? 20 : 25, { rotate: -32 }); rect(-1.4, 0.95, 4.2, 0.18, T.secondary, cover ? 25 : 40, { rotate: -32 }); break;
+      case "grid": rect(0.5, 0.22, 9, 0.05, T.accent); rect(0.5, 5.22, 9, 0.012, cover ? T.onCover : T.secondary, 40); break;
+    }
   }
-  function bullets(slide, items, x, y, w, h, color){
-    const n = items.length, fs = n > 7 ? 14 : n > 5 ? 16 : 20;
-    slide.addText(items.map((t) => ({ text: t, options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } })),
-      R({ x, y, w, h, fontSize: fs, color, valign: "top", fit: "shrink" }));
+  function footer(pptx, s, T, n){
+    s.addShape(pptx.ShapeType.ellipse, { x: 0.35, y: 5.1, w: 0.4, h: 0.4, fill: { color: T.accent }, line: { color: T.accent, width: 0 } });
+    s.addText(String(n), R({ x: 0.35, y: 5.1, w: 0.4, h: 0.4, fontSize: 11, bold: true, color: T.onAccent, align: "center", valign: "middle", margin: 0 }));
+    s.addText("سَنَد · SANAD", R({ x: 6.3, y: 5.12, w: 3.2, h: 0.36, fontSize: 10, color: T.muted, valign: "middle" }));
   }
-  function compare(pptx, slide, T, sl){
+  function heading(pptx, s, T, text){
+    s.addText(text, R({ x: 0.5, y: 0.22, w: 9, h: 0.85, fontSize: text.length > 45 ? 22 : 28, bold: true, color: T.head, valign: "middle", fit: "shrink" }));
+    if (T.decorStyle !== "headerbar") s.addShape(pptx.ShapeType.rect, { x: 6.5, y: 1.12, w: 3, h: 0.05, fill: { color: T.accent }, line: { color: T.accent, width: 0 } });
+  }
+  const card = (pptx, s, T, x, y, w, h, o) => s.addShape(pptx.ShapeType.roundRect, Object.assign({ x, y, w, h, rectRadius: 0.08, fill: { color: T.cardBg }, line: { color: T.line, width: 1 } }, o || {}));
+  const fsFor = (n, a, b, c) => n > 6 ? a : n > 4 ? b : c;
+
+  /* ---- التخطيطات الثمانية ---- */
+  function bullets(pptx, s, T, sl){
+    const items = (sl.items && sl.items.length ? sl.items : [""]).slice(0, 7), n = items.length, top = 1.5, avail = 3.5, gap = 0.1;
+    const h = Math.min(0.8, (avail - gap * (n - 1)) / n), cyc = [T.primary, T.accent, T.secondary];
+    items.forEach((t, i) => {
+      const y = top + i * (h + gap), c = cyc[i % 3];
+      card(pptx, s, T, 0.6, y, 8.8, h);
+      s.addShape(pptx.ShapeType.rect, { x: 9.3, y: y + 0.04, w: 0.1, h: h - 0.08, fill: { color: c }, line: { color: c, width: 0 } });
+      const d = Math.min(0.46, h - 0.1);
+      s.addShape(pptx.ShapeType.ellipse, { x: 8.65, y: y + (h - d) / 2, w: d, h: d, fill: { color: c }, line: { color: c, width: 0 } });
+      s.addText(String(i + 1), R({ x: 8.65, y: y + (h - d) / 2, w: d, h: d, fontSize: 13, bold: true, color: on(c), align: "center", valign: "middle", margin: 0 }));
+      s.addText(t, R({ x: 0.75, y, w: 7.75, h, fontSize: h >= 0.7 ? 18 : h >= 0.55 ? 16 : 14, color: T.text, valign: "middle", fit: "shrink" }));
+    });
+  }
+  function comparison(pptx, s, T, sl){
     const items = sl.items || [], k = Math.ceil(items.length / 2);
-    const cols = [{ h: clean(sl.h0) || "الجانب الأول", it: items.slice(0, k) }, { h: clean(sl.h1) || "الجانب الثاني", it: items.slice(k) }];
+    const cols = [{ h: clean(sl.h0) || "الجانب الأول", it: items.slice(0, k), c: T.primary }, { h: clean(sl.h1) || "الجانب الثاني", it: items.slice(k), c: T.secondary === T.primary ? T.accent : T.secondary }];
     cols.forEach((c, i) => {
-      const x = i === 0 ? 5.2 : 0.5; // الجانب الأول على اليمين
-      slide.addShape(pptx.ShapeType.roundRect, { x, y: 1.5, w: 4.3, h: 3.6, fill: { color: T.card }, line: { color: T.accent, width: 1.5 }, rectRadius: 0.12 });
-      slide.addText(c.h, R({ x: x + 0.15, y: 1.6, w: 4.0, h: 0.6, fontSize: 20, bold: true, color: T.accent, valign: "middle" }));
-      bullets(slide, c.it.length ? c.it : ["—"], x + 0.15, 2.25, 4.0, 2.7, T.text);
+      const x = i === 0 ? 5.15 : 0.55;
+      card(pptx, s, T, x, 1.5, 4.3, 3.5, { line: { color: c.c, width: 1.5 } });
+      s.addShape(pptx.ShapeType.rect, { x, y: 1.5, w: 4.3, h: 0.62, fill: { color: c.c }, line: { color: c.c, width: 0 } });
+      s.addText(c.h, R({ x: x + 0.15, y: 1.5, w: 4.0, h: 0.62, fontSize: 18, bold: true, color: on(c.c), valign: "middle", fit: "shrink" }));
+      const its = c.it.length ? c.it : ["—"];
+      s.addText(its.map((t) => ({ text: t, options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } })), R({ x: x + 0.15, y: 2.25, w: 4.0, h: 2.65, fontSize: fsFor(its.length, 13, 15, 17), color: T.text, valign: "top", fit: "shrink" }));
     });
   }
-  function table(pptx, slide, T, sl){
-    const h0 = clean(sl.h0) || "البند", h1 = clean(sl.h1) || "التفاصيل";
-    const rows = (sl.items || []).slice(0, 9).map(cells);
-    const hdr = [h0, h1].map((t) => ({ text: t, options: R({ bold: true, color: T.head, fill: { color: T.accent }, fontSize: 16 }) }));
-    const body = rows.map((r) => r.map((t) => ({ text: t, options: R({ color: T.text, fill: { color: T.card }, fontSize: 14 }) })));
-    // عكس مصفوفات الصفوف ليظهر العمود الأول على اليمين (اتجاه عربي)
+  function table(pptx, s, T, sl){
+    const h0 = clean(sl.h0) || "البند", h1 = clean(sl.h1) || "التفاصيل", rows = (sl.items || []).slice(0, 9).map(cells);
+    const hdr = [h0, h1].map((t) => ({ text: t, options: R({ bold: true, color: T.onPrimary, fill: { color: T.primary }, fontSize: 16 }) }));
+    const body = rows.map((r, i) => r.map((t) => ({ text: t, options: R({ color: T.text, fill: { color: i % 2 ? T.zebra : T.cardBg }, fontSize: rows.length > 6 ? 12 : 14 }) })));
+    // عكس مصفوفات الصفوف ليظهر العمود الأول على اليمين
     const data = [hdr.slice().reverse()].concat(body.map((r) => r.slice().reverse()));
-    slide.addTable(data, { x: 0.5, y: 1.5, w: 9, colW: [6.2, 2.8], fontFace: FONT, border: { type: "solid", pt: 1, color: T.accent }, valign: "middle" });
+    s.addTable(data, { x: 0.5, y: 1.5, w: 9, colW: [6.2, 2.8], fontFace: FONT, border: { type: "solid", pt: 1, color: T.line }, valign: "middle" });
   }
-  function timeline(pptx, slide, T, sl){
-    const ev = (sl.items || []).slice(0, 8).map(cells); if (!ev.length) return;
-    const n = ev.length, W = 8.8, x0 = 0.6, cw = W / n, big = n <= 5;
-    slide.addShape(pptx.ShapeType.line, { x: x0, y: 3.0, w: W, h: 0, line: { color: T.accent, width: 2 } });
+  function timeline(pptx, s, T, sl){
+    const ev = (sl.items || []).slice(0, 5).map(cells); if (!ev.length) return;
+    const n = ev.length, W = 8.8, x0 = 0.6, cw = W / n;
+    s.addShape(pptx.ShapeType.rect, { x: x0, y: 2.38, w: W, h: 0.08, fill: { color: T.secondary }, line: { color: T.secondary, width: 0 } });
     ev.forEach((e, i) => {
-      const cx = x0 + W - (i + 0.5) * cw; // من اليمين إلى اليسار
-      const year = e[1] ? e[0] : "", text = e[1] ? e[1] : e[0];
-      slide.addShape(pptx.ShapeType.ellipse, { x: cx - 0.15, y: 2.85, w: 0.3, h: 0.3, fill: { color: T.accent }, line: { color: T.bg, width: 2 } });
-      if (year) slide.addText(year, R({ x: cx - cw / 2, y: 2.0, w: cw, h: 0.65, fontSize: big ? 18 : 14, bold: true, color: T.accent, align: "center", valign: "bottom" }));
-      slide.addText(text, R({ x: cx - cw / 2 + 0.05, y: 3.3, w: cw - 0.1, h: 1.9, fontSize: big ? 13 : 11, color: T.text, align: "center", valign: "top", fit: "shrink" }));
+      const cx = x0 + W - (i + 0.5) * cw, title = e[1] ? e[0] : "المرحلة " + (i + 1), text = e[1] ? e[1] : e[0], c = i % 2 ? T.accent : T.primary;
+      s.addShape(pptx.ShapeType.ellipse, { x: cx - 0.3, y: 2.12, w: 0.6, h: 0.6, fill: { color: c }, line: { color: T.bg, width: 2 } });
+      s.addText(String(i + 1), R({ x: cx - 0.3, y: 2.12, w: 0.6, h: 0.6, fontSize: 16, bold: true, color: on(c), align: "center", valign: "middle", margin: 0 }));
+      s.addText(title, R({ x: cx - cw / 2 + 0.05, y: 1.5, w: cw - 0.1, h: 0.55, fontSize: n > 4 ? 13 : 15, bold: true, color: T.head === "FFFFFF" ? T.accent : T.primary, align: "center", valign: "bottom", fit: "shrink" }));
+      card(pptx, s, T, cx - cw / 2 + 0.06, 2.95, cw - 0.12, 2.0);
+      s.addText(text, R({ x: cx - cw / 2 + 0.12, y: 3.0, w: cw - 0.24, h: 1.9, fontSize: n > 4 ? 11 : 13, color: T.text, align: "center", valign: "middle", fit: "shrink" }));
     });
   }
+  function swot(pptx, s, T, sl){
+    const defs = ["نقاط القوة", "نقاط الضعف", "الفرص", "التهديدات"], cols = [T.primary, T.secondary === T.primary ? mix(T.primary, "FFFFFF", 0.3) : T.secondary, T.accent, mix(T.primary, "000000", 0.35)];
+    const it = (sl.items || []).slice(0, 4), xs = [5.1, 0.55], ys = [1.5, 3.3];
+    for (let i = 0; i < 4; i++){
+      const raw = it[i] || "", c = raw.indexOf("|") >= 0 || /[:：]/.test(raw) ? cells(raw) : [defs[i], raw];
+      const x = xs[i % 2], y = ys[Math.floor(i / 2)], col = cols[i];
+      card(pptx, s, T, x, y, 4.35, 1.65, { line: { color: col, width: 1.5 } });
+      s.addShape(pptx.ShapeType.rect, { x, y, w: 4.35, h: 0.45, fill: { color: col }, line: { color: col, width: 0 } });
+      s.addText(c[0] || defs[i], R({ x: x + 0.12, y, w: 4.1, h: 0.45, fontSize: 15, bold: true, color: on(col), valign: "middle", fit: "shrink" }));
+      s.addText(c[1] || "—", R({ x: x + 0.12, y: y + 0.5, w: 4.1, h: 1.1, fontSize: 13, color: T.text, valign: "middle", fit: "shrink" }));
+    }
+  }
+  function kpi(pptx, s, T, sl){
+    const it = (sl.items || []).slice(0, 4).map((x) => cells(V.kpiLine(x))); if (!it.length) return;
+    const n = it.length, gap = 0.25, w = (8.8 - gap * (n - 1)) / n, cyc = [T.primary, T.accent, T.secondary, T.primary];
+    it.forEach((e, i) => {
+      const x = 9.4 - (i + 1) * w - i * gap, c = cyc[i];
+      card(pptx, s, T, x, 1.65, w, 3.2, { line: { color: c, width: 1.5 } });
+      s.addShape(pptx.ShapeType.rect, { x, y: 1.65, w, h: 0.14, fill: { color: c }, line: { color: c, width: 0 } });
+      s.addText(e[0], R({ x: x + 0.1, y: 2.05, w: w - 0.2, h: 1.2, fontSize: n > 3 ? 30 : 40, bold: true, color: c === T.accent ? (T.dark ? T.accent : T.primary) : (T.dark ? T.accent : c), align: "center", valign: "middle", fit: "shrink" }));
+      s.addShape(pptx.ShapeType.rect, { x: x + w / 2 - 0.4, y: 3.3, w: 0.8, h: 0.04, fill: { color: T.accent }, line: { color: T.accent, width: 0 } });
+      s.addText(e[1] || "", R({ x: x + 0.12, y: 3.45, w: w - 0.24, h: 1.3, fontSize: n > 3 ? 12 : 14, color: T.text, align: "center", valign: "top", fit: "shrink" }));
+    });
+  }
+  function quote(pptx, s, T, sl){
+    const it = (sl.items || []).filter(Boolean), main = it[0] || "", extra = it.slice(1).join(" — "), bg = T.dark ? T.cardBg : T.primary, fg = on(bg);
+    s.addShape(pptx.ShapeType.rect, { x: 1, y: 1.55, w: 8, h: 3.3, fill: { color: bg }, line: { color: T.accent, width: 2 } });
+    s.addShape(pptx.ShapeType.rect, { x: 1.15, y: 1.7, w: 7.7, h: 3.0, fill: { color: bg, transparency: 100 }, line: { color: T.accent, width: 0.75 } });
+    [[0.9, 1.45], [8.85, 1.45], [0.9, 4.7], [8.85, 4.7]].forEach((p) => s.addShape(pptx.ShapeType.rect, { x: p[0], y: p[1], w: 0.25, h: 0.25, fill: { color: T.accent }, line: { color: T.accent, width: 0 } }));
+    s.addText("”", R({ x: 7.9, y: 1.55, w: 1.0, h: 1.0, fontSize: 80, bold: true, color: T.accent, align: "center", valign: "top", margin: 0 }));
+    s.addText(clean(sl.h0) || "تعريف", R({ x: 1.4, y: 1.8, w: 5, h: 0.4, fontSize: 14, bold: true, color: T.accent, valign: "middle" }));
+    s.addText(main, R({ x: 1.5, y: 2.3, w: 7, h: extra ? 1.7 : 2.2, fontSize: main.length > 140 ? 18 : main.length > 70 ? 22 : 26, bold: true, color: fg, align: "center", valign: "middle", fit: "shrink" }));
+    if (extra) s.addText(extra, R({ x: 1.5, y: 4.0, w: 7, h: 0.6, fontSize: 13, color: mix(fg, bg, 0.3), align: "center", valign: "middle", fit: "shrink" }));
+  }
+  function pyramid(pptx, s, T, sl){
+    const it = (sl.items || []).slice(0, 4); if (!it.length) return;
+    const n = it.length, gap = 0.08, h = (3.4 - gap * (n - 1)) / n, wMin = 3.0, wMax = 8.6;
+    it.forEach((t, i) => {
+      const w = n === 1 ? wMax : wMin + i * (wMax - wMin) / (n - 1), y = 1.55 + i * (h + gap), c = mix(T.accent, T.primary, n === 1 ? 0 : i / (n - 1));
+      s.addShape(pptx.ShapeType.rect, { x: 5 - w / 2, y, w, h, fill: { color: c }, line: { color: T.bg, width: 1 } });
+      s.addText(t, R({ x: 5 - w / 2 + 0.1, y, w: w - 0.2, h, fontSize: n > 3 ? 14 : 16, bold: true, color: on(c), align: "center", valign: "middle", fit: "shrink" }));
+    });
+  }
+  const LAYOUT_FN = { bullets, comparison, table, timeline, swot, kpi_stats: kpi, quote_concept: quote, process_pyramid: pyramid };
   function noteText(sl){ return clean(sl.t) + "\n" + (sl.items || []).map((x) => "- " + x).join("\n"); }
 
   async function build(spec){
     if (typeof PptxGenJS === "undefined") throw new Error("PPTX_LIB_MISSING");
-    const T = THEMES[spec.template] || THEMES.navy_formal;
+    const T = V.resolve(spec.template, spec.customTheme);
     const pptx = new PptxGenJS();
     pptx.layout = "LAYOUT_16x9";
     pptx.rtlMode = true;
     pptx.title = clean(spec.title) || "عرض تقديمي"; pptx.author = "Sanad"; pptx.company = "Sanad";
     const slides = Array.isArray(spec.slides) ? spec.slides : [];
     slides.forEach((sl, idx) => {
-      const s = pptx.addSlide(); s.background = { color: T.bg };
+      const s = pptx.addSlide();
       if (idx === 0){
-        s.addText(clean(sl.t) || clean(spec.title) || "عنوان العرض", R({ x: 0.7, y: 1.4, w: 8.6, h: 1.6, fontSize: 38, bold: true, color: T.title, align: "center", valign: "middle", fit: "shrink" }));
+        s.background = { color: T.coverBg }; decor(pptx, s, T, true);
+        s.addText(clean(sl.t) || clean(spec.title) || "عنوان العرض", R({ x: 0.9, y: 1.3, w: 8.2, h: 1.7, fontSize: 38, bold: true, color: T.onCover, align: "center", valign: "middle", fit: "shrink" }));
         s.addShape(pptx.ShapeType.rect, { x: 4, y: 3.15, w: 2, h: 0.06, fill: { color: T.accent }, line: { color: T.accent, width: 0 } });
         const sub = [clean(spec.subtitle), clean(spec.audience)].filter(Boolean).join(" — ");
-        if (sub) s.addText(sub, R({ x: 0.7, y: 3.4, w: 8.6, h: 0.9, fontSize: 18, color: T.text, align: "center", valign: "top", fit: "shrink" }));
+        if (sub) s.addText(sub, R({ x: 0.9, y: 3.4, w: 8.2, h: 0.9, fontSize: 18, color: mix(T.onCover, T.coverBg, 0.15), align: "center", valign: "top", fit: "shrink" }));
+        s.addText("سَنَد · SANAD", R({ x: 3.5, y: 5.05, w: 3, h: 0.35, fontSize: 11, color: T.accent, align: "center", valign: "middle" }));
       } else {
+        s.background = { color: T.bg }; decor(pptx, s, T, false);
         heading(pptx, s, T, clean(sl.t) || ("شريحة " + (idx + 1)));
-        const layout = sl.l;
-        if (layout === "compare") compare(pptx, s, T, sl);
-        else if (layout === "table") table(pptx, s, T, sl);
-        else if (layout === "timeline") timeline(pptx, s, T, sl);
-        else bullets(s, (sl.items && sl.items.length ? sl.items : [""]), 0.6, 1.5, 8.8, 3.7, T.text);
-        s.addText(String(idx + 1), R({ x: 0.3, y: 5.15, w: 0.8, h: 0.35, fontSize: 11, color: T.accent, align: "left" }));
+        (LAYOUT_FN[V.normLayout(sl.l)] || bullets)(pptx, s, T, sl);
+        footer(pptx, s, T, idx + 1);
       }
       if (spec.speaker_notes) s.addNotes(noteText(sl));
     });
     if (spec.references){
-      const s = pptx.addSlide(); s.background = { color: T.bg };
+      const s = pptx.addSlide(); s.background = { color: T.bg }; decor(pptx, s, T, false);
       heading(pptx, s, T, "المراجع العلمية");
       const refs = [clean(spec.course_name) && ("محتوى مقرر: " + clean(spec.course_name)), clean(spec.source_name) && ("المصدر: " + clean(spec.source_name))].filter(Boolean);
-      bullets(s, refs.length ? refs : ["المرجع الأساسي للموضوع"], 0.6, 1.5, 8.8, 3.7, T.text);
+      bullets(pptx, s, T, { items: refs.length ? refs : ["المرجع الأساسي للموضوع"] });
+      footer(pptx, s, T, slides.length + 1);
       if (spec.speaker_notes) s.addNotes("المراجع العلمية");
     }
     let buf;
@@ -1827,12 +2093,7 @@ const SanadPptxEngine = (function(){
 const SanadStore = (function(){
   "use strict";
   const MIN_COST = 10, PRICE_PER_SLIDE = 5, GEM_YER = 20, ADDON_NOTES = 15, ADDON_REFS = 10, MIN_SLIDES = 3, MAX_SLIDES = 40;
-  const TEMPLATES = [
-    { id: "navy_formal",    name: "كحلي ملكي أكاديمي",   sw: "sp-sw--navy" },
-    { id: "emerald_modern", name: "زمردي حديث",          sw: "sp-sw--emerald" },
-    { id: "gold_classic",   name: "ذهبي كلاسيكي",        sw: "sp-sw--gold" },
-    { id: "white_formal",   name: "أبيض رسمي للندوات",   sw: "sp-sw--white" }
-  ];
+  const TEMPLATES = SanadVisual.THEMES;
   const ANIMS = [
     { id: "fade",  name: "تلاشي ناعم Fade" },
     { id: "slide", name: "انزلاق ديناميكي Slide" },
@@ -1845,10 +2106,14 @@ const SanadStore = (function(){
     { id: "detailed", name: "تفصيلي شامل" }
   ];
   const LAYOUTS = [
-    { id: "bullets",  name: "نقاط تعدادية", hint: "اكتب كل نقطة في سطر مستقل." },
-    { id: "compare",  name: "بطاقات مقارنة", hint: "النصف الأول من السطور يذهب للبطاقة الأولى والباقي للثانية. يمكنك تسمية البطاقتين أعلاه." },
-    { id: "table",    name: "جدول", hint: "اكتب كل صف في سطر بصيغة: البند | التفاصيل. ويمكنك تسمية العمودين أعلاه." },
-    { id: "timeline", name: "خط زمني", hint: "اكتب كل محطة في سطر بصيغة: السنة | الحدث (حتى 8 محطات)." }
+    { id: "bullets",        name: "نقاط تعدادية",       hint: "اكتب كل نقطة في سطر مستقل (حتى 7 نقاط)." },
+    { id: "comparison",     name: "بطاقات مقارنة",      hint: "النصف الأول من السطور للبطاقة الأولى والباقي للثانية. سمِّ البطاقتين أعلاه." },
+    { id: "table",          name: "جدول",               hint: "اكتب كل صف في سطر بصيغة: البند | التفاصيل. سمِّ العمودين أعلاه." },
+    { id: "timeline",       name: "خط زمني / مراحل",    hint: "من 3 إلى 5 محطات، كل سطر بصيغة: العنوان | الشرح." },
+    { id: "swot",           name: "تحليل رباعي 2×2",    hint: "4 أسطر بصيغة: العنوان | النص (القوة، الضعف، الفرص، التهديدات أو أي 4 محاور)." },
+    { id: "kpi_stats",      name: "بطاقات أرقام",       hint: "من 2 إلى 4 أسطر بصيغة: الرقم | الشرح، مثل: 85% | نسبة النجاح." },
+    { id: "quote_concept",  name: "تعريف / قاعدة ذهبية", hint: "السطر الأول هو التعريف أو القاعدة، والثاني اختياري للمصدر أو الملاحظة. سمِّ الإطار أعلاه." },
+    { id: "process_pyramid",name: "هرم تدرجي",          hint: "3 أو 4 أسطر من الأعلى إلى الأسفل (من الأضيق إلى الأوسع)." }
   ];
   const PROCESSES = [
     { id: "original", icon: "📄", name: "النص الأصلي دون إعادة صياغة", desc: "يُوزَّع نص المحاضرة كما هو على الشرائح" },
@@ -1936,7 +2201,7 @@ const SanadStore = (function(){
     const n = parseInt(String(($("gwBalance") || {}).textContent || "").replace(/[^\d]/g, ""), 10);
     return Number.isFinite(n) ? n : 0;
   };
-  const tplById = (id) => TEMPLATES.find((t) => t.id === id);
+  const tplById = (id) => SanadVisual.resolve(id, st.vals && st.vals.customTheme);
   const sessionProfile = () => {
     let p = null; try{ p = JSON.parse(localStorage.getItem(KEY_PROFILE) || "null"); }catch(_){}
     p = p || {};
@@ -1949,7 +2214,7 @@ const SanadStore = (function(){
     return slideCount() * PRICE_PER_SLIDE + (st.vals.speaker_notes ? ADDON_NOTES : 0) + (st.vals.references ? ADDON_REFS : 0);
   };
   const priceText = (c) => fmt(c) + " 💎 (" + fmt(c * GEM_YER) + " ريال)";
-  const layoutName = (id) => (LAYOUTS.find((x) => x.id === id) || LAYOUTS[0]).name;
+  const layoutName = (id) => (LAYOUTS.find((x) => x.id === SanadVisual.normLayout(id)) || LAYOUTS[0]).name;
   const courseList = () => (typeof data !== "undefined" && data && Array.isArray(data.courses)) ? data.courses.filter((c) => c && (c.course_name || c.course_code)) : [];
   const lessonList = (code) => (code && typeof data !== "undefined" && data && Array.isArray(data.lessons)) ? data.lessons.filter((l) => l && ck(l.course_code) === ck(code)) : [];
   const visible = (f) => !f.showIf || f.showIf(st.vals);
@@ -1984,6 +2249,17 @@ const SanadStore = (function(){
     return i;
   }
 
+  async function imagePalette(file){
+    const url = URL.createObjectURL(file);
+    try{
+      const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error("IMG")); i.src = url; });
+      const nw = img.naturalWidth || 80, nh = img.naturalHeight || 80, sc = Math.min(1, 80 / Math.max(nw, nh));
+      const w = Math.max(1, Math.round(nw * sc)), h = Math.max(1, Math.round(nh * sc));
+      const c = document.createElement("canvas"); c.width = w; c.height = h;
+      const x = c.getContext("2d", { willReadFrequently: true }); x.drawImage(img, 0, 0, w, h);
+      return SanadVisual.palette(x.getImageData(0, 0, w, h).data);
+    } finally { URL.revokeObjectURL(url); }
+  }
   function readAsText(file){
     return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result || "")); r.onerror = () => rej(r.error || new Error("READ")); r.readAsText(file, "utf-8"); });
   }
@@ -2159,8 +2435,15 @@ const SanadStore = (function(){
     } else if (f.type === "storyboard"){
       const sig = [v.title, v.axes, v.scope, v.scope_points, v.slides_count, v.course_name, v.unit_no, v.process, v.goal, v.audience, clean(v.source_text).length].join("\u00A6");
       if (!Array.isArray(v.slides) || v._sb_sig !== sig){ v.slides = genSlides(); v._sb_sig = sig; deletedSlidesStack.length = 0; }
-      wrap.appendChild(el("p", "sp-hint", "اضغط «تحرير» على أي شريحة لتبديل تخطيطها (نقاط / بطاقات / جدول / خط زمني) وتعديل نصها، واحذف أو أضف شرائح قبل الاعتماد. تتحدّث التكلفة لحظياً. (تعديل العنوان أو المحاور أو العدد المبدئي في الخطوة السابقة يعيد توليد المخطط.)"));
+      wrap.appendChild(el("p", "sp-hint", "اضغط «تحرير» على أي شريحة لتبديل تخطيطها (8 تخطيطات: نقاط، مقارنة، جدول، خط زمني، SWOT، أرقام، تعريف، هرم) وتعديل نصها، أو اضغط «🪄 التجميل التلقائي»، واحذف أو أضف شرائح قبل الاعتماد. تتحدّث التكلفة لحظياً. (تعديل العنوان أو المحاور أو العدد المبدئي في الخطوة السابقة يعيد توليد المخطط.)"));
       wrap.appendChild(liveBar());
+      const bt = el("button", "sp-btn sp-btn--ghost", "🪄 تنويع وتجميل تخطيطات الشرائح تلقائياً"); bt.type = "button"; bt.style.minHeight = "46px";
+      const bm = el("p", "sp-done-note", ""); bm.setAttribute("role", "status");
+      bt.addEventListener("click", () => {
+        const n = SanadVisual.beautify(v.slides); clearErr(wrap); draw(); scheduleDraft();
+        bm.textContent = n ? "تم تنويع تخطيط " + n + " شريحة ومنع تكرار نفس التخطيط في شريحتين متتاليتين. عدّل أي شريحة بزر «تحرير»." : "التخطيطات متنوعة بالفعل ولا تحتاج تعديلاً.";
+      });
+      wrap.append(bt, bm);
       const ub = el("div", "sp-undo"); ub.hidden = true; ub.setAttribute("role", "status"); wrap.appendChild(ub);
       const list = el("div", "sp-slides"); wrap.appendChild(list);
       const drawUndo = () => {
@@ -2191,32 +2474,70 @@ const SanadStore = (function(){
       wrap.appendChild(add); draw();
     } else if (f.type === "studio"){
       wrap.classList.add("sp-studio");
-      if (!v.template) v.template = "navy_formal";
+      const V = SanadVisual;
+      v.template = (v.template === "custom" && v.customTheme) ? "custom" : V.resolve(v.template).id;
       if (!v.animation) v.animation = "fade";
       if (!v.density) v.density = "medium";
-      let view = "cover";
+      let cur = 0;
       wrap.appendChild(liveBar());
-      const stage = el("div", "sp-stage sp-anim"); stage.setAttribute("role", "img"); stage.setAttribute("aria-label", "معاينة حية لشريحة من العرض التقديمي");
+      const stage = el("div", "sp-stage sp-anim"); stage.setAttribute("role", "img"); stage.setAttribute("aria-label", "معاينة حية لشرائح العرض التقديمي");
       const play = () => { stage.classList.remove("sp-anim"); void stage.offsetWidth; stage.classList.add("sp-anim"); };
-      const draw = (replay) => { drawStage(stage, view); if (replay) play(); };
-      const segBtns = {}, seg = el("div", "sp-seg"); seg.setAttribute("role", "group"); seg.setAttribute("aria-label", "الشريحة المعروضة في المعاينة");
-      const syncSeg = () => Object.keys(segBtns).forEach((k) => segBtns[k].setAttribute("aria-pressed", String(view === k)));
-      [["cover", "شريحة الغلاف"], ["content", "شريحة المحتوى"]].forEach((o) => {
-        const b = el("button", "sp-chip", o[1]); b.type = "button"; segBtns[o[0]] = b;
-        b.addEventListener("click", () => { view = o[0]; syncSeg(); draw(true); }); seg.appendChild(b);
-      });
-      const rp = el("button", "sp-chip", "▶ إعادة الحركة"); rp.type = "button"; rp.addEventListener("click", play); seg.appendChild(rp);
-      syncSeg(); wrap.append(stage, seg);
+      const nav = el("div", "sp-mnav");
+      const prev = el("button", "sp-chip", "◀ الشريحة السابقة"), lab = el("span", "sp-mlab"), next = el("button", "sp-chip", "الشريحة التالية ▶");
+      prev.type = next.type = "button"; lab.setAttribute("aria-live", "polite");
+      nav.append(prev, lab, next);
+      const draw = (replay) => {
+        cur = Math.max(0, Math.min(cur, v.slides.length - 1)); drawStage(stage, cur);
+        lab.textContent = "الشريحة " + (cur + 1) + " من " + v.slides.length; prev.disabled = cur === 0; next.disabled = cur >= v.slides.length - 1; if (replay) play();
+      };
+      prev.addEventListener("click", () => { cur--; draw(true); });
+      next.addEventListener("click", () => { cur++; draw(true); });
+      const rp = el("button", "sp-chip", "▶ إعادة الحركة"); rp.type = "button"; rp.addEventListener("click", play);
+      wrap.append(stage, nav, rp);
 
-      wrap.appendChild(el("div", "sp-lbl", "القالب البصري"));
-      const tg = el("div", "sp-tpls sp-tpls--2"); tg.setAttribute("role", "group"); tg.setAttribute("aria-label", "القالب البصري");
-      TEMPLATES.forEach((t) => {
-        const b = el("button", "sp-tpl"); b.type = "button"; b.setAttribute("aria-pressed", String(v.template === t.id));
-        b.append(el("span", "sp-sw " + t.sw), el("span", "", t.name));
-        b.addEventListener("click", () => { v.template = t.id; tg.querySelectorAll(".sp-tpl").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); clearErr(wrap); draw(false); });
-        tg.appendChild(b);
+      wrap.appendChild(el("div", "sp-lbl", "القالب البصري (8 قوالب فاخرة)"));
+      const tpWrap = el("div", "sp-tgroups"), cards = [];
+      const syncT = () => cards.forEach((o) => o.b.setAttribute("aria-pressed", String(v.template === o.id)));
+      const pick = (id) => { v.template = id; syncT(); clearErr(wrap); draw(false); scheduleDraft(); };
+      const themeCard = (T, id) => {
+        const b = el("button", "sp-tcard"); b.type = "button"; b.setAttribute("aria-pressed", String(v.template === id));
+        const pv = el("span", "sp-tprev"); pv.style.background = "linear-gradient(135deg,#" + T.primary + " 0 52%,#" + T.secondary + " 52% 76%,#" + T.accent + " 76%)"; pv.style.borderColor = "#" + T.line;
+        b.append(pv, el("span", "sp-tname", T.name)); b.addEventListener("click", () => pick(id)); cards.push({ id, b }); return b;
+      };
+      ["أكاديمي", "أعمال", "إبداعي", "داكن"].forEach((cat) => {
+        const ts = V.THEMES.filter((t) => t.cat === cat); if (!ts.length) return;
+        const g = el("div", "sp-tpls sp-tpls--2"); tpWrap.append(el("div", "sp-tcat", cat), g);
+        ts.forEach((t) => g.appendChild(themeCard(V.resolve(t.id), t.id)));
       });
-      wrap.appendChild(tg);
+      wrap.appendChild(tpWrap);
+
+      wrap.appendChild(el("div", "sp-lbl", "✨ استنساخ الألوان من صورة أو شعار"));
+      const cx = el("div", "sp-custom");
+      cx.appendChild(el("p", "sp-hint", "ارفع شعار الجامعة أو غلاف كتاب أو صورة شريحة أعجبتك، وتُستخرج ألوانها داخل هاتفك فقط دون رفع الصورة لأي خادم."));
+      const fi = el("input", "sp-src-file"); fi.type = "file"; fi.accept = "image/*"; fi.setAttribute("aria-label", "رفع صورة أو شعار لاستخراج الألوان");
+      const sts = el("small", "sp-count", ""), sw = el("div", "sp-swrow"), ccHolder = el("div", "sp-tpls sp-tpls--2");
+      const drawCustom = () => {
+        sw.replaceChildren(); ccHolder.replaceChildren(); cards.splice(0, cards.length, ...cards.filter((o) => o.id !== "custom"));
+        if (!v.customTheme) return;
+        [["primary", "الأساسي"], ["secondary", "الثانوي"], ["accent", "التمييز"]].forEach((k) => {
+          const lb = el("label", "sp-swc"), inp = el("input"); inp.type = "color"; inp.value = "#" + v.customTheme[k[0]]; inp.setAttribute("aria-label", "تعديل اللون " + k[1]);
+          lb.style.background = "#" + v.customTheme[k[0]];
+          inp.addEventListener("input", () => { v.customTheme[k[0]] = inp.value.slice(1).toUpperCase(); lb.style.background = inp.value; v.template = "custom"; syncT(); draw(false); scheduleDraft(); });
+          lb.append(inp, el("small", "", k[1])); sw.appendChild(lb);
+        });
+        ccHolder.appendChild(themeCard(V.resolve("custom", v.customTheme), "custom"));
+      };
+      fi.addEventListener("change", async () => {
+        const file = fi.files && fi.files[0]; if (!file) return;
+        sts.textContent = "جارٍ تحليل الألوان…";
+        try{
+          const pal = await imagePalette(file); if (!pal) throw new Error("EMPTY");
+          v.customTheme = pal; v.template = "custom"; drawCustom(); syncT(); draw(true); scheduleDraft(); clearErr(wrap);
+          sts.textContent = "تم استخراج 3 ألوان وتطبيقها. اضغط أي دائرة لتعديل درجتها.";
+        }catch(e){ console.error("palette error:", e); sts.textContent = "تعذّر تحليل هذه الصورة. جرّب صورة أوضح أو بألوان أكثر."; }
+        fi.value = "";
+      });
+      cx.append(fi, sts, sw, ccHolder); wrap.appendChild(cx); drawCustom(); syncT();
 
       wrap.appendChild(el("div", "sp-lbl", "حركة انتقال الشرائح (اضغط على أي حركة لمعاينتها)"));
       const ag = el("div", "sp-tpls sp-tpls--2"); ag.setAttribute("role", "group"); ag.setAttribute("aria-label", "حركة انتقال الشرائح");
@@ -2231,7 +2552,7 @@ const SanadStore = (function(){
       const dg = el("div", "sp-chips"); dg.setAttribute("role", "group"); dg.setAttribute("aria-label", "كثافة المحتوى");
       DENSITIES.forEach((d) => {
         const b = el("button", "sp-chip", d.name); b.type = "button"; b.setAttribute("aria-pressed", String(v.density === d.id));
-        b.addEventListener("click", () => { v.density = d.id; dg.querySelectorAll(".sp-chip").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); view = "content"; syncSeg(); draw(false); });
+        b.addEventListener("click", () => { v.density = d.id; dg.querySelectorAll(".sp-chip").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); if (cur === 0) cur = Math.min(1, v.slides.length - 1); draw(false); });
         dg.appendChild(b);
       });
       wrap.appendChild(dg);
@@ -2292,7 +2613,7 @@ const SanadStore = (function(){
       let m = x.match(/^([^:：]{2,40})[:：]\s*(.+)$/) || x.match(/^(.{2,40}?)\s(?:هو|هي|تعني|يعني)\s(.+)$/);
       return m ? norm(m[1]) + " | " + cutWords(norm(m[2]), 110) : norm(x);
     }), h0: "المفهوم", h1: "التعريف" };
-    if (chunk.length >= 3 && chunk.some((x) => /(بينما|في المقابل|بخلاف|الفرق بين|مقارنة|أما\s)/.test(x))) return { l: "compare", items: chunk.slice(0, 8).map((x) => cutWords(norm(x), 110)) };
+    if (chunk.length >= 3 && chunk.some((x) => /(بينما|في المقابل|بخلاف|الفرق بين|مقارنة|أما\s)/.test(x))) return { l: "comparison", items: chunk.slice(0, 8).map((x) => cutWords(norm(x), 110)) };
     return { l: "bullets", items: chunk.slice(0, 6).map((x) => cutWords(norm(x), 130)) };
   }
   function starter(t){ return ["تعريف " + t, "أهم عناصر " + t, "مثال تطبيقي"]; }
@@ -2320,11 +2641,13 @@ const SanadStore = (function(){
       out.push({ t, l: "bullets", items: starter(t) });
     }
     out.push({ t: "الخاتمة والتوصيات", l: "bullets", items: ["ملخص أبرز النقاط", "التوصيات والخطوات التالية"] });
+    if (mode === "smart" && S.length) SanadVisual.beautify(out);
     return out;
   }
   function closeSheet(){ ["spSheet", "spSheetBg"].forEach((i) => { const n = $(i); if (n) n.remove(); }); }
   function openSheet(idx, redraw){
     const v = st.vals, sl = v.slides[idx], total = v.slides.length;
+    sl.l = SanadVisual.normLayout(sl.l);
     closeSheet();
     const bg = el("div", "sp-sheet-bg"); bg.id = "spSheetBg";
     const sh = el("div", "sp-sheet"); sh.id = "spSheet"; sh.setAttribute("role", "dialog"); sh.setAttribute("aria-label", "تحرير الشريحة " + (idx + 1));
@@ -2340,9 +2663,9 @@ const SanadStore = (function(){
       b.addEventListener("click", () => { sl.l = L.id; openSheet(idx, redraw); }); lay.appendChild(b);
     });
     sh.append(hd, ti, lay);
-    if (sl.l === "compare" || sl.l === "table"){
+    if (sl.l === "comparison" || sl.l === "table" || sl.l === "quote_concept"){
       const g = el("div", "sp-grid2");
-      [["h0", sl.l === "table" ? "البند" : "الجانب الأول"], ["h1", sl.l === "table" ? "التفاصيل" : "الجانب الثاني"]].forEach((o) => {
+      (sl.l === "table" ? [["h0", "البند"], ["h1", "التفاصيل"]] : sl.l === "quote_concept" ? [["h0", "تعريف"]] : [["h0", "الجانب الأول"], ["h1", "الجانب الثاني"]]).forEach((o) => {
         const i = el("input"); i.type = "text"; i.maxLength = 40; i.value = sl[o[0]] || ""; i.placeholder = o[1]; i.setAttribute("aria-label", o[1]);
         i.addEventListener("input", () => { sl[o[0]] = i.value; }); g.appendChild(i);
       });
@@ -2383,42 +2706,82 @@ const SanadStore = (function(){
   function liveBar(){ const b = el("div", "sp-livebar"); b.setAttribute("data-sp-live", "1"); b.setAttribute("aria-live", "polite"); fillLive(b); return b; }
   function refreshLive(){ document.querySelectorAll("#spModal [data-sp-live]").forEach(fillLive); }
 
-  function drawStage(stage, view){
-    const v = st.vals, title = clean(v.title) || "عنوان العرض";
-    stage.dataset.tpl = v.template; stage.dataset.anim = v.animation;
-    stage.replaceChildren(el("i", "sp-st-deco"));
-    if (view === "cover"){
-      const c = el("div", "sp-st-cover");
-      c.append(el("div", "sp-st-title", title), el("div", "sp-st-rule"), el("div", "sp-st-sub", clean(v.course_name) || "جامعة العلوم والتكنولوجيا"));
+  function drawStage(stage, idx){
+    const v = st.vals, V = SanadVisual, T = V.resolve(v.template, v.customTheme), slides = v.slides || [];
+    const sl = slides[idx] || { t: "عنوان الشريحة", l: "bullets", items: [] }, cover = idx === 0, bg = cover ? T.coverBg : T.bg;
+    const vars = { bg, pri: T.primary, sec: T.secondary, ac: T.accent, card: T.cardBg, tx: T.text, head: T.head, onpri: T.onPrimary, onac: T.onAccent, oncover: T.onCover,
+      line: T.line, zebra: T.zebra, muted: T.muted, soft1: V.mix(T.primary, bg, cover ? 0.75 : 0.86), soft2: V.mix(T.accent, bg, cover ? 0.7 : 0.8) };
+    Object.keys(vars).forEach((k) => stage.style.setProperty("--m-" + k, "#" + vars[k]));
+    const qbg = T.dark ? T.cardBg : T.primary; stage.style.setProperty("--m-qbg", "#" + qbg); stage.style.setProperty("--m-qfg", "#" + V.on(qbg));
+    stage.classList.add("sp-v2"); stage.dataset.tpl = "v2"; stage.dataset.anim = v.animation; stage.dataset.decor = T.decorStyle;
+    const deco = el("i", "sp-st-deco"); deco.dataset.d = T.decorStyle; deco.dataset.c = cover ? "1" : "0";
+    stage.replaceChildren(deco);
+    const title = clean(v.title) || "عنوان العرض";
+    if (cover){
+      const c = el("div", "sp-m-cover");
+      c.append(el("div", "sp-m-ct", clean(sl.t) || title), el("div", "sp-m-rule"), el("div", "sp-m-cs", clean(v.course_name) || clean(v.goal) || "جامعة العلوم والتكنولوجيا"));
       stage.appendChild(c); return;
     }
-    const sl = (v.slides && (v.slides[2] || v.slides[1])) || { t: "عنوان الشريحة", l: "bullets" };
-    const nb = v.density === "brief" ? 2 : v.density === "detailed" ? 5 : 3;
-    const its = (sl.items && sl.items.length) ? sl.items : PH_BULLETS;
-    stage.appendChild(el("div", "sp-st-h", clean(sl.t) || "عنوان الشريحة"));
-    if (sl.l === "compare"){
-      const cols = el("div", "sp-st-cols"), k = Math.ceil(its.length / 2);
-      [[clean(sl.h0) || "الجانب الأول", its.slice(0, k)], [clean(sl.h1) || "الجانب الثاني", its.slice(k)]].forEach((c) => {
-        const col = el("div", "sp-st-col"); col.appendChild(el("b", "", c[0]));
-        c[1].slice(0, 3).forEach((x) => col.appendChild(el("div", "", "• " + x)));
-        cols.appendChild(col);
+    const lay = V.normLayout(sl.l), nb = v.density === "brief" ? 3 : v.density === "detailed" ? 5 : 4;
+    const its = (sl.items && sl.items.length) ? sl.items : PH_BULLETS.slice(0, lay === "swot" ? 4 : 3);
+    const body = el("div", "sp-m-body"), cyc = [T.primary, T.accent, T.secondary];
+    const colored = (n, c) => { n.style.background = "#" + c; n.style.color = "#" + V.on(c); return n; };
+    if (lay === "comparison"){
+      const k = Math.ceil(its.length / 2), cols = el("div", "sp-m-cols");
+      [[clean(sl.h0) || "الجانب الأول", its.slice(0, k), T.primary], [clean(sl.h1) || "الجانب الثاني", its.slice(k), T.secondary === T.primary ? T.accent : T.secondary]].forEach((c) => {
+        const cd = el("div", "sp-m-card"), cb = el("div", "sp-m-cb"); c[1].slice(0, 4).forEach((x) => cb.appendChild(el("div", "", "• " + x)));
+        cd.append(colored(el("div", "sp-m-ch", c[0]), c[2]), cb); cols.appendChild(cd);
       });
-      stage.appendChild(cols);
-    } else if (sl.l === "table"){
-      const tb = el("table", "sp-st-tbl"), tr = el("tr");
-      tr.append(el("th", "", clean(sl.h0) || "البند"), el("th", "", clean(sl.h1) || "التفاصيل")); tb.appendChild(tr);
-      its.slice(0, 3).forEach((x) => { const c = cells(x), r = el("tr"); r.append(el("td", "", c[0]), el("td", "", c[1])); tb.appendChild(r); });
-      stage.appendChild(tb);
-    } else if (sl.l === "timeline"){
-      const fl = el("div", "sp-st-flow");
-      its.slice(0, 4).forEach((x, i) => { const c = cells(x), bx = el("span", "sp-st-box sp-st-ev"); if (i) fl.appendChild(el("span", "", "←")); if (c[1]){ bx.append(el("b", "", c[0]), el("span", "", c[1])); } else { bx.appendChild(el("span", "", c[0])); } fl.appendChild(bx); });
-      stage.appendChild(fl);
+      body.appendChild(cols);
+    } else if (lay === "table"){
+      const tb = el("table", "sp-m-tbl"), th = el("tr");
+      th.append(el("th", "", clean(sl.h0) || "البند"), el("th", "", clean(sl.h1) || "التفاصيل")); tb.appendChild(th);
+      its.slice(0, 5).forEach((x) => { const c = cells(x), r = el("tr"); r.append(el("td", "", c[0]), el("td", "", c[1])); tb.appendChild(r); });
+      body.appendChild(tb);
+    } else if (lay === "timeline"){
+      const tl = el("div", "sp-m-tl");
+      its.slice(0, 5).forEach((x, i) => {
+        const c = cells(x), stn = el("div", "sp-m-st"), c0 = i % 2 ? T.accent : T.primary;
+        stn.append(el("b", "", c[1] ? c[0] : "المرحلة " + (i + 1)), colored(el("span", "sp-m-node", String(i + 1)), c0));
+        const cd = el("div", "sp-m-card", c[1] || c[0]); stn.appendChild(cd); tl.appendChild(stn);
+      });
+      body.appendChild(tl);
+    } else if (lay === "swot"){
+      const defs = ["نقاط القوة", "نقاط الضعف", "الفرص", "التهديدات"], cols = [T.primary, T.secondary === T.primary ? V.mix(T.primary, "FFFFFF", 0.3) : T.secondary, T.accent, V.mix(T.primary, "000000", 0.35)];
+      const g = el("div", "sp-m-swot");
+      for (let i = 0; i < 4; i++){
+        const raw = its[i] || "", c = (raw.indexOf("|") >= 0 || /[:：]/.test(raw)) ? cells(raw) : [defs[i], raw];
+        const cd = el("div", "sp-m-card"); cd.append(colored(el("div", "sp-m-ch", c[0] || defs[i]), cols[i]), el("div", "sp-m-cb", c[1] || "—")); g.appendChild(cd);
+      }
+      body.appendChild(g);
+    } else if (lay === "kpi_stats"){
+      const g = el("div", "sp-m-kpis");
+      its.slice(0, 4).forEach((x, i) => {
+        const c = cells(V.kpiLine(x)), k = el("div", "sp-m-kpi"), col = cyc[i % 3]; k.style.borderTopColor = "#" + col;
+        const num = el("div", "sp-m-kn", c[0]); num.style.color = "#" + (T.dark ? T.accent : col);
+        k.append(num, el("div", "sp-m-kd", c[1])); g.appendChild(k);
+      });
+      body.appendChild(g);
+    } else if (lay === "quote_concept"){
+      const q = el("div", "sp-m-quote"), main = its[0] || "", extra = its.slice(1).join(" — ");
+      q.append(el("small", "sp-m-ql", clean(sl.h0) || "تعريف"), el("span", "sp-m-qm", main));
+      if (extra) q.appendChild(el("small", "sp-m-qx", extra));
+      q.appendChild(el("i", "sp-m-qg", "”")); body.appendChild(q);
+    } else if (lay === "process_pyramid"){
+      const g = el("div", "sp-m-pyr"), arr = its.slice(0, 4), n = arr.length;
+      arr.forEach((x, i) => {
+        const c = V.mix(T.accent, T.primary, n === 1 ? 0 : i / (n - 1)), ly = colored(el("div", "sp-m-ly", x), c);
+        ly.style.width = (n === 1 ? 92 : 36 + i * (56 / (n - 1))) + "%"; g.appendChild(ly);
+      });
+      body.appendChild(g);
     } else {
-      const ul = el("ul", "sp-st-ul");
-      for (let i = 0; i < Math.min(nb, its.length); i++) ul.appendChild(el("li", "", its[i]));
-      stage.appendChild(ul);
+      its.slice(0, nb).forEach((x, i) => {
+        const c = cyc[i % 3], r = el("div", "sp-m-row"); r.style.borderRightColor = "#" + c;
+        r.append(colored(el("span", "sp-m-bn", String(i + 1)), c), el("span", "", x)); body.appendChild(r);
+      });
     }
-    stage.appendChild(el("div", "sp-st-foot", title));
+    const foot = el("div", "sp-m-foot"); foot.append(el("span", "", "سَنَد · SANAD"), colored(el("span", "sp-m-n", String(idx + 1)), T.accent));
+    stage.append(el("div", "sp-m-h", clean(sl.t) || "عنوان الشريحة"), body, foot);
   }
 
   /* ---------- التحقق ---------- */
@@ -2501,7 +2864,7 @@ const SanadStore = (function(){
     const v = st.vals, n = slideCount(), cost = currentCost();
     const t = tplById(v.template) || {}, a = ANIMS.find((x) => x.id === v.animation) || {}, dn = DENSITIES.find((x) => x.id === v.density) || {};
     return {
-      template: v.template, template_label: t.name || "", animation: v.animation, animation_label: a.name || "",
+      template: v.template, template_label: t.name || "", custom_theme: v.template === "custom" ? (v.customTheme || null) : undefined, animation: v.animation, animation_label: a.name || "",
       density: v.density, density_label: dn.name || "", speaker_notes: !!v.speaker_notes, include_references: !!v.references,
       price_per_slide: PRICE_PER_SLIDE, addons_gems: (v.speaker_notes ? ADDON_NOTES : 0) + (v.references ? ADDON_REFS : 0),
       gem_to_yer: GEM_YER, total_gems: cost, total_yer: cost * GEM_YER, slides_total: n
@@ -2695,7 +3058,7 @@ const SanadStore = (function(){
   function pptSpec(){
     const v = st.vals;
     return { title: clean(v.title), subtitle: clean(v.course_name) || clean(v.goal), audience: clean(v.audience),
-      slides: JSON.parse(JSON.stringify(v.slides)), template: v.template, speaker_notes: !!v.speaker_notes, references: !!v.references,
+      slides: JSON.parse(JSON.stringify(v.slides)), template: v.template, customTheme: v.template === "custom" ? (v.customTheme || null) : null, speaker_notes: !!v.speaker_notes, references: !!v.references,
       course_name: clean(v.course_name), source_name: clean(v.source_name) };
   }
   async function buildFile(d){
