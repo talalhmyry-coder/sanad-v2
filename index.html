@@ -576,6 +576,62 @@
   .sp-swc input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
   .sp-swc small{position:relative;font-size:.62rem;background:rgba(0,0,0,.55);color:#fff;width:100%;text-align:center;padding:1px 0;pointer-events:none}
 </style>
+<style id="sanad-governance-css">
+/* SANAD Governance UI — كل الأصناف بادئتها .sg- (عزل تام) */
+.sg-bar,.sg-overlay,.sg-sheet-back,.sg-toast{--sg-bg:#0F172A;--sg-deep:#01192C;--sg-card:#1E293B;--sg-line:rgba(148,163,184,.22);--sg-gold:#D4AF37;--sg-em:#059669;--sg-em2:#009886;--sg-red:#DC2626;--sg-amber:#F59E0B;--sg-tx:#F1F5F9;--sg-mute:#94A3B8;font-family:'Tajawal',system-ui,sans-serif;direction:rtl;box-sizing:border-box;color:var(--sg-tx)}
+.sg-bar *,.sg-overlay *,.sg-sheet-back *,.sg-toast{box-sizing:border-box}
+.sg-num,.sg-code{font-family:'Montserrat','Tajawal',sans-serif;direction:ltr;unicode-bidi:isolate}
+.sg-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:56px;padding:8px 14px;margin:0;background:rgba(15,23,42,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1.5px solid var(--sg-gold);border-radius:14px;cursor:pointer;width:calc(100% - 20px);margin:8px 10px;font-size:13.5px;font-weight:700;text-align:right}
+.sg-bar.sg-amb{border-color:var(--sg-em)}
+.sg-bar-t{flex:1;line-height:1.5}
+.sg-badge{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 9px;border-radius:13px;font-size:12px;font-weight:700;background:var(--sg-gold);color:#0F172A;white-space:nowrap}
+.sg-badge.sg-em{background:var(--sg-em);color:#fff}.sg-badge.sg-red{background:var(--sg-red);color:#fff}.sg-badge.sg-amber{background:var(--sg-amber);color:#0F172A}.sg-badge.sg-mute{background:#334155;color:var(--sg-tx)}
+.sg-overlay{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;background:var(--sg-bg);overflow:hidden}
+.sg-top{display:flex;align-items:center;gap:8px;min-height:56px;padding:8px 12px;background:var(--sg-deep);border-bottom:1px solid var(--sg-gold)}
+.sg-overlay.sg-amb .sg-top{border-bottom-color:var(--sg-em)}
+.sg-top h2{flex:1;margin:0;font-size:15px;font-weight:800;line-height:1.4}
+.sg-tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;background:var(--sg-deep);border-bottom:1px solid var(--sg-line);scrollbar-width:none}
+.sg-body{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch}
+.sg-foot{padding:10px 12px;background:var(--sg-deep);border-top:1px solid var(--sg-line);display:flex;gap:8px}
+.sg-btn,.sg-chip,.sg-tab{min-height:44px;border-radius:12px;border:1px solid var(--sg-line);background:var(--sg-card);color:var(--sg-tx);font:700 13px 'Tajawal',sans-serif;padding:0 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-align:center}
+.sg-tab{flex:0 0 auto;border-radius:22px;white-space:nowrap}
+.sg-tab.sg-on,.sg-chip.sg-on{background:var(--sg-gold);color:#0F172A;border-color:var(--sg-gold)}
+.sg-amb .sg-tab.sg-on,.sg-amb .sg-chip.sg-on{background:var(--sg-em);color:#fff;border-color:var(--sg-em)}
+.sg-btn.sg-gold{background:var(--sg-gold);color:#0F172A;border-color:var(--sg-gold)}
+.sg-btn.sg-em{background:var(--sg-em);color:#fff;border-color:var(--sg-em)}
+.sg-btn.sg-red{background:transparent;color:#FCA5A5;border-color:var(--sg-red)}
+.sg-btn.sg-wide{width:100%}.sg-btn.sg-flex{flex:1}
+.sg-btn[disabled],.sg-chip[disabled]{opacity:.45;cursor:not-allowed}
+.sg-card{background:var(--sg-card);border:1px solid var(--sg-line);border-radius:14px;padding:12px;margin-bottom:10px}
+.sg-card h3{margin:0 0 6px;font-size:14px;font-weight:800}
+.sg-card p,.sg-muted{margin:4px 0;font-size:12.5px;line-height:1.7;color:var(--sg-mute)}
+.sg-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sg-row.sg-between{justify-content:space-between}
+.sg-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.sg-label{display:block;margin:10px 0 4px;font-size:12.5px;font-weight:700;color:var(--sg-mute)}
+.sg-in{width:100%;min-height:44px;border-radius:10px;border:1px solid var(--sg-line);background:var(--sg-deep);color:var(--sg-tx);padding:8px 10px;font:500 14px 'Tajawal',sans-serif}
+textarea.sg-in{min-height:96px;resize:vertical}
+.sg-note{background:rgba(220,38,38,.14);border:1px solid rgba(220,38,38,.5);border-radius:10px;padding:8px 10px;margin:8px 0;font-size:12.5px;line-height:1.7;white-space:pre-wrap}
+.sg-pre{white-space:pre-wrap;line-height:1.9;font-size:13.5px;background:var(--sg-deep);border-radius:10px;padding:10px;border:1px solid var(--sg-line)}
+.sg-rich h3,.sg-rich h4{margin:10px 0 4px}.sg-rich{line-height:1.9;font-size:14px}
+.sg-dot{width:8px;height:8px;border-radius:50%;background:#64748B;display:inline-block}.sg-dot.sg-ready{background:#22C55E}
+.sg-sheet-back{position:fixed;inset:0;z-index:9500;background:rgba(1,10,20,.65);display:flex;align-items:flex-end}
+.sg-sheet{width:100%;max-height:92vh;overflow-y:auto;background:var(--sg-bg);border-top:2px solid var(--sg-gold);border-radius:20px 20px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom,0px))}
+.sg-sheet h3{margin:0 0 8px;font-size:15px;font-weight:800}
+.sg-flip{perspective:600px;min-height:92px;cursor:pointer}
+.sg-flip>div{min-height:92px;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;border-radius:12px;background:var(--sg-deep);border:1px dashed var(--sg-gold);line-height:1.8}
+.sg-flip.sg-back>div{border-color:var(--sg-em);background:#052E2B}
+.sg-ok{color:#4ADE80}.sg-warn{color:var(--sg-amber)}.sg-bad{color:#F87171}
+.sg-link{background:none;border:0;padding:12px 4px;min-height:44px;color:var(--sg-mute);font:600 13px 'Tajawal',sans-serif;text-decoration:underline;cursor:pointer}
+.sg-toast{position:fixed;z-index:9900;bottom:84px;left:50%;transform:translateX(-50%);max-width:90%;padding:11px 16px;border-radius:12px;background:#0B3B2E;border:1px solid var(--sg-em);font-size:13px;font-weight:700;text-align:center}
+.sg-toast.sg-err{background:#450A0A;border-color:var(--sg-red)}
+.sg-spin{text-align:center;padding:24px;color:var(--sg-mute);font-size:13px}
+.sg-bigcode{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--sg-gold);text-align:center;padding:10px}
+details.sg-more{margin-top:10px}details.sg-more summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-size:13px;font-weight:700;color:var(--sg-mute)}
+.sg-check{display:flex;gap:10px;align-items:flex-start;min-height:44px;padding:8px 0;font-size:13px;line-height:1.6}
+.sg-check input{width:22px;height:22px;flex:0 0 auto;accent-color:var(--sg-em)}
+@media (prefers-reduced-motion:no-preference){.sg-sheet{animation:sgup .22s ease-out}@keyframes sgup{from{transform:translateY(40px);opacity:.4}}}
+</style>
 </head>
 <body>
 
@@ -3307,6 +3363,462 @@ const SanadStore = (function(){
     document.body.appendChild(o); document.body.style.overflow = "hidden";
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
+})();
+</script>
+<script id="sanad-governance-js">
+/* SANAD Governance UI — وحدة الحوكمة والسفراء (المرحلة 3A). كائن عام وحيد: window.SanadGovernanceUI */
+(function () {
+  'use strict';
+  if (window.SanadGovernanceUI) return;
+  var EP = 'https://sanad3-n8n.app.n8n.cloud/webhook/sanad-v1-governance';
+  var cfg = {}, me = null, bar = null, ov = null, stack = [], backHooked = false, wasVisible = false;
+  var st = { tab: null, dash: null, sel: {}, filter: 'ALL', queue: null, open: null, dtab: 0, atype: 'DOCTOR_ABSENCE', loading: false };
+
+  /* ---------- أدوات ---------- */
+  function h(t, c, x, p) {
+    var e = document.createElement(t); if (c) e.className = c; if (x !== null && x !== undefined) e.textContent = x;
+    if (p) Object.keys(p).forEach(function (k) { if (k === 'on') Object.keys(p.on).forEach(function (ev) { e.addEventListener(ev, p.on[ev]); }); else e.setAttribute(k, p[k]); });
+    return e;
+  }
+  function add(p) { for (var i = 1; i < arguments.length; i++) if (arguments[i]) p.appendChild(arguments[i]); return p; }
+  function clear(e) { while (e.firstChild) e.removeChild(e.firstChild); return e; }
+  function num(x) { var s = h('span', 'sg-num', x); return s; }
+  var OKT = { B: 1, I: 1, U: 1, BR: 1, P: 1, UL: 1, OL: 1, LI: 1, H3: 1, H4: 1 };
+  function clean(html) {
+    var d = new DOMParser().parseFromString('<body>' + String(html || ''), 'text/html'), out = document.createDocumentFragment();
+    (function w(n, to) {
+      Array.prototype.forEach.call(n.childNodes, function (c) {
+        if (c.nodeType === 3) to.appendChild(document.createTextNode(c.nodeValue));
+        else if (c.nodeType === 1) { var tn = c.tagName; if (tn === 'SCRIPT' || tn === 'STYLE') return; if (OKT[tn]) { var e = document.createElement(tn); to.appendChild(e); w(c, e); } else w(c, to); }
+      });
+    })(d.body, out);
+    return out;
+  }
+  function tid() { if (cfg.getTelegramId) return cfg.getTelegramId(); var u = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user; return u ? u.id : ''; }
+  function tuser() { if (cfg.getTelegramUsername) return cfg.getTelegramUsername(); var u = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user; return u && u.username ? u.username : ''; }
+  function api(action, data) {
+    var body = Object.assign({ action: action, telegram_id: String(tid()) }, data || {});
+    if (cfg.transport) return cfg.transport(body);
+    return fetch(cfg.endpoint || EP, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Telegram-Init-Data': (cfg.getInitData ? cfg.getInitData() : ((window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) || '')) }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); }).catch(function () { return { ok: false, error: 'NETWORK', message_ar: 'تعذّر الاتصال بالخادم. تحقّق من الإنترنت وأعد المحاولة.' }; });
+  }
+  function fmt(x) { if (!x) return ''; var d = new Date(x); if (isNaN(d)) return String(x); try { return d.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }); } catch (e) { return String(x); } }
+  function toast(msg, bad) { var t = h('div', 'sg-toast' + (bad ? ' sg-err' : ''), msg); document.body.appendChild(t); setTimeout(function () { t.remove(); }, 3600); }
+  function copy(txt) {
+    var done = function () { toast('تم نسخ الكود'); };
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(txt).then(done, function () { fallback(); });
+    fallback();
+    function fallback() { var a = h('textarea', null, txt); a.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); done(); } catch (e) { toast('تعذّر النسخ', true); } a.remove(); }
+  }
+  function busy(btn, fn) { if (btn.disabled) return; btn.disabled = true; Promise.resolve(fn()).then(function () { btn.disabled = false; }, function () { btn.disabled = false; }); }
+  function btn(label, cls, fn) { var b = h('button', 'sg-btn ' + (cls || ''), label, { type: 'button' }); b.addEventListener('click', function () { busy(b, function () { return fn(b); }); }); return b; }
+  function chips(parent, opts, sel, pick) {
+    var w = h('div', 'sg-chips');
+    opts.forEach(function (o) { var c = h('button', 'sg-chip' + (o.v === sel ? ' sg-on' : ''), o.l, { type: 'button' }); if (o.d) c.disabled = true; if (o.sub !== undefined) add(c, h('span', 'sg-num', o.sub)); c.addEventListener('click', function () { pick(o.v); }); w.appendChild(c); });
+    parent.appendChild(w); return w;
+  }
+  function field(parent, label, type, ph, val) { parent.appendChild(h('label', 'sg-label', label)); var i = h(type === 'textarea' ? 'textarea' : 'input', 'sg-in', null, type === 'textarea' ? {} : { type: type }); if (ph) i.setAttribute('placeholder', ph); if (val) i.value = val; parent.appendChild(i); return i; }
+  function errMsg(r) { return (r && r.message_ar) || 'حدث خطأ غير متوقع.'; }
+
+  /* ---------- النوافذ السفلية ---------- */
+  function sheet(title, build) {
+    var back = h('div', 'sg-sheet-back'), s = h('div', 'sg-sheet'), api2 = { el: s, close: function () { back.remove(); var i = stack.indexOf(api2); if (i > -1) stack.splice(i, 1); } };
+    back.addEventListener('click', function (e) { if (e.target === back) api2.close(); });
+    s.appendChild(h('h3', null, title)); build(s, api2); back.appendChild(s); document.body.appendChild(back); stack.push(api2); return api2;
+  }
+  function confirmBox(title, msg, okLabel, onOk, danger) {
+    sheet(title, function (s, sh) {
+      add(s, h('p', 'sg-muted', msg));
+      var row = h('div', 'sg-row');
+      add(row, btn(okLabel, (danger ? 'sg-red' : 'sg-em') + ' sg-flex', function () { sh.close(); return onOk(); }), btn('تراجع', 'sg-flex', function () { sh.close(); }));
+      s.appendChild(row);
+    });
+  }
+
+  /* ---------- زر تيليجرام الخلفي ---------- */
+  function onBack() { if (stack.length) return stack[stack.length - 1].close(); if (st.open) { st.open = null; return renderRoom(); } closeRoom(); }
+  function hookBack(on) {
+    var b = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.BackButton; if (!b) return;
+    try {
+      if (on && !backHooked) { wasVisible = !!b.isVisible; b.onClick(onBack); b.show(); backHooked = true; }
+      else if (!on && backHooked) { b.offClick(onBack); if (!wasVisible) b.hide(); backHooked = false; }
+    } catch (e) { /* لا نكسر المعالجات الأخرى */ }
+  }
+
+  /* ---------- الشريط القيادي ---------- */
+  function mountBar() {
+    if (bar) return;
+    bar = h('div', 'sg-bar', null, { role: 'button', tabindex: '0' }); bar.style.display = 'none';
+    bar.addEventListener('click', openRoom);
+    var host = document.querySelector(cfg.headerSelector || 'header');
+    if (host && host.parentNode) host.parentNode.insertBefore(bar, host.nextSibling); else document.body.insertBefore(bar, document.body.firstChild);
+  }
+  function refresh() {
+    mountBar();
+    return api('auth-role', {}).then(function (r) {
+      me = (r && r.ok && r.authorized) ? r : null; clear(bar);
+      if (!me) { bar.style.display = 'none'; return me; }
+      var admin = me.role === 'ADMIN', c = me.counters || {};
+      bar.className = 'sg-bar' + (admin ? '' : ' sg-amb'); bar.style.display = 'flex';
+      add(bar, h('div', 'sg-bar-t', admin ? '🏛️ بوابة إدارة وخدمات سَنَد — غرفة القيادة المركزية' : '🛡️ بوابة إدارة وخدمات سَنَد — غرفة السفير (' + me.seat_code + ')'));
+      var wrap = h('div', 'sg-row');
+      if (admin) { add(wrap, h('span', 'sg-badge', 'محاضرات: ' + (c.pending_lectures || 0)), h('span', 'sg-badge sg-red', 'تأهيل: ' + (c.qualification_requests || 0))); }
+      else if (me.status === 'PENDING_QUALIFICATION') add(wrap, h('span', 'sg-badge sg-amber', 'بانتظار التأهيل'));
+      else if (me.can_review_qa) add(wrap, h('span', 'sg-badge sg-em', 'معلّقة: ' + (c.pending_lectures || 0)));
+      bar.appendChild(wrap); return me;
+    });
+  }
+
+  /* ---------- الغرفة ---------- */
+  function openRoom() {
+    if (!me || ov) return;
+    var admin = me.role === 'ADMIN';
+    ov = h('div', 'sg-overlay' + (admin ? '' : ' sg-amb'), null, { dir: 'rtl' });
+    document.body.appendChild(ov); hookBack(true);
+    st = { tab: null, dash: null, sel: {}, filter: 'ALL', queue: null, open: null, dtab: 0, atype: 'DOCTOR_ABSENCE', loading: false };
+    if (admin) { st.tab = 'maestro'; loadDash(); }
+    else if (me.status === 'PENDING_QUALIFICATION') { if (me.can_review_qa) loadQueue(); }
+    else { st.tab = me.can_review_qa ? 'qa' : 'alerts'; if (me.can_review_qa) loadQueue(); }
+    renderRoom();
+  }
+  function closeRoom() { while (stack.length) stack[stack.length - 1].close(); if (ov) { ov.remove(); ov = null; } hookBack(false); refresh(); }
+  function tabsFor() {
+    if (me.role === 'ADMIN') return [['maestro', '🚀 المايسترو والإنتاج'], ['radar', '📡 رادار الحوكمة (SLA)'], ['seats', '👥 السفراء والمقاعد']];
+    if (me.status !== 'ACTIVE') return [];
+    var t = []; if (me.can_review_qa) t.push(['qa', '📋 غرفة المراجعة (QA Gate)']); if (me.can_send_alerts) t.push(['alerts', '📢 إشعارات الشعبة']); return t;
+  }
+  function renderRoom() {
+    if (!ov) return; clear(ov);
+    var top = h('div', 'sg-top');
+    add(top, h('h2', null, me.role === 'ADMIN' ? '🏛️ غرفة القيادة المركزية' : '🛡️ غرفة سفير سَنَد'), btn('→ رجوع للمنصة', '', function () { if (st.open) { st.open = null; renderRoom(); } else closeRoom(); }));
+    ov.appendChild(top);
+    var tabs = tabsFor();
+    if (tabs.length && !st.open) {
+      var nav = h('div', 'sg-tabs'); tabs.forEach(function (t) { var b = h('button', 'sg-tab' + (st.tab === t[0] ? ' sg-on' : ''), t[1], { type: 'button' }); b.addEventListener('click', function () { st.tab = t[0]; if (t[0] === 'qa' && !st.queue) loadQueue(); renderRoom(); }); nav.appendChild(b); }); ov.appendChild(nav);
+    }
+    var body = h('div', 'sg-body'); ov.appendChild(body);
+    if (me.role === 'ADMIN') { if (!st.dash) return add(body, h('div', 'sg-spin', 'جارٍ التحميل…')); ({ maestro: tabMaestro, radar: tabRadar, seats: tabSeats })[st.tab](body); }
+    else ambRoom(body);
+  }
+
+  /* ---------- ADMIN: تحميل ---------- */
+  function loadDash(course) {
+    return api('admin-get-dashboard', course ? { course_code: course } : (st.sel.c ? { course_code: st.sel.c } : {})).then(function (r) {
+      if (!r.ok) { toast(errMsg(r), true); return; }
+      if (course && st.sel.c !== course) r.course_card = null; st.dash = r; renderRoom();
+    });
+  }
+  function sel(a, k) { return a.filter(function (x) { return x[k[0]] === k[1]; })[0]; }
+
+  /* ---------- ADMIN: المايسترو ---------- */
+  var PROGS = [['ACC', 'المحاسبة'], ['MGT', 'إدارة الأعمال'], ['INT', 'إدارة الأعمال الدولية']], LVLS = [['L1', 'المستوى الأول'], ['L2', 'المستوى الثاني'], ['L3', 'المستوى الثالث'], ['L4', 'المستوى الرابع']], TERMS = [['T1', 'الفصل الدراسي الأول'], ['T2', 'الفصل الدراسي الثاني']];
+  function termCourses(p, l, t) {
+    var P = sel(st.dash.courses_tree || [], ['program_code', p]), L = P && sel(P.levels || [], ['level_code', l]), T = L && sel(L.terms || [], ['term_code', t]);
+    return (T && T.courses) || [];
+  }
+  function resetCourse() { st.sel.c = null; if (st.dash) st.dash.course_card = null; }
+  function step(body, key, label) { var d = h('div', 'sg-step', null, { 'data-step': key }); d.appendChild(h('span', 'sg-label', label)); body.appendChild(d); return d; }
+  function tabMaestro(body) {
+    var s = st.sel;
+    add(body, h('p', 'sg-muted', 'اختر المقرر خطوة بخطوة، وتتحدّث الخطوات اللاحقة لحظياً.'));
+    var d1 = step(body, 'pg', '١) البرنامج');
+    chips(d1, PROGS.map(function (x) { return { v: x[0], l: x[0] + ' — ' + x[1] }; }), s.p, function (v) { st.sel = { p: v }; if (st.dash) st.dash.course_card = null; st.reveal = 'lv'; renderRoom(); });
+    if (s.p) {
+      var d2 = step(body, 'lv', '٢) المستوى');
+      chips(d2, LVLS.map(function (x) { return { v: x[0], l: x[0] + ' — ' + x[1] }; }), s.l, function (v) { st.sel = { p: s.p, l: v }; if (st.dash) st.dash.course_card = null; st.reveal = 'tm'; renderRoom(); });
+    }
+    if (s.p && s.l) {
+      var d3 = step(body, 'tm', '٣) الفصل الدراسي');
+      chips(d3, TERMS.map(function (x) { return { v: x[0], l: x[0] + ' — ' + x[1] + ' (' + termCourses(s.p, s.l, x[0]).length + ' مقرر)' }; }), s.t, function (v) { st.sel = { p: s.p, l: s.l, t: v }; if (st.dash) st.dash.course_card = null; st.reveal = 'cr'; renderRoom(); });
+    }
+    if (s.p && s.l && s.t) {
+      var d4 = step(body, 'cr', '٤) المقرر'), list = termCourses(s.p, s.l, s.t);
+      if (!list.length) d4.appendChild(h('p', 'sg-muted', 'لا توجد مقررات مسجّلة لهذا الفصل في هذا المستوى بعد'));
+      else chips(d4, list.map(function (c) { return { v: c.course_code, l: c.course_name, sub: ' ' + c.lectures_active + ' / ' + c.lectures_total }; }), s.c, function (v) { s.c = v; st.dash.course_card = null; st.reveal = 'cd'; renderRoom(); loadDash(v); });
+    }
+    if (s.c) {
+      var d5 = h('div', 'sg-step', null, { 'data-step': 'cd' }), cc = st.dash.course_card; body.appendChild(d5);
+      if (!cc) d5.appendChild(h('div', 'sg-spin', 'جارٍ تحميل بطاقة المقرر…')); else if (cc.course_code === s.c) courseCard(d5, cc);
+    }
+    if (st.reveal) { var key = st.reveal, el = body.querySelector('[data-step="' + key + '"]'); st.reveal = null; if (el) setTimeout(function () { try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { el.scrollIntoView(); } }, 60); }
+  }
+  function courseCard(body, cc) {
+    var tk = cc.task_card || {}, c1 = h('div', 'sg-card'); c1.appendChild(h('h3', null, '📄 آخر بطاقة تكليف صادرة'));
+    if (tk.has_task_card) { add(c1, h('p', null, tk.name), h('p', 'sg-muted', fmt(tk.date)), tk.summary ? h('p', null, tk.summary) : null); if (/^https?:\/\//.test(tk.url || '')) add(c1, h('a', 'sg-btn sg-wide', 'فتح في Drive', { href: tk.url, target: '_blank', rel: 'noopener' })); }
+    else c1.appendChild(h('p', null, tk.message_ar || 'لا توجد بطاقة تكليف سابقة في المجلد بعد'));
+    var lc = cc.last_completed, c2 = h('div', 'sg-card'); add(c2, h('h3', null, '✅ آخر ما أُنجز'), h('p', null, lc ? lc.unit_title + ' — ' + lc.title : 'لم تُنجز محاضرات بعد'));
+    var pl = cc.pipeline || {}, c3 = h('div', 'sg-card'); add(c3, h('h3', null, '⚙️ حالة خط الإنتاج'), h('p', null, (pl.status_code === 'READY' ? '🟢 ' : '🟡 ') + (pl.status_ar || '')));
+    var np = cc.next_proposal || {}, c4 = h('div', 'sg-card'); c4.appendChild(h('h3', null, '🎯 المقترح التالي'));
+    if (np.target_lecture) {
+      add(c4, h('span', 'sg-badge ' + (np.kind === 'UNIT_EXAM' ? 'sg-amber' : 'sg-em'), np.kind === 'UNIT_EXAM' ? 'اختبار نهاية وحدة' : 'محاضرة'), h('p', null, np.title), h('p', 'sg-muted sg-code', np.target_lecture));
+    } else c4.appendChild(h('p', null, np.message_ar || 'لا يوجد مقترح حالياً.'));
+    var go = btn('🚀 موافق — اعتمد المقترح التالي وأطلق المايسترو', 'sg-gold sg-wide', function () { return trigger(cc.course_code, np.target_lecture, 'PROPOSED'); }); if (!np.can_trigger) go.disabled = true; c4.appendChild(go);
+    var d = h('details', 'sg-more'); d.appendChild(h('summary', null, 'أو تحديد محاضرة معينة يدوياً'));
+    var inp = field(d, 'رمز المحاضرة', 'text', 'مثال: CAH-ACC-101-U2-L04'); inp.classList.add('sg-code');
+    d.appendChild(h('div', null)); d.appendChild(btn('إصدار أمر الإنتاج', 'sg-em sg-wide', function () { var v = inp.value.trim(); if (!v) { toast('أدخل رمز المحاضرة أولاً', true); return; } return trigger(cc.course_code, v, 'MANUAL'); }));
+    c4.appendChild(d); add(body, c1, c2, c3, c4);
+  }
+  function trigger(course, target, mode) {
+    return api('admin-trigger-maestro', { course_code: course, target_lecture: target, mode: mode }).then(function (r) {
+      if (!r.ok) return toast(errMsg(r), true);
+      sheet('✅ أُطلق المايسترو', function (s, sh) { add(s, h('p', 'sg-muted', 'رقم الأمر:'), h('div', 'sg-bigcode sg-num', r.command_id), h('p', 'sg-muted', 'المحاضرة: ' + r.target_lecture), btn('حسناً', 'sg-em sg-wide', function () { sh.close(); })); });
+      return loadDash(course);
+    });
+  }
+
+  /* ---------- ADMIN: الرادار ---------- */
+  function courseScope(code) {
+    var out = []; (st.dash.courses_tree || []).forEach(function (p) { (p.levels || []).forEach(function (l) { (l.terms || []).forEach(function (t) { (t.courses || []).forEach(function (c) { if (c.course_code === code) out.push({ p: p.program_code, l: l.level_code }); }); }); }); }); return out;
+  }
+  function tabRadar(body) {
+    var R = st.dash.governance_radar || { items: [], summary: {} }, sm = R.summary || {}, rev = R.items.filter(function (i) { return i.status === 'REVISION_REQUESTED'; }).length;
+    var tot = R.items.length;
+    var F = [['ALL', 'الكل (' + tot + ')'], ['GREEN', '🟢 نشيط (' + (sm.GREEN || 0) + ')'], ['YELLOW', '🟡 بطيء +24س (' + (sm.YELLOW || 0) + ')'], ['RED', '🔴 خامل +48س (' + (sm.RED || 0) + ')'], ['REV', '✏️ مُرجع للتعديل (' + rev + ')']];
+    var bar2 = h('div', 'sg-tabs'); bar2.style.margin = '-12px -12px 10px';
+    F.forEach(function (f) { var b = h('button', 'sg-tab' + (st.filter === f[0] ? ' sg-on' : ''), f[1], { type: 'button' }); b.addEventListener('click', function () { st.filter = f[0]; renderRoom(); }); bar2.appendChild(b); }); body.appendChild(bar2);
+    var items = R.items.filter(function (i) { return st.filter === 'ALL' || (st.filter === 'REV' ? i.status === 'REVISION_REQUESTED' : i.sla === st.filter); });
+    if (!items.length) return body.appendChild(h('div', 'sg-spin', 'لا توجد أوامر ضمن هذا الفلتر.'));
+    var SC = { GREEN: 'sg-em', YELLOW: 'sg-amber', RED: 'sg-red', UNKNOWN: 'sg-mute' }, STL = { QUEUED: 'في الطابور', IN_PRODUCTION: 'قيد الإنتاج', PENDING_REVIEW: 'بانتظار المراجعة', REVISION_REQUESTED: 'مُرجَع للتعديل' };
+    items.forEach(function (i) {
+      var c = h('div', 'sg-card'), top = h('div', 'sg-row sg-between');
+      add(top, h('h3', null, i.lecture_title || i.target_lecture), h('span', 'sg-badge ' + SC[i.sla], (i.hours_elapsed === null ? '—' : Math.round(i.hours_elapsed) + ' س') + ' · ' + i.sla_label_ar));
+      add(c, top, h('p', 'sg-muted sg-code', i.course_code + ' / ' + i.target_lecture), h('p', null, 'حالة الأمر: ' + (STL[i.status] || i.status)));
+      var who = i.locked_by_reviewer_id ? 'قافل المحاضرة: ' + i.locked_by_reviewer_id : (i.assigned_reviewer_name ? 'المراجع المسند: ' + i.assigned_reviewer_name : 'لا يوجد مراجع مسند');
+      add(c, h('p', null, who + ' — مرات الإرجاع: ' + i.returns_count));
+      if (i.last_return_note) { var n = h('div', 'sg-note'); add(n, h('div', null, i.last_return_note), h('div', 'sg-muted sg-num', fmt(i.last_return_at))); c.appendChild(n); }
+      var rid = i.locked_by_reviewer_id || i.assigned_reviewer_id, row = h('div', 'sg-row'), rb = btn('🔔 تذكير', 'sg-flex', function () { return manage({ sub_action: 'remind_reviewer', reviewer_id: rid, lecture_code: i.target_lecture }, 'تم إرسال التذكير'); });
+      if (!rid) { rb.disabled = true; rb.title = 'أسند المحاضرة لمراجع أولاً'; }
+      add(row, rb,
+        btn('🔄 تحويل لمراجع', 'sg-flex', function () { reassignSheet(i); }),
+        btn('✅ اعتماد مباشر', 'sg-gold sg-flex', function () { confirmBox('اعتماد مباشر', 'ستُنشر المحاضرة «' + (i.lecture_title || i.target_lecture) + '» فوراً للطلاب دون مراجعة سفير. هل أنت متأكد؟', 'نعم، اعتمد وانشر', function () { return manage({ sub_action: 'direct_approve', lesson_code: i.target_lecture, course_code: i.course_code }, 'تم الاعتماد والنشر'); }); }));
+      c.appendChild(row); if (!rid) c.appendChild(h('p', 'sg-muted', 'أسند المحاضرة لمراجع أولاً')); body.appendChild(c);
+    });
+  }
+  function manage(data, okMsg) {
+    return api('admin-manage-ambassador', data).then(function (r) { if (!r.ok) { toast(errMsg(r), true); return r; } if (okMsg) toast(okMsg); return loadDash().then(function () { return r; }); });
+  }
+  function reassignSheet(i) {
+    var sc = courseScope(i.course_code), seats = ((st.dash.ambassadors || {}).seats || []).filter(function (s) { return s.status === 'ACTIVE' && s.can_review_qa && (!sc.length || sc.some(function (x) { return (s.program === x.p || s.program === 'ALL') && s.level === x.l; })); });
+    sheet('🔄 تحويل المحاضرة إلى مراجع', function (s, sh) {
+      if (!seats.length) return s.appendChild(h('p', 'sg-muted', 'لا يوجد سفراء مفعّلون بصلاحية المراجعة ضمن نطاق هذا المقرر.'));
+      seats.forEach(function (x) { var c = h('div', 'sg-card'); add(c, h('h3', null, x.full_name || x.reviewer_id), h('p', 'sg-muted sg-code', x.reviewer_id + ' · شعبة ' + (x.group_code || '—')), btn('تحويل إليه', 'sg-em sg-wide', function () { return manage({ sub_action: 'reassign_lecture', command_id: i.command_id, new_reviewer_id: x.reviewer_id }, 'تم التحويل').then(function (r) { if (r && r.ok) sh.close(); }); })); s.appendChild(c); });
+    });
+  }
+
+  /* ---------- ADMIN: السفراء والمقاعد ---------- */
+  function tabSeats(body) {
+    body.appendChild(btn('➕ إضافة سفير جديد', 'sg-gold sg-wide', addSeatSheet));
+    var A = st.dash.ambassadors || {}, pq = A.pending_qualification || [], seats = A.seats || [];
+    body.appendChild(h('h3', null, 'طلبات بانتظار التأهيل والتفعيل (' + pq.length + ')')).style.margin = '16px 0 8px';
+    if (!pq.length) body.appendChild(h('p', 'sg-muted', 'لا توجد طلبات حالياً.'));
+    pq.forEach(function (p) {
+      var c = h('div', 'sg-card');
+      add(c, h('h3', null, p.full_name), h('p', null, 'الرقم الجامعي: ' + p.university_id + ' · واتساب: ' + p.whatsapp_number), h('p', null, 'البريد: ' + p.email + (p.telegram_username ? ' · @' + String(p.telegram_username).replace(/^@+/, '') : '')), h('p', 'sg-muted sg-code', p.reviewer_id + ' · ' + p.program + '-' + p.level + (p.group_code ? '-' + p.group_code : '')));
+      if (p.has_qa_gate === false) c.appendChild(h('span', 'sg-badge sg-amber', 'إشعارات الشعبة فقط — قابل للتفعيل المباشر'));
+      var row = h('div', 'sg-row'); row.style.marginTop = '8px';
+      add(row, btn('✅ تفعيل', 'sg-em sg-flex', function () { return manage({ sub_action: 'activate', reviewer_id: p.reviewer_id }, 'تم تفعيل السفير'); }), btn('❌ رفض', 'sg-red sg-flex', function () { confirmBox('رفض الطلب', 'سيعود المقعد ' + p.reviewer_id + ' شاغراً وتُمسح بيانات المرشح.', 'نعم، ارفض', function () { return manage({ sub_action: 'reject_or_revoke', reviewer_id: p.reviewer_id }, 'تم الرفض'); }, true); }));
+      c.appendChild(row); body.appendChild(c);
+    });
+    body.appendChild(h('h3', null, 'سجل المقاعد (' + seats.length + ')')).style.margin = '16px 0 8px';
+    var SB = { VACANT: ['شاغر', 'sg-mute'], INVITED: ['مدعو', 'sg-amber'], ACTIVE: ['نشط', 'sg-em'], SUSPENDED: ['موقوف', 'sg-red'], PENDING_QUALIFICATION: ['بانتظار التأهيل', 'sg-amber'] };
+    seats.forEach(function (x) {
+      var c = h('div', 'sg-card'), top = h('div', 'sg-row sg-between'), b = SB[x.status] || [x.status, 'sg-mute'];
+      add(top, h('h3', 'sg-code', x.reviewer_id), h('span', 'sg-badge ' + b[1], b[0])); add(c, top, h('p', null, x.program + ' · ' + x.level + ' · شعبة ' + (x.group_code || '—') + (x.full_name ? ' · ' + x.full_name : '')));
+      if (x.status === 'ACTIVE') c.appendChild(h('p', 'sg-muted', 'متوسط الاستجابة: ' + x.avg_response_hours + ' س · عدد المراجعات: ' + x.total_reviewed));
+      var row = h('div', 'sg-row');
+      if (x.status === 'INVITED' && x.invite_code) { add(row, h('span', 'sg-code sg-badge sg-mute', x.invite_code), btn('📋 نسخ الكود', '', function () { copy(x.invite_code); }), btn('❌ إلغاء الكود', 'sg-red', function () { return manage({ sub_action: 'reject_or_revoke', reviewer_id: x.reviewer_id }, 'أُلغي الكود'); })); }
+      if (x.status === 'VACANT') row.appendChild(btn('🔑 توليد كود دعوة', 'sg-em', function () { return manage({ sub_action: 'generate_invite', reviewer_id: x.reviewer_id }).then(function (r) { if (r && r.ok) inviteCard(r); }); }));
+      if (x.status === 'ACTIVE') row.appendChild(btn('⏸️ تعليق الصلاحية', 'sg-red', function () { confirmBox('تعليق الصلاحية', 'سيُعلَّق المقعد ' + x.reviewer_id + '.', 'نعم، علّق', function () { return manage({ sub_action: 'suspend', reviewer_id: x.reviewer_id }).then(function (r) { if (r && r.ok) { toast('تم التعليق'); lockedAlert(r.locked_lectures); } }); }, true); }));
+      c.appendChild(row); body.appendChild(c);
+    });
+  }
+  function lockedAlert(list) {
+    if (!list || !list.length) return;
+    sheet('⚠️ محاضرات مقفلة باسم السفير الموقوف', function (s, sh) {
+      s.appendChild(h('p', 'sg-muted', 'حوّلها إلى مراجع آخر من «رادار الحوكمة»:'));
+      list.forEach(function (x) { s.appendChild(h('div', 'sg-note sg-code', typeof x === 'object' ? (x.lecture_title || x.lesson_code || x.target_lecture || x.command_id || '') : String(x))); });
+      s.appendChild(btn('فهمت', 'sg-em sg-wide', function () { sh.close(); }));
+    });
+  }
+  function inviteCard(r) {
+    sheet('🔑 كود الدعوة', function (s, sh) {
+      add(s, h('p', 'sg-muted', 'رمز المقعد:'), h('div', 'sg-bigcode sg-num', r.reviewer_id), h('p', 'sg-muted', 'كود الدعوة (لمرة واحدة):'), h('div', 'sg-bigcode sg-num', r.invite_code), h('p', 'sg-muted', 'صالح حتى: ' + fmt(r.invite_expires_at) + ' (72 ساعة)'),
+        btn('📋 نسخ الكود', 'sg-gold sg-wide', function () { copy(r.invite_code); }), btn('إغلاق', 'sg-wide', function () { sh.close(); }));
+    });
+  }
+  function addSeatSheet() {
+    var f = { program: 'ACC', level: 'L1', group_code: 'A', qa: true, al: true };
+    sheet('➕ إضافة سفير جديد', function (s) {
+      function draw() {
+        clear(s); s.appendChild(h('h3', null, '➕ إضافة سفير جديد'));
+        s.appendChild(h('span', 'sg-label', 'التخصص'));
+        chips(s, [['ACC', 'المحاسبة'], ['MGT', 'إدارة الأعمال'], ['INT', 'الأعمال الدولية'], ['ALL', 'ALL']].map(function (x) { return { v: x[0], l: x[1] }; }), f.program, function (v) { f.program = v; if (v === 'ALL') f.level = 'L1'; draw(); });
+        if (f.program === 'ALL') s.appendChild(h('p', 'sg-muted', 'التخصص ALL مخصص للمستوى الأول (L1) فقط، وقد ثُبّت المستوى تلقائياً.'));
+        s.appendChild(h('span', 'sg-label', 'المستوى'));
+        chips(s, ['L1', 'L2', 'L3', 'L4'].map(function (x) { return { v: x, l: x, d: f.program === 'ALL' && x !== 'L1' }; }), f.level, function (v) { f.level = v; draw(); });
+        s.appendChild(h('span', 'sg-label', 'الشعبة / المجموعة'));
+        chips(s, ['A', 'B', 'C', 'ALL'].map(function (x) { return { v: x, l: x }; }), f.group_code, function (v) { f.group_code = v; draw(); });
+        [['qa', 'صلاحية مراجعة واعتماد المحاضرات (QA Gate)'], ['al', 'صلاحية إشعارات الشعبة']].forEach(function (k) {
+          var l = h('label', 'sg-check'), i = h('input', null, null, { type: 'checkbox' }); i.checked = f[k[0]]; i.addEventListener('change', function () { f[k[0]] = i.checked; }); add(l, i, h('span', null, k[1])); s.appendChild(l);
+        });
+        s.appendChild(btn('🔑 حفظ المقعد وتوليد كود دعوة لمرة واحدة', 'sg-gold sg-wide', function () {
+          return api('admin-manage-ambassador', { sub_action: 'add_seat', program: f.program, level: f.level, group_code: f.group_code, can_review_qa: f.qa, can_send_alerts: f.al }).then(function (r) {
+            if (!r.ok) return toast(errMsg(r), true);
+            stack.slice().forEach(function (x) { x.close(); }); inviteCard(r); return loadDash();
+          });
+        }));
+      }
+      draw();
+    });
+  }
+
+  /* ---------- السفير ---------- */
+  function loadQueue() { return api('ambassador-get-queue', {}).then(function (r) { st.queue = r; renderRoom(); }); }
+  function calm(body, title, msg) { add(body, add(h('div', 'sg-card'), h('h3', null, title), h('p', null, msg))); }
+  function ambRoom(body) {
+    if (me.status === 'PENDING_QUALIFICATION') {
+      if (!me.can_review_qa) return calm(body, '⏳ تم استلام تسجيلك', 'سجّلتَ بياناتك بنجاح، وبانتظار التفعيل المباشر من رئيس مجلس الإدارة. سيصلك إشعار فور التفعيل.');
+      var q = st.queue; if (!q) return body.appendChild(h('div', 'sg-spin', 'جارٍ التحميل…')); if (!q.ok) return calm(body, 'تعذّر التحميل', errMsg(q));
+      return qualification(body, q.sandbox || {});
+    }
+    if (st.open) return detail(body);
+    if (!tabsFor().length) return calm(body, 'لا توجد صلاحيات فعّالة', 'لم تُمنح بعد صلاحية مراجعة أو إشعارات. تواصل مع رئيس مجلس الإدارة.');
+    if (st.tab === 'qa') qaList(body); else alertsTab(body);
+  }
+  function qualification(body, sb) {
+    var c = h('div', 'sg-card'); add(c, h('h3', null, '🎓 مسار التأهيل الإلزامي'), h('p', null, sb.instructions_ar || ''));
+    body.appendChild(c);
+    var r = h('div', 'sg-card'); r.appendChild(h('h3', null, 'الدليل: معايير التقييم الخمسة'));
+    (sb.rubric || []).forEach(function (x) { add(r, h('p', null, x.id + '. ' + x.title + ' — ' + x.check)); }); body.appendChild(r);
+    var m = h('div', 'sg-card'); add(m, h('h3', null, sb.title || 'المحاضرة الاختبارية'), h('div', 'sg-pre', sb.body_ar || '')); body.appendChild(m);
+    body.appendChild(btn('✏️ إرجاع للتعديل — إرسال ملاحظات التأهيل', 'sg-gold sg-wide', function () {
+      rejectSheet(sb.lecture_code || 'SANDBOX-QUAL-01', function (r2) { toast(r2.message_ar || 'أُرسلت ملاحظات التأهيل'); closeRoom(); });
+    }));
+  }
+  function rejectSheet(code, done) {
+    sheet('✏️ إرجاع للتعديل', function (s, sh) {
+      s.appendChild(h('p', 'sg-muted', 'اكتب الملاحظات (10 أحرف على الأقل).'));
+      var ta = field(s, 'الملاحظات', 'textarea'), cnt = h('p', 'sg-muted sg-num', '0 / 10'), go = btn('إرسال', 'sg-gold sg-wide', function () {
+        return api('ambassador-review-decision', { lesson_code: code, decision: 'REJECT', reviewer_notes: ta.value.trim() }).then(function (r) { if (!r.ok) return toast(errMsg(r), true); sh.close(); done(r); });
+      });
+      go.disabled = true; ta.addEventListener('input', function () { var n = ta.value.trim().length; cnt.textContent = n + ' / 10'; go.disabled = n < 10; }); add(s, cnt, go);
+    });
+  }
+  function qaList(body) {
+    var q = st.queue; if (!q) return body.appendChild(h('div', 'sg-spin', 'جارٍ التحميل…')); if (!q.ok) return calm(body, 'تعذّر التحميل', errMsg(q));
+    if (!q.items.length) return calm(body, '📭 لا توجد محاضرات معلّقة', 'ستظهر هنا المحاضرات المرسلة للمراجعة ضمن نطاقك.');
+    q.items.forEach(function (i) {
+      var c = h('div', 'sg-card'), hw = i.hours_waiting, cls = hw === null ? 'sg-mute' : hw < 24 ? 'sg-em' : hw <= 48 ? 'sg-amber' : 'sg-red';
+      var lock = i.locked_by_me ? 'مقفلة باسمك' : i.is_locked ? 'استلمها: ' + (i.locked_by_name || i.locked_by_reviewer_id) : 'متاحة';
+      add(c, add(h('div', 'sg-row sg-between'), h('h3', null, i.lesson_title), h('span', 'sg-badge ' + cls, hw === null ? '—' : Math.round(hw) + ' س')), h('p', 'sg-muted', i.course_name + ' — ' + i.unit_title), h('span', 'sg-badge ' + (i.is_locked && !i.locked_by_me ? 'sg-red' : 'sg-em'), lock));
+      var row = h('div', 'sg-row'); row.style.marginTop = '8px';
+      if (i.show_claim_button) row.appendChild(btn('📥 استلام المحاضرة للمراجعة', 'sg-em sg-flex', function () { return claim(i); }));
+      row.appendChild(btn('🔍 فتح للفحص', 'sg-flex', function () { st.open = i; st.dtab = 0; renderRoom(); })); c.appendChild(row); body.appendChild(c);
+    });
+  }
+  function claim(i) {
+    return api('ambassador-claim-lecture', { lesson_code: i.lesson_code, course_code: i.course_code }).then(function (r) {
+      if (!r.ok) { toast(r.error === 'ALREADY_LOCKED' ? 'سبقك مراجع آخر: ' + (r.locked_by_name || '') : errMsg(r), true); return loadQueue(); }
+      toast('تم استلام المحاضرة'); return loadQueue();
+    });
+  }
+  function pick(o, ks) { for (var i = 0; i < ks.length; i++) if (o && o[ks[i]] !== undefined && o[ks[i]] !== null) return o[ks[i]]; return ''; }
+  function rawBox(d) { return h('div', 'sg-pre', typeof d.content === 'string' ? d.content : ''); }
+  function derivative(d) {
+    var w = h('div', 'sg-card'); if (d.status !== 'READY') return add(w, h('p', 'sg-muted', 'لم يُرفع هذا المشتق بعد.'));
+    var c = d.content;
+    if (d.key === 'Detailed_Article_HTML') { var r = h('div', 'sg-rich'); r.appendChild(clean(c)); return add(w, r); }
+    if (d.key === 'Mindmap_Text') return add(w, h('div', 'sg-pre', c));
+    if (d.key === 'Flashcards_JSON') {
+      if (d.parse_error || typeof c === 'string') return add(w, h('p', 'sg-warn', 'تعذّر تحليل البيانات — عرض النص الخام:'), h('div', 'sg-pre', typeof c === 'string' ? c : ''));
+      (Array.isArray(c) ? c : (c && c.cards) || []).forEach(function (k) { var f = h('div', 'sg-flip', null), face = h('div', null, String(pick(k, ['front', 'term', 'q', 'question']))); f.appendChild(face); var on = false; f.addEventListener('click', function () { on = !on; f.classList.toggle('sg-back', on); face.textContent = String(on ? pick(k, ['back', 'definition', 'a', 'answer']) : pick(k, ['front', 'term', 'q', 'question'])); }); f.style.marginBottom = '8px'; w.appendChild(f); });
+      return add(w, h('p', 'sg-muted', 'المس البطاقة لقلبها.'));
+    }
+    if (d.key === 'Quiz_Data_JSON') {
+      if (d.parse_error || typeof c === 'string') return add(w, h('p', 'sg-warn', 'تعذّر تحليل البيانات — عرض النص الخام:'), h('div', 'sg-pre', typeof c === 'string' ? c : ''));
+      (Array.isArray(c) ? c : (c && c.questions) || []).forEach(function (q, n) {
+        var b = h('div', 'sg-card'); b.appendChild(h('h3', null, (n + 1) + '. ' + pick(q, ['q', 'question']))); var ans = pick(q, ['answer', 'correct', 'correct_answer']), ops = pick(q, ['options', 'choices']) || [];
+        ops.forEach(function (o, ix) { var ok = ans === ix || String(ans) === String(o); b.appendChild(h('p', ok ? 'sg-ok' : null, (ok ? '✓ ' : '○ ') + o)); }); w.appendChild(b);
+      }); return w;
+    }
+    var u = String(c || ''), safe = /^https?:\/\//i.test(u);
+    if (!safe) return add(w, h('p', 'sg-muted', 'الرابط غير صالح.'));
+    if (d.key === 'Podcast_URL') w.appendChild(h('audio', null, null, { controls: 'controls', src: u, preload: 'none', style: 'width:100%' }));
+    else w.appendChild(h('video', null, null, { controls: 'controls', src: u, preload: 'none', style: 'width:100%;border-radius:10px' }));
+    return add(w, h('a', 'sg-btn sg-wide', 'فتح الرابط', { href: u, target: '_blank', rel: 'noopener', style: 'margin-top:8px' }));
+  }
+  function detail(body) {
+    var i = st.open, ds = i.derivatives || [], nav = h('div', 'sg-tabs'); nav.style.margin = '-12px -12px 10px';
+    ds.forEach(function (d, n) { var b = h('button', 'sg-tab' + (st.dtab === n ? ' sg-on' : ''), null, { type: 'button' }); add(b, h('span', 'sg-dot' + (d.status === 'READY' ? ' sg-ready' : '')), h('span', null, ' ' + d.label_ar)); b.addEventListener('click', function () { st.dtab = n; renderRoom(); }); nav.appendChild(b); });
+    add(body, h('h3', null, i.lesson_title), nav, ds[st.dtab] ? derivative(ds[st.dtab]) : null);
+    var locked = i.is_locked && !i.locked_by_me, foot = h('div', 'sg-foot');
+    var ok = btn('✅ اعتماد ونشر المحاضرة', 'sg-em sg-flex', function () { confirmBox('اعتماد ونشر', 'ستُنشر «' + i.lesson_title + '» للطلاب فوراً. هل أنت متأكد؟', 'نعم، اعتمد', function () { return api('ambassador-review-decision', { lesson_code: i.lesson_code, decision: 'APPROVE', reviewer_notes: '' }).then(function (r) { if (!r.ok) return toast(errMsg(r), true); toast('تم الاعتماد والنشر'); st.open = null; return loadQueue().then(refresh); }); }); });
+    var no = btn('✏️ إرجاع للتعديل', 'sg-red sg-flex', function () { rejectSheet(i.lesson_code, function () { toast('أُرجعت للتعديل'); st.open = null; loadQueue().then(refresh); }); });
+    if (locked) { ok.disabled = true; no.disabled = true; } add(foot, ok, no);
+    ov.appendChild(foot);
+  }
+
+  /* ---------- إشعارات الشعبة ---------- */
+  function alertsTab(body) {
+    add(body, h('span', 'sg-badge sg-em', 'نطاق البث: ' + me.program + ' · ' + me.level + ' · شعبة ' + (me.group_code || 'الكل')));
+    var wrap = h('div', 'sg-chips'); wrap.style.marginTop = '10px';
+    [['DOCTOR_ABSENCE', '🚫 إلغاء محاضرة لغياب الدكتور'], ['MAKEUP_LECTURE', '📅 إعلان محاضرة تعويضية']].forEach(function (t) { var b = h('button', 'sg-chip' + (st.atype === t[0] ? ' sg-on' : ''), t[1], { type: 'button' }); b.addEventListener('click', function () { st.atype = t[0]; renderRoom(); }); wrap.appendChild(b); }); body.appendChild(wrap);
+    var ab = st.atype === 'DOCTOR_ABSENCE', F = h('div', 'sg-card'); body.appendChild(F);
+    var course = field(F, 'رمز المقرر (اختياري)', 'text', 'CAH-ACC-101'), title = field(F, ab ? 'عنوان المحاضرة (اختياري عند تحديد المقرر)' : 'عنوان المحاضرة (إلزامي)', 'text'), date = field(F, ab ? 'التاريخ (إلزامي)' : 'تاريخ التعويض (إلزامي)', 'date'), time = field(F, ab ? 'الوقت (اختياري)' : 'الوقت (إلزامي)', 'time');
+    var extra = field(F, ab ? 'ملاحظة (اختياري)' : 'القاعة / المكان (اختياري)', 'text');
+    var pv = h('div', 'sg-pre'), go = btn('📤 بث الإشعار الآن', 'sg-gold sg-wide', send);
+    function msg() { var t = title.value.trim() || course.value.trim(); return ab ? '🚫 إشعار من سفير الشعبة\nتم إلغاء محاضرة ' + t + (date.value ? ' بتاريخ ' + date.value : '') + (time.value ? ' الساعة ' + time.value : '') + ' لغياب الدكتور.' + (extra.value ? '\n' + extra.value : '') : '📅 إعلان محاضرة تعويضية\nالمحاضرة: ' + t + '\nالتاريخ: ' + date.value + '\nالوقت: ' + time.value + (extra.value ? '\nالمكان: ' + extra.value : ''); }
+    function upd() { pv.textContent = msg(); var okf = ab ? (date.value && (title.value.trim() || course.value.trim())) : (title.value.trim() && date.value && time.value); go.disabled = !okf; }
+    [course, title, date, time, extra].forEach(function (e) { e.addEventListener('input', upd); }); upd();
+    add(body, h('span', 'sg-label', 'معاينة الرسالة كما ستصل للطلاب'), pv, h('div', null), go);
+    function send() {
+      var d = { alert_type: st.atype, lecture_title: title.value.trim() }; if (course.value.trim()) d.course_code = course.value.trim();
+      if (ab) { d.lecture_date = date.value; if (time.value) d.lecture_time = time.value; if (extra.value) d.notes = extra.value; } else { d.makeup_date = date.value; d.makeup_time = time.value; if (extra.value) d.location = extra.value; }
+      return api('ambassador-send-alert', d).then(function (r) { if (!r.ok) return toast(errMsg(r), true); sheet('📤 تم البث', function (s, sh) { add(s, h('p', null, 'عدد الطلاب المستهدفين: ' + r.recipients_count), h('div', 'sg-pre', r.message_preview || ''), btn('حسناً', 'sg-em sg-wide', function () { sh.close(); })); }); });
+    }
+  }
+
+  /* ---------- تفعيل حساب سفير ---------- */
+  function openRegister() {
+    sheet('🔑 تفعيل حساب سفير سَنَد', function (s, sh) {
+      var code = field(s, 'كود الدعوة', 'text', 'SND-XXXX-NN'), name = field(s, 'الاسم الرباعي', 'text'), uid = field(s, 'الرقم الجامعي', 'text'), wa = field(s, 'رقم الواتساب', 'tel'), em = field(s, 'البريد الإلكتروني', 'email');
+      code.classList.add('sg-code'); wa.setAttribute('inputmode', 'tel'); em.setAttribute('dir', 'ltr');
+      var l = h('label', 'sg-check'), pl = h('input', null, null, { type: 'checkbox' }); add(l, pl, h('span', null, 'أُقرّ بالتزامي بـ «ميثاق الأمانة العلمية والسرية».')); s.appendChild(l);
+      var go = btn('إرسال طلب التفعيل', 'sg-em sg-wide', function () {
+        return api('ambassador-register', { telegram_username: tuser(), invite_code: code.value.trim().toUpperCase(), full_name: name.value.trim(), university_id: uid.value.trim(), whatsapp_number: wa.value.trim(), email: em.value.trim(), pledge_accepted: pl.checked === true }).then(function (r) {
+          if (!r.ok) return toast(errMsg(r), true);
+          sh.close(); sheet('✅ تم استلام تسجيلك', function (s2, sh2) { add(s2, h('p', null, r.message_ar || ''), btn('حسناً', 'sg-em sg-wide', function () { sh2.close(); refresh(); })); });
+        });
+      });
+      function chk() { go.disabled = !(pl.checked && code.value.trim() && name.value.trim() && uid.value.trim() && wa.value.trim() && em.value.trim()); }
+      [code, name, uid, wa, em, pl].forEach(function (e) { e.addEventListener('input', chk); e.addEventListener('change', chk); }); chk(); s.appendChild(go);
+    });
+  }
+  function mountRegisterLink(container) {
+    var b = h('button', 'sg-link', '🔑 هل لديك كود دعوة سفير؟ فعّل حسابك هنا', { type: 'button' }); b.style.fontFamily = "'Tajawal',sans-serif"; b.addEventListener('click', openRegister); container.appendChild(b); return b;
+  }
+
+  window.SanadGovernanceUI = { init: function (o) { cfg = o || {}; return refresh(); }, refresh: refresh, openRoom: openRoom, closeRoom: closeRoom, openRegister: openRegister, mountRegisterLink: mountRegisterLink };
+})();
+</script>
+<script id="sanad-governance-boot">
+(function () {
+  function boot() {
+    try {
+      if (!window.SanadGovernanceUI) return;
+      var p = window.SanadGovernanceUI.init({ headerSelector: 'header' });
+      if (p && typeof p.catch === 'function') p.catch(function (e) { console.error('governance init', e); });
+      var msg = document.getElementById('profile-msg');
+      if (msg && !document.getElementById('sg-profile-footer')) {
+        var box = document.createElement('div');
+        box.id = 'sg-profile-footer';
+        box.style.marginTop = '12px';
+        msg.insertAdjacentElement('afterend', box);
+        window.SanadGovernanceUI.mountRegisterLink(box);
+      }
+    } catch (e) { console.error('governance boot', e); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
 </body>
