@@ -1390,8 +1390,8 @@ function mediaView(v, url, kind){
     box.appendChild(f);
   } else if (kind === "video" && /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(u)){
     const p = el("video"); p.controls = true; p.setAttribute("playsinline", ""); p.preload = "metadata"; p.src = u; box.appendChild(p);
-  } else if (kind === "audio" && /\.(mp3|m4a|wav|ogg|aac)(\?|#|$)/i.test(u)){
-    const p = el("audio"); p.controls = true; p.preload = "metadata"; p.src = u; box.appendChild(p);
+  } else if (kind === "audio"){
+    const p = el("audio"); p.controls = true; p.preload = "metadata"; p.style.width = "100%"; p.src = u; box.appendChild(p);
   }
   const a = el("a", "pill outline small mlink", extLabel || (kind === "audio" ? "فتح البودكاست في نافذة خارجية ↗" : "فتح الفيديو في نافذة خارجية ↗"));
   a.href = extUrl; a.target = "_blank"; a.rel = "noopener noreferrer";
@@ -3739,10 +3739,16 @@ const SanadStore = (function(){
       go.disabled = true; ta.addEventListener('input', function () { var n = ta.value.trim().length; cnt.textContent = n + ' / 10'; go.disabled = n < 10; }); add(s, cnt, go);
     });
   }
-  var LBL = { Detailed_Article_HTML: 'الشرح الأكاديمي المفصّل', Mindmap_Text: 'الخريطة الذهنية', Flashcards_JSON: 'البطاقات التعليمية', Quiz_Data_JSON: 'الاختبار التدريبي', Audio_URL: 'البودكاست الصوتي', Podcast_Script_JSON: 'سيناريو البودكاست', Podcast_URL: 'رابط البودكاست', Video_URL: 'الفيديو' };
+  var LBL = { Detailed_Article_HTML: 'الشرح الأكاديمي المفصّل', Mindmap_Text: 'الخريطة الذهنية', Flashcards_JSON: 'البطاقات التعليمية', Quiz_Data_JSON: 'الاختبار التدريبي', Audio_URL: '🎧 البودكاست الصوتي', Podcast_Script_JSON: 'سيناريو البودكاست', Podcast_URL: '🎧 البودكاست الصوتي', Video_URL: 'الفيديو' };
   var WARN = { Detailed_Article_HTML: '⚠️ الشرح الأكاديمي المفصّل فارغ حالياً — لا يُنصح بالاعتماد قبل إصلاحه', Audio_URL: '⚠️ ملف البودكاست الصوتي الفعلي لم يُولَّد بعد', Podcast_URL: '⚠️ ملف البودكاست الصوتي الفعلي لم يُولَّد بعد' };
   function dName(d) { return LBL[d.key] || d.label_ar || d.key; }
-  function visDs(i) { return (i.derivatives || []).filter(function (d) { return d.key !== 'Video_URL' || (d.status === 'READY' && !isEmpty(d.content)); }); }
+  function visDs(i) {
+    var l = (i.derivatives || []).filter(function (d) { return d.key !== 'Video_URL' || (d.status === 'READY' && !isEmpty(d.content)); });
+    var a = null, p = null; l.forEach(function (d) { if (d.key === 'Audio_URL') a = d; else if (d.key === 'Podcast_URL') p = d; });
+    function ok(d) { return !!d && d.status === 'READY' && !isEmpty(d.content); }
+    var pick = ok(a) ? a : ok(p) ? p : (a || p);
+    return l.filter(function (d) { return (d.key !== 'Audio_URL' && d.key !== 'Podcast_URL') || d === pick; });
+  }
   function coreDs(i) { return visDs(i); }
   function missingDs(i) { return coreDs(i).filter(function (d) { return d.status !== 'READY'; }); }
   function loadQueue() { return api('ambassador-get-queue', {}).then(function (r) { st.queue = r; renderRoom(); }); }
@@ -3801,6 +3807,15 @@ const SanadStore = (function(){
     u = String(u || ''); var m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
     if (!m && /(?:^|\/\/)(?:drive|docs)\.google\.com|drive\.usercontent\.google\.com/.test(u)) m = u.match(/[?&]id=([\w-]+)/);
     return m ? m[1] : null;
+  }
+  function copyText(t) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(t).catch(function () { return legacyCopy(t); });
+    return legacyCopy(t);
+  }
+  function legacyCopy(t) {
+    return new Promise(function (res, rej) {
+      try { var x = document.createElement('textarea'); x.value = t; x.setAttribute('readonly', ''); x.style.cssText = 'position:fixed;top:0;opacity:0'; document.body.appendChild(x); x.select(); var ok = document.execCommand('copy'); document.body.removeChild(x); ok ? res() : rej(); } catch (e) { rej(e); }
+    });
   }
   function openExt(url) { var t = window.Telegram && window.Telegram.WebApp; if (t && typeof t.openLink === 'function') t.openLink(url); else window.open(url, '_blank', 'noopener'); }
   function mmParse(text) {
@@ -3891,16 +3906,15 @@ const SanadStore = (function(){
     var u = String(c || '').trim();
     if (!/^https?:\/\//i.test(u)) return add(w, WARN[key] ? h('div', 'sg-note', WARN[key]) : h('p', 'sg-muted', 'الرابط غير صالح.'));
     if (key === 'Audio_URL' || key === 'Podcast_URL') {
-      var gid = driveId(u);
-      if (gid) {
-        w.appendChild(h('iframe', null, null, { src: 'https://drive.google.com/file/d/' + gid + '/preview', allow: 'autoplay', loading: 'lazy', style: 'width:100%;height:110px;border:0;border-radius:12px;background:#0B192C' }));
-        var gb = h('button', 'sg-btn sg-wide', '🎧 فتح في Drive / المتصفح', { type: 'button', style: 'margin-top:8px' });
-        gb.addEventListener('click', function () { openExt('https://drive.google.com/file/d/' + gid + '/view'); });
-        return add(w, gb);
-      }
-      w.appendChild(h('audio', null, null, { controls: 'controls', preload: 'none', src: u }));
+      if (driveId(u)) w.appendChild(h('div', 'sg-note', 'ℹ️ هذا رابط أرشفة Drive قديم ويُفتح خارجياً (المعاينة المدمجة تُظهر خطأ 400 على الويب).'));
+      else w.appendChild(h('audio', null, null, { controls: 'controls', preload: 'metadata', src: u, style: 'width:100%;margin:8px 0' }));
+      var ub = h('div', 'sg-pre', u, { dir: 'ltr', style: 'word-break:break-all;text-align:left;margin:8px 0' });
+      var cb = h('button', 'sg-btn sg-flex', '📋 نسخ الرابط', { type: 'button' }), ob = h('button', 'sg-btn sg-gold sg-flex', '🔗 فتح في نافذة مستقلة', { type: 'button' }), br = h('div', 'sg-row');
+      cb.addEventListener('click', function () { copyText(u).then(function () { toast('تم نسخ الرابط'); }, function () { toast('تعذّر النسخ — انسخ الرابط يدوياً', true); }); });
+      ob.addEventListener('click', function () { openExt(u); });
+      add(br, cb, ob); return add(w, ub, br);
     }
-    else w.appendChild(h('video', null, null, { controls: 'controls', src: u, preload: 'none', style: 'width:100%;border-radius:10px' }));
+    w.appendChild(h('video', null, null, { controls: 'controls', src: u, preload: 'none', style: 'width:100%;border-radius:10px' }));
     return add(w, h('a', 'sg-btn sg-wide', 'فتح في نافذة مستقلة', { href: u, target: '_blank', rel: 'noopener', style: 'margin-top:8px' }));
   }
   function detail(body) {
