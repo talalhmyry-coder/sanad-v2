@@ -613,6 +613,19 @@
 textarea.sg-in{min-height:96px;resize:vertical}
 .sg-note{background:rgba(220,38,38,.14);border:1px solid rgba(220,38,38,.5);border-radius:10px;padding:8px 10px;margin:8px 0;font-size:12.5px;line-height:1.7;white-space:pre-wrap}
 .sg-pre{white-space:pre-wrap;line-height:1.9;font-size:13.5px;background:var(--sg-deep);border-radius:10px;padding:10px;border:1px solid var(--sg-line)}
+.sg-mm-tools{display:flex;gap:8px;margin-bottom:10px}.sg-mm-tools .sg-btn{flex:1;min-height:44px}
+.sg-mm ul{list-style:none;margin:0;padding:0 18px 0 0;border-right:2px solid rgba(212,175,55,.65)}
+.sg-mm>ul{border:0;padding:0}
+.sg-mm li{margin:8px 0}
+.sg-mm li.sg-hk:not(.sg-open)>ul{display:none}
+.sg-mm-node{display:inline-flex;align-items:center;gap:8px;max-width:100%;min-height:40px;box-sizing:border-box;text-align:right;direction:rtl;background:var(--sg-deep);color:var(--sg-tx);border:1.5px solid var(--sg-em);border-radius:12px;padding:7px 12px;font:600 13.5px/1.6 'Tajawal',sans-serif;overflow-wrap:anywhere}
+button.sg-mm-node{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button.sg-mm-node:active{transform:scale(.98)}
+.sg-mm-node.sg-leaf{border-style:dashed;border-color:var(--sg-line);font-weight:500}
+.sg-mm>ul>li>.sg-mm-node{background:#0F2A4A;border-color:var(--sg-gold);color:#fff;font-weight:800}
+.sg-mm-caret{flex:none;color:var(--sg-gold);font-size:.9rem;transition:transform .2s}
+.sg-mm li.sg-open>.sg-mm-node .sg-mm-caret{transform:rotate(-90deg)}
+.sg-mm-kc{flex:none;min-width:22px;padding:0 7px;border-radius:999px;background:var(--sg-gold);color:#0F172A;font-size:.74rem;font-weight:800;line-height:1.7;text-align:center}
 .sg-rich h1,.sg-rich h2,.sg-rich h3,.sg-rich h4,.sg-rich h5,.sg-rich h6{margin:12px 0 6px;line-height:1.5;font-weight:800}.sg-rich h1{font-size:19px}.sg-rich h2{font-size:17px}.sg-rich h3{font-size:15.5px}.sg-rich h4,.sg-rich h5,.sg-rich h6{font-size:14px}.sg-rich{line-height:1.9;font-size:14px;overflow-wrap:anywhere}
 .sg-rich blockquote{margin:8px 0;padding:6px 12px;border-right:3px solid var(--sg-gold);background:var(--sg-deep);border-radius:8px;color:var(--sg-mute)}
 .sg-rich table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:8px 0;-webkit-overflow-scrolling:touch}
@@ -1363,11 +1376,12 @@ function mediaView(v, url, kind){
   const u = String(url || "").trim();
   if (!/^https?:\/\//i.test(u)) return pending(v);
   const box = el("div", "box media");
-  let m, frame = null;
+  let m, frame = null, extUrl = u, extLabel = null;
   if ((m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/))([\w-]{11})/))){
     frame = "https://www.youtube.com/embed/" + m[1];
   } else if ((m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)) || (m = u.match(/drive\.google\.com\/(?:open|uc)\?(?:[^#]*&)?id=([\w-]+)/))){
     frame = "https://drive.google.com/file/d/" + m[1] + "/preview";
+    if (kind === "audio"){ extUrl = "https://drive.google.com/file/d/" + m[1] + "/view"; extLabel = "🎧 فتح في Drive / المتصفح"; }
   }
   if (frame){
     const f = el("iframe", "mframe" + (kind === "audio" ? " audio" : ""));
@@ -1379,9 +1393,9 @@ function mediaView(v, url, kind){
   } else if (kind === "audio" && /\.(mp3|m4a|wav|ogg|aac)(\?|#|$)/i.test(u)){
     const p = el("audio"); p.controls = true; p.preload = "metadata"; p.src = u; box.appendChild(p);
   }
-  const a = el("a", "pill outline small mlink", kind === "audio" ? "فتح البودكاست في نافذة خارجية ↗" : "فتح الفيديو في نافذة خارجية ↗");
-  a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer";
-  a.addEventListener("click", (e) => { if (tg && typeof tg.openLink === "function"){ e.preventDefault(); tg.openLink(u); } });
+  const a = el("a", "pill outline small mlink", extLabel || (kind === "audio" ? "فتح البودكاست في نافذة خارجية ↗" : "فتح الفيديو في نافذة خارجية ↗"));
+  a.href = extUrl; a.target = "_blank"; a.rel = "noopener noreferrer";
+  a.addEventListener("click", (e) => { if (tg && typeof tg.openLink === "function"){ e.preventDefault(); tg.openLink(extUrl); } });
   box.appendChild(a);
   v.appendChild(box);
 }
@@ -3728,7 +3742,8 @@ const SanadStore = (function(){
   var LBL = { Detailed_Article_HTML: 'الشرح الأكاديمي المفصّل', Mindmap_Text: 'الخريطة الذهنية', Flashcards_JSON: 'البطاقات التعليمية', Quiz_Data_JSON: 'الاختبار التدريبي', Audio_URL: 'البودكاست الصوتي', Podcast_Script_JSON: 'سيناريو البودكاست', Podcast_URL: 'رابط البودكاست', Video_URL: 'الفيديو' };
   var WARN = { Detailed_Article_HTML: '⚠️ الشرح الأكاديمي المفصّل فارغ حالياً — لا يُنصح بالاعتماد قبل إصلاحه', Audio_URL: '⚠️ ملف البودكاست الصوتي الفعلي لم يُولَّد بعد', Podcast_URL: '⚠️ ملف البودكاست الصوتي الفعلي لم يُولَّد بعد' };
   function dName(d) { return LBL[d.key] || d.label_ar || d.key; }
-  function coreDs(i) { return (i.derivatives || []).filter(function (d) { return d.key !== 'Video_URL'; }); }
+  function visDs(i) { return (i.derivatives || []).filter(function (d) { return d.key !== 'Video_URL' || (d.status === 'READY' && !isEmpty(d.content)); }); }
+  function coreDs(i) { return visDs(i); }
   function missingDs(i) { return coreDs(i).filter(function (d) { return d.status !== 'READY'; }); }
   function loadQueue() { return api('ambassador-get-queue', {}).then(function (r) { st.queue = r; renderRoom(); }); }
   function afterDecision() { st.open = null; var p = [loadQueue(), refresh()]; if (me && me.role === 'ADMIN') p.push(loadDash()); return Promise.all(p); }
@@ -3782,6 +3797,45 @@ const SanadStore = (function(){
     }
     return -1;
   }
+  function driveId(u) {
+    u = String(u || ''); var m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
+    if (!m && /(?:^|\/\/)(?:drive|docs)\.google\.com|drive\.usercontent\.google\.com/.test(u)) m = u.match(/[?&]id=([\w-]+)/);
+    return m ? m[1] : null;
+  }
+  function openExt(url) { var t = window.Telegram && window.Telegram.WebApp; if (t && typeof t.openLink === 'function') t.openLink(url); else window.open(url, '_blank', 'noopener'); }
+  function mmParse(text) {
+    var root = { children: [] }, stack = [{ indent: -1, node: root }], found = false, lastH = null;
+    String(text).replace(/\r/g, '').split('\n').forEach(function (raw) {
+      if (!raw.trim() || /^\s*(```|mindmap\b)/i.test(raw)) return;
+      var hm = raw.match(/^\s*(#{1,6})\s+/), bm = raw.match(/^([ \t]*)([-*\u2022+]|\d+[.)])\s+/), indent;
+      if (hm) { found = true; indent = (hm[1].length - 1) * 4; lastH = indent; }
+      else if (bm) { found = true; indent = (lastH === null ? 0 : lastH + 2) + bm[1].replace(/\t/g, '    ').length; }
+      else indent = (lastH === null ? 0 : lastH + 2) + raw.match(/^\s*/)[0].replace(/\t/g, '    ').length;
+      var label = raw.trim().replace(/^(#{1,6}|[-*\u2022+]|\d+[.)])\s+/, '').replace(/\*\*|__/g, '').trim();
+      if (!label) return;
+      while (stack.length > 1 && stack[stack.length - 1].indent >= indent) stack.pop();
+      var node = { title: label, children: [] }; stack[stack.length - 1].node.children.push(node); stack.push({ indent: indent, node: node });
+    });
+    return found ? root.children : [];
+  }
+  function mmTree(roots) {
+    var wrap = h('div', 'sg-mm'), tools = h('div', 'sg-mm-tools'), ul = h('ul');
+    function setAll(o) { Array.prototype.forEach.call(wrap.querySelectorAll('li.sg-hk'), function (li) { li.classList.toggle('sg-open', o); li.firstChild.setAttribute('aria-expanded', String(o)); }); }
+    var ea = h('button', 'sg-btn', '\u229e توسيع الكل', { type: 'button' }), ca = h('button', 'sg-btn', '\u229f طيّ الكل', { type: 'button' });
+    ea.addEventListener('click', function () { setAll(true); }); ca.addEventListener('click', function () { setAll(false); }); add(tools, ea, ca);
+    function build(n, depth) {
+      var li = h('li'), kids = n.children || [];
+      if (kids.length) {
+        var open = depth < 2, b = h('button', 'sg-mm-node', null, { type: 'button', 'aria-expanded': String(open) });
+        li.className = 'sg-hk' + (open ? ' sg-open' : '');
+        add(b, h('span', 'sg-mm-caret', '\u25c2'), h('span', null, n.title), h('span', 'sg-mm-kc', String(kids.length)));
+        b.addEventListener('click', function () { var o = li.classList.toggle('sg-open'); b.setAttribute('aria-expanded', String(o)); });
+        li.appendChild(b); var sub = h('ul'); kids.forEach(function (k) { sub.appendChild(build(k, depth + 1)); }); li.appendChild(sub);
+      } else li.appendChild(h('span', 'sg-mm-node sg-leaf', n.title));
+      return li;
+    }
+    roots.forEach(function (n) { ul.appendChild(build(n, 0)); }); return add(wrap, tools, ul);
+  }
   function derivative(d) {
     var w = h('div', 'sg-card'), c = d.content, key = d.key;
     if (d.status !== 'READY' || isEmpty(c)) return add(w, WARN[key] ? h('div', 'sg-note', WARN[key]) : h('p', 'sg-muted', 'لم يُرفع هذا المشتق بعد.'));
@@ -3790,7 +3844,11 @@ const SanadStore = (function(){
       if (!r.textContent.trim()) return add(w, h('div', 'sg-note', WARN[key]));
       return add(w, r);
     }
-    if (key === 'Mindmap_Text') return add(w, h('div', 'sg-pre', typeof c === 'string' ? c : JSON.stringify(c, null, 2)));
+    if (key === 'Mindmap_Text') {
+      var mr = typeof c === 'string' ? mmParse(stripSp(c)) : [];
+      if (mr.length) return add(w, mmTree(mr));
+      return add(w, h('div', 'sg-pre', typeof c === 'string' ? c : JSON.stringify(c, null, 2)));
+    }
     if (key === 'Flashcards_JSON') {
       var fd = asData(c); if (fd === null || typeof fd !== 'object') return rawFallback(w, c);
       var cards = Array.isArray(fd) ? fd : (fd.cards || fd.flashcards || []);
@@ -3832,12 +3890,21 @@ const SanadStore = (function(){
     }
     var u = String(c || '').trim();
     if (!/^https?:\/\//i.test(u)) return add(w, WARN[key] ? h('div', 'sg-note', WARN[key]) : h('p', 'sg-muted', 'الرابط غير صالح.'));
-    if (key === 'Audio_URL' || key === 'Podcast_URL') w.appendChild(h('audio', null, null, { controls: 'controls', src: u, preload: 'none' }));
+    if (key === 'Audio_URL' || key === 'Podcast_URL') {
+      var gid = driveId(u);
+      if (gid) {
+        w.appendChild(h('iframe', null, null, { src: 'https://drive.google.com/file/d/' + gid + '/preview', allow: 'autoplay', loading: 'lazy', style: 'width:100%;height:110px;border:0;border-radius:12px;background:#0B192C' }));
+        var gb = h('button', 'sg-btn sg-wide', '🎧 فتح في Drive / المتصفح', { type: 'button', style: 'margin-top:8px' });
+        gb.addEventListener('click', function () { openExt('https://drive.google.com/file/d/' + gid + '/view'); });
+        return add(w, gb);
+      }
+      w.appendChild(h('audio', null, null, { controls: 'controls', preload: 'none', src: u }));
+    }
     else w.appendChild(h('video', null, null, { controls: 'controls', src: u, preload: 'none', style: 'width:100%;border-radius:10px' }));
     return add(w, h('a', 'sg-btn sg-wide', 'فتح في نافذة مستقلة', { href: u, target: '_blank', rel: 'noopener', style: 'margin-top:8px' }));
   }
   function detail(body) {
-    var i = st.open, ds = i.derivatives || [], core = coreDs(i), miss = missingDs(i), nav = h('div', 'sg-tabs'); nav.style.margin = '0 -12px 10px';
+    var i = st.open, ds = visDs(i), core = coreDs(i), miss = missingDs(i), nav = h('div', 'sg-tabs'); nav.style.margin = '0 -12px 10px';
     ds.forEach(function (d, n) { var b = h('button', 'sg-tab' + (st.dtab === n ? ' sg-on' : ''), null, { type: 'button' }); add(b, h('span', 'sg-dot' + (d.status === 'READY' ? ' sg-ready' : '')), h('span', null, ' ' + dName(d))); b.addEventListener('click', function () { st.dtab = n; renderRoom(); }); nav.appendChild(b); });
     var hc = h('div', 'sg-card');
     add(hc, h('h3', null, i.lesson_title), h('p', 'sg-muted', (i.course_name || '') + (i.unit_title ? ' — ' + i.unit_title : '')), h('p', 'sg-muted sg-code', (i.course_code ? i.course_code + ' / ' : '') + i.lesson_code));
