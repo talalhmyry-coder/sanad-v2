@@ -613,7 +613,15 @@
 textarea.sg-in{min-height:96px;resize:vertical}
 .sg-note{background:rgba(220,38,38,.14);border:1px solid rgba(220,38,38,.5);border-radius:10px;padding:8px 10px;margin:8px 0;font-size:12.5px;line-height:1.7;white-space:pre-wrap}
 .sg-pre{white-space:pre-wrap;line-height:1.9;font-size:13.5px;background:var(--sg-deep);border-radius:10px;padding:10px;border:1px solid var(--sg-line)}
-.sg-rich h3,.sg-rich h4{margin:10px 0 4px}.sg-rich{line-height:1.9;font-size:14px}
+.sg-rich h1,.sg-rich h2,.sg-rich h3,.sg-rich h4,.sg-rich h5,.sg-rich h6{margin:12px 0 6px;line-height:1.5;font-weight:800}.sg-rich h1{font-size:19px}.sg-rich h2{font-size:17px}.sg-rich h3{font-size:15.5px}.sg-rich h4,.sg-rich h5,.sg-rich h6{font-size:14px}.sg-rich{line-height:1.9;font-size:14px;overflow-wrap:anywhere}
+.sg-rich blockquote{margin:8px 0;padding:6px 12px;border-right:3px solid var(--sg-gold);background:var(--sg-deep);border-radius:8px;color:var(--sg-mute)}
+.sg-rich table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:8px 0;-webkit-overflow-scrolling:touch}
+.sg-rich th,.sg-rich td{border:1px solid var(--sg-line);padding:6px 9px;text-align:right;vertical-align:top;font-size:13px;line-height:1.7;min-width:72px}
+.sg-rich th{background:var(--sg-deep);font-weight:800;color:var(--sg-gold)}
+.sg-rich ul,.sg-rich ol{padding-right:20px;padding-left:0;margin:6px 0}
+.sg-overlay audio{display:block;width:100%;max-width:100%;direction:ltr}
+.sg-spk{display:inline-block;margin-bottom:4px;font-size:12.5px;font-weight:800;color:var(--sg-gold)}.sg-spk.sg-s2{color:#5EEAD4}
+.sg-turn{border-right:3px solid var(--sg-gold)}.sg-turn.sg-s2{border-right-color:#14B8A6}.sg-turn p{color:var(--sg-tx);margin:2px 0}
 .sg-dot{width:8px;height:8px;border-radius:50%;background:#64748B;display:inline-block}.sg-dot.sg-ready{background:#22C55E}
 .sg-sheet-back{position:fixed;inset:0;z-index:9500;background:rgba(1,10,20,.65);display:flex;align-items:flex-end}
 .sg-sheet{width:100%;max-height:92vh;overflow-y:auto;background:var(--sg-bg);border-top:2px solid var(--sg-gold);border-radius:20px 20px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom,0px))}
@@ -3383,13 +3391,13 @@ const SanadStore = (function(){
   function add(p) { for (var i = 1; i < arguments.length; i++) if (arguments[i]) p.appendChild(arguments[i]); return p; }
   function clear(e) { while (e.firstChild) e.removeChild(e.firstChild); return e; }
   function num(x) { var s = h('span', 'sg-num', x); return s; }
-  var OKT = { B: 1, I: 1, U: 1, BR: 1, P: 1, UL: 1, OL: 1, LI: 1, H3: 1, H4: 1 };
+  var OKT = { B: 1, I: 1, U: 1, BR: 1, P: 1, UL: 1, OL: 1, LI: 1, H1: 1, H2: 1, H3: 1, H4: 1, H5: 1, H6: 1, BLOCKQUOTE: 1, TABLE: 1, THEAD: 1, TBODY: 1, TR: 1, TH: 1, TD: 1 };
   function clean(html) {
     var d = new DOMParser().parseFromString('<body>' + String(html || ''), 'text/html'), out = document.createDocumentFragment();
     (function w(n, to) {
       Array.prototype.forEach.call(n.childNodes, function (c) {
         if (c.nodeType === 3) to.appendChild(document.createTextNode(c.nodeValue));
-        else if (c.nodeType === 1) { var tn = c.tagName; if (tn === 'SCRIPT' || tn === 'STYLE') return; if (OKT[tn]) { var e = document.createElement(tn); to.appendChild(e); w(c, e); } else w(c, to); }
+        else if (c.nodeType === 1) { var tn = c.tagName; if (tn === 'SCRIPT' || tn === 'STYLE' || tn === 'IFRAME') return; if (OKT[tn]) { var e = document.createElement(tn); to.appendChild(e); w(c, e); } else w(c, to); }
       });
     })(d.body, out);
     return out;
@@ -3428,7 +3436,7 @@ const SanadStore = (function(){
   }
   function confirmBox(title, msg, okLabel, onOk, danger) {
     sheet(title, function (s, sh) {
-      add(s, h('p', 'sg-muted', msg));
+      var mp = h('p', 'sg-muted', msg); mp.style.whiteSpace = 'pre-wrap'; add(s, mp);
       var row = h('div', 'sg-row');
       add(row, btn(okLabel, (danger ? 'sg-red' : 'sg-em') + ' sg-flex', function () { sh.close(); return onOk(); }), btn('تراجع', 'sg-flex', function () { sh.close(); }));
       s.appendChild(row);
@@ -3449,7 +3457,7 @@ const SanadStore = (function(){
   function mountBar() {
     if (bar) return;
     bar = h('div', 'sg-bar', null, { role: 'button', tabindex: '0' }); bar.style.display = 'none';
-    bar.addEventListener('click', openRoom);
+    bar.addEventListener('click', function () { openRoom(); });
     var host = document.querySelector(cfg.headerSelector || 'header');
     if (host && host.parentNode) host.parentNode.insertBefore(bar, host.nextSibling); else document.body.insertBefore(bar, document.body.firstChild);
   }
@@ -3462,7 +3470,12 @@ const SanadStore = (function(){
       bar.className = 'sg-bar' + (admin ? '' : ' sg-amb'); bar.style.display = 'flex';
       add(bar, h('div', 'sg-bar-t', admin ? '🏛️ بوابة إدارة وخدمات سَنَد — غرفة القيادة المركزية' : '🛡️ بوابة إدارة وخدمات سَنَد — غرفة السفير (' + me.seat_code + ')'));
       var wrap = h('div', 'sg-row');
-      if (admin) { add(wrap, h('span', 'sg-badge', 'محاضرات: ' + (c.pending_lectures || 0)), h('span', 'sg-badge sg-red', 'تأهيل: ' + (c.qualification_requests || 0))); }
+      if (admin) {
+        var b1 = h('span', 'sg-badge', 'محاضرات: ' + (c.pending_lectures || 0), { role: 'button' }), b2 = h('span', 'sg-badge sg-red', 'تأهيل: ' + (c.qualification_requests || 0), { role: 'button' });
+        b1.addEventListener('click', function (e) { e.stopPropagation(); openRoom('qa'); });
+        b2.addEventListener('click', function (e) { e.stopPropagation(); openRoom('seats'); });
+        add(wrap, b1, b2);
+      }
       else if (me.status === 'PENDING_QUALIFICATION') add(wrap, h('span', 'sg-badge sg-amber', 'بانتظار التأهيل'));
       else if (me.can_review_qa) add(wrap, h('span', 'sg-badge sg-em', 'معلّقة: ' + (c.pending_lectures || 0)));
       bar.appendChild(wrap); return me;
@@ -3470,34 +3483,37 @@ const SanadStore = (function(){
   }
 
   /* ---------- الغرفة ---------- */
-  function openRoom() {
+  function openRoom(initialTab) {
     if (!me || ov) return;
-    var admin = me.role === 'ADMIN';
+    var admin = me.role === 'ADMIN', want = typeof initialTab === 'string' ? initialTab : null;
     ov = h('div', 'sg-overlay' + (admin ? '' : ' sg-amb'), null, { dir: 'rtl' });
     document.body.appendChild(ov); hookBack(true);
     st = { tab: null, dash: null, sel: {}, filter: 'ALL', queue: null, open: null, dtab: 0, atype: 'DOCTOR_ABSENCE', loading: false };
-    if (admin) { st.tab = 'maestro'; loadDash(); }
+    if (admin) { st.tab = ['maestro', 'qa', 'radar', 'seats'].indexOf(want) > -1 ? want : 'maestro'; loadDash(); if (st.tab === 'qa') loadQueue(); }
     else if (me.status === 'PENDING_QUALIFICATION') { if (me.can_review_qa) loadQueue(); }
     else { st.tab = me.can_review_qa ? 'qa' : 'alerts'; if (me.can_review_qa) loadQueue(); }
     renderRoom();
   }
   function closeRoom() { while (stack.length) stack[stack.length - 1].close(); if (ov) { ov.remove(); ov = null; } hookBack(false); refresh(); }
   function tabsFor() {
-    if (me.role === 'ADMIN') return [['maestro', '🚀 المايسترو والإنتاج'], ['radar', '📡 رادار الحوكمة (SLA)'], ['seats', '👥 السفراء والمقاعد']];
+    if (me.role === 'ADMIN') {
+      var qn = (st.queue && st.queue.ok && st.queue.items) ? st.queue.items.length : ((me.counters || {}).pending_lectures || 0);
+      return [['maestro', '🚀 المايسترو والإنتاج'], ['qa', '👁️ المعاينة والمراجعة' + (qn ? ' (' + qn + ')' : '')], ['radar', '📡 رادار الحوكمة (SLA)'], ['seats', '👥 السفراء والمقاعد']];
+    }
     if (me.status !== 'ACTIVE') return [];
     var t = []; if (me.can_review_qa) t.push(['qa', '📋 غرفة المراجعة (QA Gate)']); if (me.can_send_alerts) t.push(['alerts', '📢 إشعارات الشعبة']); return t;
   }
   function renderRoom() {
     if (!ov) return; clear(ov);
     var top = h('div', 'sg-top');
-    add(top, h('h2', null, me.role === 'ADMIN' ? '🏛️ غرفة القيادة المركزية' : '🛡️ غرفة سفير سَنَد'), btn('→ رجوع للمنصة', '', function () { if (st.open) { st.open = null; renderRoom(); } else closeRoom(); }));
+    add(top, h('h2', null, me.role === 'ADMIN' ? '🏛️ غرفة القيادة المركزية' : '🛡️ غرفة سفير سَنَد'), btn(st.open ? '→ رجوع للقائمة' : '→ رجوع للمنصة', '', function () { if (st.open) { st.open = null; renderRoom(); } else closeRoom(); }));
     ov.appendChild(top);
     var tabs = tabsFor();
     if (tabs.length && !st.open) {
       var nav = h('div', 'sg-tabs'); tabs.forEach(function (t) { var b = h('button', 'sg-tab' + (st.tab === t[0] ? ' sg-on' : ''), t[1], { type: 'button' }); b.addEventListener('click', function () { st.tab = t[0]; if (t[0] === 'qa' && !st.queue) loadQueue(); renderRoom(); }); nav.appendChild(b); }); ov.appendChild(nav);
     }
     var body = h('div', 'sg-body'); ov.appendChild(body);
-    if (me.role === 'ADMIN') { if (!st.dash) return add(body, h('div', 'sg-spin', 'جارٍ التحميل…')); ({ maestro: tabMaestro, radar: tabRadar, seats: tabSeats })[st.tab](body); }
+    if (me.role === 'ADMIN') { if (st.open) return detail(body); if (st.tab !== 'qa' && !st.dash) return add(body, h('div', 'sg-spin', 'جارٍ التحميل…')); ({ maestro: tabMaestro, qa: qaList, radar: tabRadar, seats: tabSeats })[st.tab](body); }
     else ambRoom(body);
   }
 
@@ -3590,7 +3606,12 @@ const SanadStore = (function(){
       if (!rid) { rb.disabled = true; rb.title = 'أسند المحاضرة لمراجع أولاً'; }
       add(row, rb,
         btn('🔄 تحويل لمراجع', 'sg-flex', function () { reassignSheet(i); }),
-        btn('✅ اعتماد مباشر', 'sg-gold sg-flex', function () { confirmBox('اعتماد مباشر', 'ستُنشر المحاضرة «' + (i.lecture_title || i.target_lecture) + '» فوراً للطلاب دون مراجعة سفير. هل أنت متأكد؟', 'نعم، اعتمد وانشر', function () { return manage({ sub_action: 'direct_approve', lesson_code: i.target_lecture, course_code: i.course_code }, 'تم الاعتماد والنشر'); }); }));
+        btn('✅ اعتماد مباشر', 'sg-flex', function () {
+          confirmBox('⚠️ اعتماد مباشر دون معاينة', '⚠️ يُنصح بمعاينة المحاضرة ومشتقاتها أولاً عبر زر «معاينة المحاضرة ومشتقاتها قبل القرار».\nالاعتماد المباشر سينشر «' + (i.lecture_title || i.target_lecture) + '» فوراً للطلاب دون مراجعة سفير. هل أنت متأكد؟', 'نعم، اعتمد وانشر', function () {
+            return manage({ sub_action: 'direct_approve', lesson_code: i.target_lecture, course_code: i.course_code }, 'تم الاعتماد والنشر').then(function (r) { if (r && r.ok) { st.queue = null; return refresh(); } });
+          }, true);
+        }));
+      if (i.status === 'PENDING_REVIEW') { var pv = btn('👁️ معاينة المحاضرة ومشتقاتها قبل القرار', 'sg-gold sg-wide', function () { return previewLecture(i); }); pv.style.marginBottom = '8px'; c.appendChild(pv); }
       c.appendChild(row); if (!rid) c.appendChild(h('p', 'sg-muted', 'أسند المحاضرة لمراجع أولاً')); body.appendChild(c);
     });
   }
@@ -3673,7 +3694,6 @@ const SanadStore = (function(){
   }
 
   /* ---------- السفير ---------- */
-  function loadQueue() { return api('ambassador-get-queue', {}).then(function (r) { st.queue = r; renderRoom(); }); }
   function calm(body, title, msg) { add(body, add(h('div', 'sg-card'), h('h3', null, title), h('p', null, msg))); }
   function ambRoom(body) {
     if (me.status === 'PENDING_QUALIFICATION') {
@@ -3695,25 +3715,47 @@ const SanadStore = (function(){
       rejectSheet(sb.lecture_code || 'SANDBOX-QUAL-01', function (r2) { toast(r2.message_ar || 'أُرسلت ملاحظات التأهيل'); closeRoom(); });
     }));
   }
-  function rejectSheet(code, done) {
+  function rejectSheet(code, done, course) {
     sheet('✏️ إرجاع للتعديل', function (s, sh) {
       s.appendChild(h('p', 'sg-muted', 'اكتب الملاحظات (10 أحرف على الأقل).'));
       var ta = field(s, 'الملاحظات', 'textarea'), cnt = h('p', 'sg-muted sg-num', '0 / 10'), go = btn('إرسال', 'sg-gold sg-wide', function () {
-        return api('ambassador-review-decision', { lesson_code: code, decision: 'REJECT', reviewer_notes: ta.value.trim() }).then(function (r) { if (!r.ok) return toast(errMsg(r), true); sh.close(); done(r); });
+        var data = { lesson_code: code, decision: 'REJECT', reviewer_notes: ta.value.trim() }; if (course) data.course_code = course;
+        return api('ambassador-review-decision', data).then(function (r) { if (!r.ok) return toast(errMsg(r), true); sh.close(); done(r); });
       });
       go.disabled = true; ta.addEventListener('input', function () { var n = ta.value.trim().length; cnt.textContent = n + ' / 10'; go.disabled = n < 10; }); add(s, cnt, go);
     });
   }
+  var LBL = { Detailed_Article_HTML: 'الشرح الأكاديمي المفصّل', Mindmap_Text: 'الخريطة الذهنية', Flashcards_JSON: 'البطاقات التعليمية', Quiz_Data_JSON: 'الاختبار التدريبي', Audio_URL: 'البودكاست الصوتي', Podcast_Script_JSON: 'سيناريو البودكاست', Podcast_URL: 'رابط البودكاست', Video_URL: 'الفيديو' };
+  var WARN = { Detailed_Article_HTML: '⚠️ الشرح الأكاديمي المفصّل فارغ حالياً — لا يُنصح بالاعتماد قبل إصلاحه', Audio_URL: '⚠️ ملف البودكاست الصوتي الفعلي لم يُولَّد بعد', Podcast_URL: '⚠️ ملف البودكاست الصوتي الفعلي لم يُولَّد بعد' };
+  function dName(d) { return LBL[d.key] || d.label_ar || d.key; }
+  function coreDs(i) { return (i.derivatives || []).filter(function (d) { return d.key !== 'Video_URL'; }); }
+  function missingDs(i) { return coreDs(i).filter(function (d) { return d.status !== 'READY'; }); }
+  function loadQueue() { return api('ambassador-get-queue', {}).then(function (r) { st.queue = r; renderRoom(); }); }
+  function afterDecision() { st.open = null; var p = [loadQueue(), refresh()]; if (me && me.role === 'ADMIN') p.push(loadDash()); return Promise.all(p); }
+  function previewLecture(i) {
+    return api('ambassador-get-queue', {}).then(function (r) {
+      st.queue = r; if (!r || !r.ok) return toast(errMsg(r), true);
+      var it = null; (r.items || []).forEach(function (x) { if (!it && x.lesson_code === i.target_lecture && (!x.course_code || !i.course_code || x.course_code === i.course_code)) it = x; });
+      if (!it) { renderRoom(); return toast('لم تُعثر على المحاضرة في قائمة المراجعة — حدّث القائمة وحاول مجدداً', true); }
+      st.open = it; st.dtab = 0; renderRoom();
+    });
+  }
   function qaList(body) {
-    var q = st.queue; if (!q) return body.appendChild(h('div', 'sg-spin', 'جارٍ التحميل…')); if (!q.ok) return calm(body, 'تعذّر التحميل', errMsg(q));
+    var q = st.queue; if (!q) return body.appendChild(h('div', 'sg-spin', 'جارٍ التحميل…'));
+    var rf = btn('🔄 تحديث', 'sg-wide', function () { return loadQueue().then(function () { toast('تم تحديث القائمة'); }); }); rf.style.marginBottom = '10px'; body.appendChild(rf);
+    if (!q.ok) return calm(body, 'تعذّر التحميل', errMsg(q));
     if (!q.items.length) return calm(body, '📭 لا توجد محاضرات معلّقة', 'ستظهر هنا المحاضرات المرسلة للمراجعة ضمن نطاقك.');
+    var admin = me.role === 'ADMIN';
     q.items.forEach(function (i) {
       var c = h('div', 'sg-card'), hw = i.hours_waiting, cls = hw === null ? 'sg-mute' : hw < 24 ? 'sg-em' : hw <= 48 ? 'sg-amber' : 'sg-red';
       var lock = i.locked_by_me ? 'مقفلة باسمك' : i.is_locked ? 'استلمها: ' + (i.locked_by_name || i.locked_by_reviewer_id) : 'متاحة';
-      add(c, add(h('div', 'sg-row sg-between'), h('h3', null, i.lesson_title), h('span', 'sg-badge ' + cls, hw === null ? '—' : Math.round(hw) + ' س')), h('p', 'sg-muted', i.course_name + ' — ' + i.unit_title), h('span', 'sg-badge ' + (i.is_locked && !i.locked_by_me ? 'sg-red' : 'sg-em'), lock));
+      var core = coreDs(i), rd = core.length - missingDs(i).length, bs = h('div', 'sg-row');
+      add(bs, h('span', 'sg-badge ' + (i.is_locked && !i.locked_by_me ? 'sg-red' : 'sg-em'), lock));
+      if (core.length) bs.appendChild(h('span', 'sg-badge ' + (rd === core.length ? 'sg-em' : 'sg-amber'), 'المشتقات الجاهزة: ' + rd + ' / ' + core.length));
+      add(c, add(h('div', 'sg-row sg-between'), h('h3', null, i.lesson_title), h('span', 'sg-badge ' + cls, hw === null ? '—' : Math.round(hw) + ' س')), h('p', 'sg-muted', i.course_name + ' — ' + i.unit_title), bs);
       var row = h('div', 'sg-row'); row.style.marginTop = '8px';
-      if (i.show_claim_button) row.appendChild(btn('📥 استلام المحاضرة للمراجعة', 'sg-em sg-flex', function () { return claim(i); }));
-      row.appendChild(btn('🔍 فتح للفحص', 'sg-flex', function () { st.open = i; st.dtab = 0; renderRoom(); })); c.appendChild(row); body.appendChild(c);
+      if (i.show_claim_button && !admin) row.appendChild(btn('📥 استلام المحاضرة للمراجعة', 'sg-em sg-flex', function () { return claim(i); }));
+      row.appendChild(btn('🔍 فتح للفحص والمعاينة', 'sg-gold sg-flex', function () { st.open = i; st.dtab = 0; renderRoom(); })); c.appendChild(row); body.appendChild(c);
     });
   }
   function claim(i) {
@@ -3722,38 +3764,96 @@ const SanadStore = (function(){
       toast('تم استلام المحاضرة'); return loadQueue();
     });
   }
-  function pick(o, ks) { for (var i = 0; i < ks.length; i++) if (o && o[ks[i]] !== undefined && o[ks[i]] !== null) return o[ks[i]]; return ''; }
-  function rawBox(d) { return h('div', 'sg-pre', typeof d.content === 'string' ? d.content : ''); }
+  function pk(o, ks) { for (var i = 0; i < ks.length; i++) if (o && o[ks[i]] !== undefined && o[ks[i]] !== null && o[ks[i]] !== '') return o[ks[i]]; return undefined; }
+  function stripSp(x) { return String(x === undefined || x === null ? '' : x).replace(/<\/?tg-spoiler>/gi, ''); }
+  function asData(c) { if (typeof c !== 'string') return c; try { return JSON.parse(stripSp(c).trim()); } catch (e) { return null; } }
+  function isEmpty(c) { return c === null || c === undefined || (typeof c === 'string' && !c.trim()) || (Array.isArray(c) && !c.length); }
+  function rawFallback(w, c) { return add(w, h('p', 'sg-warn', 'تعذّر تحليل البيانات — عرض النص الخام:'), h('div', 'sg-pre', stripSp(typeof c === 'string' ? c : JSON.stringify(c, null, 2)))); }
+  function optText(o) { return (o && typeof o === 'object') ? String(pk(o, ['text', 'label', 'option', 'value']) || JSON.stringify(o)) : String(o); }
+  function correctIdx(q, ops) {
+    var ks = ['correct_option_index', 'correctIndex', 'correct_index', 'answer', 'correct', 'correct_answer'];
+    for (var k = 0; k < ks.length; k++) {
+      var v = q[ks[k]]; if (v === undefined || v === null || v === '') continue;
+      if (typeof v === 'number') return v;
+      var t = String(v).trim(), j;
+      for (j = 0; j < ops.length; j++) if (optText(ops[j]).trim() === t) return j;
+      if (/^\d+$/.test(t)) return parseInt(t, 10);
+      if (/^[A-Da-d]$/.test(t)) return t.toUpperCase().charCodeAt(0) - 65;
+    }
+    return -1;
+  }
   function derivative(d) {
-    var w = h('div', 'sg-card'); if (d.status !== 'READY') return add(w, h('p', 'sg-muted', 'لم يُرفع هذا المشتق بعد.'));
-    var c = d.content;
-    if (d.key === 'Detailed_Article_HTML') { var r = h('div', 'sg-rich'); r.appendChild(clean(c)); return add(w, r); }
-    if (d.key === 'Mindmap_Text') return add(w, h('div', 'sg-pre', c));
-    if (d.key === 'Flashcards_JSON') {
-      if (d.parse_error || typeof c === 'string') return add(w, h('p', 'sg-warn', 'تعذّر تحليل البيانات — عرض النص الخام:'), h('div', 'sg-pre', typeof c === 'string' ? c : ''));
-      (Array.isArray(c) ? c : (c && c.cards) || []).forEach(function (k) { var f = h('div', 'sg-flip', null), face = h('div', null, String(pick(k, ['front', 'term', 'q', 'question']))); f.appendChild(face); var on = false; f.addEventListener('click', function () { on = !on; f.classList.toggle('sg-back', on); face.textContent = String(on ? pick(k, ['back', 'definition', 'a', 'answer']) : pick(k, ['front', 'term', 'q', 'question'])); }); f.style.marginBottom = '8px'; w.appendChild(f); });
-      return add(w, h('p', 'sg-muted', 'المس البطاقة لقلبها.'));
+    var w = h('div', 'sg-card'), c = d.content, key = d.key;
+    if (d.status !== 'READY' || isEmpty(c)) return add(w, WARN[key] ? h('div', 'sg-note', WARN[key]) : h('p', 'sg-muted', 'لم يُرفع هذا المشتق بعد.'));
+    if (key === 'Detailed_Article_HTML') {
+      var r = h('div', 'sg-rich'); r.appendChild(clean(c));
+      if (!r.textContent.trim()) return add(w, h('div', 'sg-note', WARN[key]));
+      return add(w, r);
     }
-    if (d.key === 'Quiz_Data_JSON') {
-      if (d.parse_error || typeof c === 'string') return add(w, h('p', 'sg-warn', 'تعذّر تحليل البيانات — عرض النص الخام:'), h('div', 'sg-pre', typeof c === 'string' ? c : ''));
-      (Array.isArray(c) ? c : (c && c.questions) || []).forEach(function (q, n) {
-        var b = h('div', 'sg-card'); b.appendChild(h('h3', null, (n + 1) + '. ' + pick(q, ['q', 'question']))); var ans = pick(q, ['answer', 'correct', 'correct_answer']), ops = pick(q, ['options', 'choices']) || [];
-        ops.forEach(function (o, ix) { var ok = ans === ix || String(ans) === String(o); b.appendChild(h('p', ok ? 'sg-ok' : null, (ok ? '✓ ' : '○ ') + o)); }); w.appendChild(b);
-      }); return w;
+    if (key === 'Mindmap_Text') return add(w, h('div', 'sg-pre', typeof c === 'string' ? c : JSON.stringify(c, null, 2)));
+    if (key === 'Flashcards_JSON') {
+      var fd = asData(c); if (fd === null || typeof fd !== 'object') return rawFallback(w, c);
+      var cards = Array.isArray(fd) ? fd : (fd.cards || fd.flashcards || []);
+      w.appendChild(h('p', 'sg-muted', '🃏 عدد البطاقات: ' + cards.length + ' — المس البطاقة لقلبها.'));
+      cards.forEach(function (k) {
+        var fr = stripSp(pk(k, ['front', 'term', 'q', 'question', 'title'])), bk = stripSp(pk(k, ['back', 'definition', 'a', 'answer', 'content']));
+        var f = h('div', 'sg-flip', null), face = h('div', null, fr); f.appendChild(face); var on = false;
+        f.addEventListener('click', function () { on = !on; f.classList.toggle('sg-back', on); face.textContent = on ? bk : fr; }); f.style.marginBottom = '8px'; w.appendChild(f);
+      });
+      return w;
     }
-    var u = String(c || ''), safe = /^https?:\/\//i.test(u);
-    if (!safe) return add(w, h('p', 'sg-muted', 'الرابط غير صالح.'));
-    if (d.key === 'Podcast_URL') w.appendChild(h('audio', null, null, { controls: 'controls', src: u, preload: 'none', style: 'width:100%' }));
+    if (key === 'Quiz_Data_JSON') {
+      var qd = asData(c); if (qd === null || typeof qd !== 'object') return rawFallback(w, c);
+      var qs = Array.isArray(qd) ? qd : (qd.questions || qd.quiz || []);
+      w.appendChild(h('p', 'sg-muted', '📝 عدد الأسئلة: ' + qs.length));
+      qs.forEach(function (q, n) {
+        var b = h('div', 'sg-card'), ops = pk(q, ['options', 'choices']) || [], ci = correctIdx(q, ops), ex = pk(q, ['explanation', 'rationale', 'feedback']);
+        b.appendChild(h('h3', null, (n + 1) + '. ' + (pk(q, ['q', 'question', 'question_text', 'text']) || '')));
+        ops.forEach(function (o, ix) { var ok = ix === ci; b.appendChild(h('p', ok ? 'sg-ok' : null, (ok ? '✓ ' : '○ ') + optText(o))); });
+        if (ex) b.appendChild(h('p', 'sg-muted', '💡 التعليل: ' + stripSp(ex)));
+        w.appendChild(b);
+      });
+      return w;
+    }
+    if (key === 'Podcast_Script_JSON') {
+      var sd = asData(c); if (sd === null || typeof sd !== 'object') return rawFallback(w, c);
+      var turns = Array.isArray(sd) ? sd : (sd.dialogue || sd.script || sd.segments || sd.turns || sd.lines || sd.conversation || sd.paragraphs || []), names = [];
+      w.appendChild(h('p', 'sg-muted', '🎙️ عدد فقرات الحوار: ' + turns.length));
+      turns.forEach(function (t, n) {
+        var sp = typeof t === 'object' && t ? String(pk(t, ['speaker', 'role', 'name', 'host', 'voice']) || '') : '', tx = typeof t === 'object' && t ? pk(t, ['text', 'line', 'content', 'dialogue', 'message']) : t, two;
+        if (/سارة|sara|student|guest|طالب|ضيف/i.test(sp)) two = true;
+        else if (/سَنَد|سند|sanad|doctor|dr\.?|host|دكتور|د\./i.test(sp)) two = false;
+        else { if (sp && names.indexOf(sp) < 0) names.push(sp); two = sp ? names.indexOf(sp) % 2 === 1 : n % 2 === 1; }
+        var cd = h('div', 'sg-card sg-turn' + (two ? ' sg-s2' : ''));
+        add(cd, h('span', 'sg-spk' + (two ? ' sg-s2' : ''), two ? '🎓 سارة' : '🎙️ د. سَنَد'), h('p', null, stripSp(tx)));
+        w.appendChild(cd);
+      });
+      return w;
+    }
+    var u = String(c || '').trim();
+    if (!/^https?:\/\//i.test(u)) return add(w, WARN[key] ? h('div', 'sg-note', WARN[key]) : h('p', 'sg-muted', 'الرابط غير صالح.'));
+    if (key === 'Audio_URL' || key === 'Podcast_URL') w.appendChild(h('audio', null, null, { controls: 'controls', src: u, preload: 'none' }));
     else w.appendChild(h('video', null, null, { controls: 'controls', src: u, preload: 'none', style: 'width:100%;border-radius:10px' }));
-    return add(w, h('a', 'sg-btn sg-wide', 'فتح الرابط', { href: u, target: '_blank', rel: 'noopener', style: 'margin-top:8px' }));
+    return add(w, h('a', 'sg-btn sg-wide', 'فتح في نافذة مستقلة', { href: u, target: '_blank', rel: 'noopener', style: 'margin-top:8px' }));
   }
   function detail(body) {
-    var i = st.open, ds = i.derivatives || [], nav = h('div', 'sg-tabs'); nav.style.margin = '-12px -12px 10px';
-    ds.forEach(function (d, n) { var b = h('button', 'sg-tab' + (st.dtab === n ? ' sg-on' : ''), null, { type: 'button' }); add(b, h('span', 'sg-dot' + (d.status === 'READY' ? ' sg-ready' : '')), h('span', null, ' ' + d.label_ar)); b.addEventListener('click', function () { st.dtab = n; renderRoom(); }); nav.appendChild(b); });
-    add(body, h('h3', null, i.lesson_title), nav, ds[st.dtab] ? derivative(ds[st.dtab]) : null);
-    var locked = i.is_locked && !i.locked_by_me, foot = h('div', 'sg-foot');
-    var ok = btn('✅ اعتماد ونشر المحاضرة', 'sg-em sg-flex', function () { confirmBox('اعتماد ونشر', 'ستُنشر «' + i.lesson_title + '» للطلاب فوراً. هل أنت متأكد؟', 'نعم، اعتمد', function () { return api('ambassador-review-decision', { lesson_code: i.lesson_code, decision: 'APPROVE', reviewer_notes: '' }).then(function (r) { if (!r.ok) return toast(errMsg(r), true); toast('تم الاعتماد والنشر'); st.open = null; return loadQueue().then(refresh); }); }); });
-    var no = btn('✏️ إرجاع للتعديل', 'sg-red sg-flex', function () { rejectSheet(i.lesson_code, function () { toast('أُرجعت للتعديل'); st.open = null; loadQueue().then(refresh); }); });
+    var i = st.open, ds = i.derivatives || [], core = coreDs(i), miss = missingDs(i), nav = h('div', 'sg-tabs'); nav.style.margin = '0 -12px 10px';
+    ds.forEach(function (d, n) { var b = h('button', 'sg-tab' + (st.dtab === n ? ' sg-on' : ''), null, { type: 'button' }); add(b, h('span', 'sg-dot' + (d.status === 'READY' ? ' sg-ready' : '')), h('span', null, ' ' + dName(d))); b.addEventListener('click', function () { st.dtab = n; renderRoom(); }); nav.appendChild(b); });
+    var hc = h('div', 'sg-card');
+    add(hc, h('h3', null, i.lesson_title), h('p', 'sg-muted', (i.course_name || '') + (i.unit_title ? ' — ' + i.unit_title : '')), h('p', 'sg-muted sg-code', (i.course_code ? i.course_code + ' / ' : '') + i.lesson_code));
+    hc.appendChild(h('span', 'sg-badge ' + (miss.length ? 'sg-amber' : 'sg-em'), 'المشتقات الجاهزة: ' + (core.length - miss.length) + ' / ' + core.length));
+    if (miss.length) hc.appendChild(h('div', 'sg-note', '⚠️ تنبيه جودة: مشتقات أساسية ناقصة — ' + miss.map(dName).join('، ') + '. راجعها قبل اتخاذ القرار.'));
+    add(body, hc, nav, ds[st.dtab] ? derivative(ds[st.dtab]) : null);
+    var locked = me.role !== 'ADMIN' && i.is_locked && !i.locked_by_me, foot = h('div', 'sg-foot');
+    var ok = btn('✅ اعتماد ونشر المحاضرة', 'sg-em sg-flex', function () {
+      var m = 'ستُنشر «' + i.lesson_title + '» للطلاب فوراً. هل أنت متأكد؟';
+      if (miss.length) m = '⚠️ تحذير: المشتقات التالية ناقصة وستُنشر المحاضرة بدونها:\n' + miss.map(dName).join('، ') + '\n\n' + m;
+      confirmBox('اعتماد ونشر', m, 'نعم، اعتمد', function () {
+        var data = { lesson_code: i.lesson_code, decision: 'APPROVE', reviewer_notes: '' }; if (i.course_code) data.course_code = i.course_code;
+        return api('ambassador-review-decision', data).then(function (r) { if (!r.ok) return toast(errMsg(r), true); toast('تم الاعتماد والنشر'); return afterDecision(); });
+      }, miss.length > 0);
+    });
+    var no = btn('✏️ إرجاع للتعديل', 'sg-red sg-flex', function () { rejectSheet(i.lesson_code, function () { toast('أُرجعت للتعديل'); afterDecision(); }, i.course_code); });
     if (locked) { ok.disabled = true; no.disabled = true; } add(foot, ok, no);
     ov.appendChild(foot);
   }
