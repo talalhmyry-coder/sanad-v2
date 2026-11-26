@@ -139,6 +139,11 @@
   .deriv:hover{border-color:var(--gold);transform:translateY(-2px)}
   .deriv.on{background:var(--navy);color:#fff;border-color:var(--gold)}
   #deriv-view{margin-top:16px}
+  /* شريط البودكاست المُثبّت: خارج #deriv-view فلا يُعاد رسمه عند تبديل التبويبات */
+  .adock{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;margin:8px 0 10px;padding:5px 12px;background:var(--navy);border:1.5px solid var(--gold);border-radius:16px;direction:rtl;box-shadow:0 4px 14px rgba(11,25,44,.25)}
+  .adock[hidden]{display:none}
+  .adock .at{flex:none;color:#fff;font-size:.78rem;font-weight:700;white-space:nowrap}
+  .adock audio{flex:1;min-width:0;width:auto;height:36px;direction:ltr;border-radius:0}
   .box{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
   .box p{margin-bottom:10px}
 
@@ -633,6 +638,10 @@ button.sg-mm-node:active{transform:scale(.98)}
 .sg-rich th{background:var(--sg-deep);font-weight:800;color:var(--sg-gold)}
 .sg-rich ul,.sg-rich ol{padding-right:20px;padding-left:0;margin:6px 0}
 .sg-overlay audio{display:block;width:100%;max-width:100%;direction:ltr}
+.sg-top{order:-2}
+.sg-dock{order:-1;flex:none;display:flex;align-items:center;gap:8px;padding:5px 12px;background:var(--sg-deep);border-bottom:1px solid var(--sg-em)}
+.sg-dock span{flex:none;font-size:12px;font-weight:700;color:var(--sg-gold);white-space:nowrap}
+.sg-overlay .sg-dock audio{flex:1;min-width:0;width:auto;height:36px}
 .sg-spk{display:inline-block;margin-bottom:4px;font-size:12.5px;font-weight:800;color:var(--sg-gold)}.sg-spk.sg-s2{color:#5EEAD4}
 .sg-turn{border-right:3px solid var(--sg-gold)}.sg-turn.sg-s2{border-right-color:#14B8A6}.sg-turn p{color:var(--sg-tx);margin:2px 0}
 .sg-dot{width:8px;height:8px;border-radius:50%;background:#64748B;display:inline-block}.sg-dot.sg-ready{background:#22C55E}
@@ -745,6 +754,7 @@ details.sg-more{margin-top:10px}details.sg-more summary{min-height:44px;display:
     <button type="button" class="pill outline small back" data-go="course">→ رجوع للمحاضرات</button>
     <div class="card">
       <h2 id="lesson-title"></h2>
+      <div id="audio-dock" class="adock" hidden></div>
       <div class="derivs">
         <button type="button" class="deriv" data-d="explain"><span class="i">📖</span>الشرح</button>
         <button type="button" class="deriv" data-d="mindmap"><span class="i">🧠</span>الخريطة الذهنية</button>
@@ -1204,7 +1214,26 @@ function drawPanel(){
 }
 [1,2].forEach(n => $("tab-" + n).addEventListener("click", () => { openSem = (openSem === n ? null : n); drawPanel(); }));
 
+/* شريط الصوت المُثبّت للطالب: يُنشأ مرة واحدة لكل محاضرة خارج #deriv-view ويُنظَّف عند مغادرة المحاضرة */
+var audioDockKey = null;
+function clearAudioDock(){
+  const d = document.getElementById("audio-dock"); if (!d) return;
+  const a = d.querySelector("audio");
+  if (a){ try { a.pause(); a.removeAttribute("src"); a.load(); } catch (_) {} }
+  d.replaceChildren(); d.hidden = true; audioDockKey = null;
+}
+function mountAudioDock(url){
+  const d = document.getElementById("audio-dock"); if (!d) return;
+  const key = String((currentLesson && currentLesson.lesson_code) || "") + "|" + url;
+  if (audioDockKey === key && d.querySelector("audio")) return;
+  clearAudioDock();
+  const a = document.createElement("audio");
+  a.controls = true; a.preload = "metadata"; a.src = url;
+  d.appendChild(el("span", "at", "🎧 البودكاست"));
+  d.appendChild(a); d.hidden = false; audioDockKey = key;
+}
 function go(name){
+  if (name !== "lesson") clearAudioDock();
   document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === "s-" + name));
   syncFab(name);
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1291,6 +1320,7 @@ let viewSeq = 0;
 const lessonCache = new Map();
 
 function openLesson(L){
+  clearAudioDock();
   currentLesson = L;
   viewSeq++;
   $("lesson-title").textContent = L.title || L.name || L.lesson_name || "المحاضرة";
@@ -1391,7 +1421,8 @@ function mediaView(v, url, kind){
   } else if (kind === "video" && /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(u)){
     const p = el("video"); p.controls = true; p.setAttribute("playsinline", ""); p.preload = "metadata"; p.src = u; box.appendChild(p);
   } else if (kind === "audio"){
-    const p = el("audio"); p.controls = true; p.preload = "metadata"; p.style.width = "100%"; p.src = u; box.appendChild(p);
+    mountAudioDock(u);
+    box.appendChild(el("p", "", "المشغّل الصوتي مُثبّت بالأعلى ويستمر بالتشغيل أثناء تنقّلك بين التبويبات"));
   }
   const a = el("a", "pill outline small mlink", extLabel || (kind === "audio" ? "فتح البودكاست في نافذة خارجية ↗" : "فتح الفيديو في نافذة خارجية ↗"));
   a.href = extUrl; a.target = "_blank"; a.rel = "noopener noreferrer";
@@ -3393,7 +3424,7 @@ const SanadStore = (function(){
   'use strict';
   if (window.SanadGovernanceUI) return;
   var EP = 'https://sanad3-n8n.app.n8n.cloud/webhook/sanad-v1-governance';
-  var cfg = {}, me = null, bar = null, ov = null, stack = [], backHooked = false, wasVisible = false;
+  var cfg = {}, me = null, bar = null, ov = null, stack = [], backHooked = false, wasVisible = false, dock = null, dockKey = null;
   var st = { tab: null, dash: null, sel: {}, filter: 'ALL', queue: null, open: null, dtab: 0, atype: 'DOCTOR_ABSENCE', loading: false };
 
   /* ---------- أدوات ---------- */
@@ -3508,7 +3539,7 @@ const SanadStore = (function(){
     else { st.tab = me.can_review_qa ? 'qa' : 'alerts'; if (me.can_review_qa) loadQueue(); }
     renderRoom();
   }
-  function closeRoom() { while (stack.length) stack[stack.length - 1].close(); if (ov) { ov.remove(); ov = null; } hookBack(false); refresh(); }
+  function closeRoom() { while (stack.length) stack[stack.length - 1].close(); destroyDock(); if (ov) { ov.remove(); ov = null; } hookBack(false); refresh(); }
   function tabsFor() {
     if (me.role === 'ADMIN') {
       var qn = (st.queue && st.queue.ok && st.queue.items) ? st.queue.items.length : ((me.counters || {}).pending_lectures || 0);
@@ -3517,8 +3548,34 @@ const SanadStore = (function(){
     if (me.status !== 'ACTIVE') return [];
     var t = []; if (me.can_review_qa) t.push(['qa', '📋 غرفة المراجعة (QA Gate)']); if (me.can_send_alerts) t.push(['alerts', '📢 إشعارات الشعبة']); return t;
   }
+  /* شريط البودكاست المُثبّت: عنصر <audio> واحد لكل محاضرة خارج محتوى التبويبات، لا يُعاد رسمه عند renderRoom */
+  function directAudioUrl(i) {
+    var u = '';
+    visDs(i).forEach(function (d) {
+      if (u || (d.key !== 'Audio_URL' && d.key !== 'Podcast_URL')) return;
+      var c = String(d.content || '').trim();
+      if (d.status === 'READY' && /^https?:\/\//i.test(c) && !driveId(c)) u = c;
+    });
+    return u;
+  }
+  function destroyDock() {
+    if (dock) { var a = dock.querySelector('audio'); if (a) { try { a.pause(); a.removeAttribute('src'); a.load(); } catch (e) {} } if (dock.parentNode) dock.parentNode.removeChild(dock); }
+    dock = null; dockKey = null;
+  }
+  function syncDock() {
+    var i = st.open, u = i ? directAudioUrl(i) : '';
+    if (!u) return destroyDock();
+    var key = (i.course_code || '') + '/' + i.lesson_code + '|' + u;
+    if (dock && dockKey === key) return;
+    destroyDock();
+    dock = h('div', 'sg-dock', null, { dir: 'rtl' });
+    add(dock, h('span', null, '🎧 البودكاست'), h('audio', null, null, { controls: 'controls', preload: 'metadata', src: u }));
+    dockKey = key; ov.appendChild(dock);
+  }
   function renderRoom() {
-    if (!ov) return; clear(ov);
+    if (!ov) return;
+    Array.prototype.slice.call(ov.children).forEach(function (c) { if (c !== dock) ov.removeChild(c); });
+    syncDock();
     var top = h('div', 'sg-top');
     add(top, h('h2', null, me.role === 'ADMIN' ? '🏛️ غرفة القيادة المركزية' : '🛡️ غرفة سفير سَنَد'), btn(st.open ? '→ رجوع للقائمة' : '→ رجوع للمنصة', '', function () { if (st.open) { st.open = null; renderRoom(); } else closeRoom(); }));
     ov.appendChild(top);
@@ -3907,7 +3964,7 @@ const SanadStore = (function(){
     if (!/^https?:\/\//i.test(u)) return add(w, WARN[key] ? h('div', 'sg-note', WARN[key]) : h('p', 'sg-muted', 'الرابط غير صالح.'));
     if (key === 'Audio_URL' || key === 'Podcast_URL') {
       if (driveId(u)) w.appendChild(h('div', 'sg-note', 'ℹ️ هذا رابط أرشفة Drive قديم ويُفتح خارجياً (المعاينة المدمجة تُظهر خطأ 400 على الويب).'));
-      else w.appendChild(h('audio', null, null, { controls: 'controls', preload: 'metadata', src: u, style: 'width:100%;margin:8px 0' }));
+      else w.appendChild(h('div', 'sg-note', 'المشغّل الصوتي مُثبّت بالأعلى ويستمر بالتشغيل أثناء تنقّلك بين التبويبات'));
       var ub = h('div', 'sg-pre', u, { dir: 'ltr', style: 'word-break:break-all;text-align:left;margin:8px 0' });
       var cb = h('button', 'sg-btn sg-flex', '📋 نسخ الرابط', { type: 'button' }), ob = h('button', 'sg-btn sg-gold sg-flex', '🔗 فتح في نافذة مستقلة', { type: 'button' }), br = h('div', 'sg-row');
       cb.addEventListener('click', function () { copyText(u).then(function () { toast('تم نسخ الرابط'); }, function () { toast('تعذّر النسخ — انسخ الرابط يدوياً', true); }); });
